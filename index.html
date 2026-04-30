@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTS The Game</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- MENU -->
+<div id="mainMenuPage" class="page active">
+    <div class="menu-simple">
+        <h1>Mini Web Cross</h1>
+        <button id="playBtn">PLAY</button><br>
+        <button id="howtoBtn">HOW TO PLAY</button>
+    </div>
+</div>
+
+<!-- MODE -->
+<div id="selectModePage" class="page">
+    <div class="mode-container">
+        <h2>Select Mode</h2>
+
+        <div class="mode-card" data-mode="relaxed">Relaxed (∞)</div>
+        <div class="mode-card" data-mode="arcade">Arcade (60s)</div>
+        <div class="mode-card" data-mode="tenmin">Tenmin (10m)</div>
+
+        <button id="startBtn">START</button>
+    </div>
+</div>
+
+<!-- GAME -->
+<div id="gamePage" class="page">
+    <div class="game-container">
+        <h2 id="levelTitle"></h2>
+        <p id="timerText"></p>
+
+        <div id="crosswordGrid" class="crossword-grid"></div>
+
+        <div class="clues">
+            <div>
+                <h3>Mendatar</h3>
+                <ul id="acrossClue"></ul>
+            </div>
+            <div>
+                <h3>Menurun</h3>
+                <ul id="downClue"></ul>
+            </div>
+        </div>
+
+        <button id="hintBtn">HINT (3)</button>
+        <button id="checkBtn">CHECK</button>
+        <button id="nextLevelBtn">NEXT LEVEL</button>
+        <button id="backMenu">MENU</button>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="howtoModal" class="modal">
+    <div class="modal-content">
+        <h2>Cara Bermain</h2>
+        <ul>
+            <li>Klik kotak</li>
+            <li>Ketik huruf</li>
+            <li>Gunakan hint (3x)</li>
+        </ul>
+        <button id="closeModal">Tutup</button>
+    </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>
