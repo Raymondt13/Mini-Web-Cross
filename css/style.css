@@ -4,7 +4,9 @@ body {
     background: #ddd;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* ✅ mulai dari atas */
+    padding-top: 30px;  
+    
     height: 100vh;
 }
 .page { display:none; }

@@ -30,9 +30,9 @@ function generateLevel(level){
         {word:"SUSU", clue:"Minuman putih"},
         {word:"ROTI", clue:"Makanan gandum"}
     ];
-
+    //7 + level
     let jumlahSoal = level + 1;
-    let size = 7 + level;
+    let size = 15;
     let selected = wordsBank.slice(0, jumlahSoal);
 
     let data = { size:size, across:[], down:[] };
