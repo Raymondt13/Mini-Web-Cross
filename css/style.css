@@ -14,7 +14,7 @@ body {
 
 .menu-simple,.mode-container,.game-container{
     background:#eee;
-    padding:30px;
+    padding:120px;
     border-radius:10px;
     text-align:center;
 }
@@ -83,4 +83,26 @@ button{
 .modal-content{
     background:white;
     padding:20px;
+}
+
+.menu-audio {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-audio button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: blue;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+
+    display: flex;              
+    justify-content: center;   
+    align-items: center;  
 }
