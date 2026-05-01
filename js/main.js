@@ -16,19 +16,31 @@ document.querySelectorAll(".mode-card").forEach(card=>{
         document.querySelectorAll(".mode-card").forEach(c=>c.classList.remove("selected"));
         this.classList.add("selected");
         selectedMode=this.dataset.mode;
+        if (selectedMode) {
+            
+    $("#startBtn").removeAttr("disabled");
+}
     }
 });
 
-document.getElementById("startBtn").onclick=()=>{
+
+$("#startBtn").click(function (e) { 
     if(!selectedMode) return alert("Pilih mode dulu!");
     startGame(selectedMode);
-};
+    e.preventDefault();
+});
+
+// document.getElementById("startBtn").onclick=()=>{
+//     if(!selectedMode) return alert("Pilih mode dulu!");
+//     startGame(selectedMode);
+// };
 
 // function to run when back button is clicked
 $("#backMenuBtn").click(function (e) { 
 
     showPage("mainMenuPage");
-    clearInterval(timer)
+    clearInterval(timer);
+    $("#startBtn").attr('removed',true)
     e.preventDefault();
     
 });
