@@ -1,6 +1,15 @@
+$(document).ready(function() {
+    console.log("Loading Jquery...");
+});
+
 let selectedMode = null;
 
-document.getElementById("playBtn").onclick = () => showPage("selectModePage");
+
+$("#playBtn").click(() =>  { 
+    showPage("selectModePage");
+    
+});
+// $("#playBtn").click = () => showPage("selectModePage");
 
 document.querySelectorAll(".mode-card").forEach(card=>{
     card.onclick=function(){
