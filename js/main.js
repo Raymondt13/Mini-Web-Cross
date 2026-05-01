@@ -24,7 +24,14 @@ document.getElementById("startBtn").onclick=()=>{
     startGame(selectedMode);
 };
 
-document.getElementById("backMenu").onclick=()=>showPage("mainMenuPage");
+// function to run when back button is clicked
+$("#backMenuBtn").click(function (e) { 
+
+    showPage("mainMenuPage");
+    clearInterval(timer)
+    e.preventDefault();
+    
+});
 
 function showPage(id){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));

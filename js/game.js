@@ -8,6 +8,20 @@ let timer = null;
 let timeLeft = 0;
 let mode = "relaxed";
 
+let arcadeTimeSeconds = 60
+
+let wordsBank = [
+
+]
+
+$.getJSON("json/levels.json",
+    function (data) {
+        wordsBank = data;
+console.error("Words loaded!");
+    }
+).fail(()=>{
+    console.error("Failed to open words data list.");
+});
 /* START */
 function startGame(m){
     mode = m;
@@ -18,18 +32,18 @@ function startGame(m){
 
 /* GENERATE LEVEL DINAMIS */
 function generateLevel(level){
-    let wordsBank = [
-        {word:"APEL", clue:"Buah merah"},
-        {word:"AIR", clue:"Yang diminum"},
-        {word:"API", clue:"Panas"},
-        {word:"BUKU", clue:"Untuk membaca"},
-        {word:"MEJA", clue:"Tempat makan"},
-        {word:"KAKI", clue:"Untuk berjalan"},
-        {word:"MATA", clue:"Untuk melihat"},
-        {word:"IKAN", clue:"Hewan air"},
-        {word:"SUSU", clue:"Minuman putih"},
-        {word:"ROTI", clue:"Makanan gandum"}
-    ];
+    // let wordsBank = [
+    //     {word:"APEL", clue:"Buah merah"},
+    //     {word:"AIR", clue:"Yang diminum"},
+    //     {word:"API", clue:"Panas"},
+    //     {word:"BUKU", clue:"Untuk membaca"},
+    //     {word:"MEJA", clue:"Tempat makan"},
+    //     {word:"KAKI", clue:"Untuk berjalan"},
+    //     {word:"MATA", clue:"Untuk melihat"},
+    //     {word:"IKAN", clue:"Hewan air"},
+    //     {word:"SUSU", clue:"Minuman putih"},
+    //     {word:"ROTI", clue:"Makanan gandum"}
+    // ];
     //7 + level
     let jumlahSoal = level + 1;
     let size = 15;
@@ -174,19 +188,19 @@ function resetTimer(){
         return;
     }
 
-    timeLeft = (mode==="arcade") ? 60 : 600;
-
+    timeLeft = (mode==="arcade") ? 1000 : 999999;
+    document.getElementById("timerText").innerText="Time: "+timeLeft;
     timer=setInterval(()=>{
         timeLeft--;
         document.getElementById("timerText").innerText="Time: "+timeLeft;
 
-        if(timeLeft<=0){
+        if(timeLeft<0){
             clearInterval(timer);
-            alert("Waktu habis!");
+            alert("Waktu habis!\nGame over!");
             level=1;
             loadLevel(level);
         }
-    },1000);
+    },10);
 }
 
 /* HINT */
