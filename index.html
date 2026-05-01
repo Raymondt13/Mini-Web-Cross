@@ -17,16 +17,18 @@
 </head>
 
 <body>
-
+    <audio id="bgMusic" loop autoplay>
+        <source src="assets/music.mp3" type="audio/mp3">
+        Audio not supported.
+    </audio>
 <!-- MENU -->
 <div id="mainMenuPage" class="page active">
     <div class="menu-simple">
 
-
         <!-- AUDIO CONTROL -->
         <div class="menu-audio">
-            <button id="soundBtn">🔊</button>
-            <button id="musicBtn">🎵</button>
+            <button id="soundBtn" title="Toggle Sound">🔊</button>
+            <button id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
         </div>
 
         <h1>Mini Web Cross</h1>
@@ -37,9 +39,9 @@
 </div>
 
 <!-- AUDIO -->
-<audio id="bgMusic" loop>
+<!-- <audio id="bgMusic" loop autoplay>
     <source src="assets/music.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 
 <!-- MODE -->
 <div id="selectModePage" class="page">

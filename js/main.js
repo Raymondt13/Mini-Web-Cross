@@ -44,19 +44,19 @@ document.getElementById("howtoBtn").onclick=()=>modal.style.display="flex";
 document.getElementById("closeModal").onclick=()=>modal.style.display="none";
 window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 
-
 const music = document.getElementById("bgMusic");
-let isMusicPlaying = false;
+music.volume = 0.3
+let isMusicPlaying = true;
 
 document.getElementById("musicBtn").onclick = () => {
     if(!isMusicPlaying){
         music.play();
         isMusicPlaying = true;
-        document.getElementById("musicBtn").innerText = "⏸️";
+        document.getElementById("musicBtn").innerText = "🎵";
     } else {
         music.pause();
         isMusicPlaying = false;
-        document.getElementById("musicBtn").innerText = "🎵";
+        document.getElementById("musicBtn").innerText = "⏸️";
     }
 };
 
