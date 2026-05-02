@@ -64,20 +64,30 @@ window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 // MUSIC
 const music = document.getElementById("bgMusic");
 music.volume = 0.3
-let isMusicPlaying = true;
+var confirmMusic = confirm("Want music playing?")
+let isMusicPlaying;
 
+if (confirmMusic) {
+    isMusicPlaying = false
+} else{
+    isMusicPlaying = true
+}
+    toggleMusic()
 document.getElementById("musicBtn").onclick = () => {
-    if(!isMusicPlaying){
+    toggleMusic()
+};
+
+function toggleMusic(){
+    if (isMusicPlaying) {
+        music.pause();
+        isMusicPlaying = false;
+        document.getElementById("musicBtn").innerText = "⏸️"
+    } else{
         music.play();
         isMusicPlaying = true;
         document.getElementById("musicBtn").innerText = "🎵";
-    } else {
-        music.pause();
-        isMusicPlaying = false;
-        document.getElementById("musicBtn").innerText = "⏸️";
     }
-};
-
+}
 let soundOn = true;
 
 document.getElementById("soundBtn").onclick = () => {
