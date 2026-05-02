@@ -188,7 +188,7 @@ function resetTimer(){
         return;
     }
 
-    timeLeft = (mode==="arcade") ? 1000 : 999999;
+    timeLeft = (mode==="arcade") ? arcadeTimeSeconds*100 : 999999;
     document.getElementById("timerText").innerText="Time: "+timeLeft;
     timer=setInterval(()=>{
         timeLeft--;

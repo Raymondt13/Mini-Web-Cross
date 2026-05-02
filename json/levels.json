@@ -1,15 +1,15 @@
 [
         {
             "word":"APEL",
-            "clue":"Buah merah" 
+            "clue":"Buah bulat, warna merah" 
         },
         {
             "word":"AIR",
-            "clue":"Yang diminum" 
+            "clue":"Segar, bisa buat minum, mandi, cuci, dll." 
         },
         {
             "word":"API",
-            "clue":"Panas" 
+            "clue":"Panas dan ada asapnya" 
         },
         {
             "word":"BUKU",
@@ -17,26 +17,26 @@
         },
         {
             "word":"MEJA",
-            "clue":"Tempat makan" 
+            "clue":"Pasangannya kursi" 
         },
         {
             "word":"KAKI",
-            "clue":"Untuk berjalan" 
+            "clue":"Kalo jalan pakai..." 
         },
         {
             "word":"MATA",
-            "clue":"Untuk melihat" 
+            "clue":"Kalo liat pake..." 
         },
         {
             "word":"IKAN",
-            "clue":"Hewan air" 
+            "clue":"Makhluk air yang bernapas dengan insang" 
         },
         {
             "word":"SUSU",
-            "clue":"Minuman putih" 
+            "clue":"Hasil dari sapi selain daging" 
         },
         {
             "word":"ROTI",
-            "clue":"Makanan gandum" 
+            "clue":"Makanan dari gandum yang sering dipanggang" 
         }
     ]
