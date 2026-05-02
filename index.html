@@ -27,15 +27,14 @@
 
         <!-- AUDIO CONTROL -->
         <div class="menu-audio">
-            <button class="btn btn-outline-dark" id="soundBtn" title="Toggle Sound">🔊</button>
-            <button class="btn btn-outline-dark" id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
+            <button id="soundBtn" title="Toggle Sound">🔊</button>
+            <button id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
         </div>
 
         <h1>Mini Web Cross</h1>
 
-        <button id="playBtn" class="btn btn-primary">PLAY</button><br>
-        <button id="howtoBtn" data-bs-toggle="modal" data-bs-target="#howToPlayModal" class="btn btn-secondary">HOW TO PLAY</button>
-
+        <button id="playBtn">PLAY</button><br>
+        <button id="howtoBtn">HOW TO PLAY</button>
     </div>
 </div>
 
@@ -46,28 +45,16 @@
 
 <!-- MODE -->
 <div id="selectModePage" class="page">
-    <div class="mode-container d-flex flex-column">
+    <div class="mode-container">
         <h2>Select Mode</h2>
 
-        <div class="mode-card btn-primary btn" data-mode="relaxed">
-            <div class="h2">🧩 Relaxed</div>
-            <div class="body">Relax in this untimed game mode.</div>
-            <!-- <div class=""></div>Relaxed (∞) -->
+        <div class="mode-card" data-mode="relaxed">
+            <div class=""></div>Relaxed (∞)
         </div>
-        <!-- <div class="mode-card btn-primary btn" data-mode="arcade">Arcade (60s)</div> -->
-        <div class="mode-card btn-primary btn" data-mode="arcade">
-            <div class="h2">⏱️ Arcade</div>
-            <div class="body">Beat the clock!</div>
-            <!-- <div class=""></div>Relaxed (∞) -->
-        </div>
-        <!-- <div class="mode-card btn-primary btn" data-mode="tenmin">Tenmin</div> -->
-        <div class="mode-card btn-primary btn" data-mode="tenmin">
-            <div class="h2">♾️🕰️ Ten-Minute Endless</div>
-            <div class="body">How many can you beat in ten minutes?</div>
-            <!-- <div class=""></div>Relaxed (∞) -->
-        </div>
-        <button id="startBtn" class="btn btn-primary" disabled>START</button>
-        <button class="btn btn-secondary" id="backBtn">BACK</button>
+        <div class="mode-card" data-mode="arcade">Arcade (60s)</div>
+        <div class="mode-card" data-mode="tenmin">Tenmin (10m)</div>
+
+        <button id="startBtn" disabled>START</button>
     </div>
 </div>
 
@@ -90,10 +77,10 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" id="hintBtn">HINT (3)</button>
-        <button class="btn btn-primary" id="checkBtn">CHECK</button>
-        <button class="btn btn-primary" id="nextLevelBtn">NEXT LEVEL</button>
-        <button class="btn btn-primary" id="backMenuBtn">MENU</button>
+        <button id="hintBtn">HINT (3)</button>
+        <button id="checkBtn">CHECK</button>
+        <button id="nextLevelBtn">NEXT LEVEL</button>
+        <button id="backMenuBtn">MENU</button>
     </div>
 </div>
 
@@ -109,31 +96,7 @@
         <button id="closeModal">Tutup</button>
     </div>
 </div>
-<!-- MAIN MENU MODAL -->
-<!-- Button trigger modal -->
 
-<!-- Modal -->
-<div class="modal fade" id="howToPlayModal" tabindex="-1" aria-labelledby="howToPlayModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="howToPlayModalLabel">HOW TO PLAY</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <ul>
-            <li>Klik kotak</li>
-            <li>Ketik huruf</li>
-            <li>Gunakan hint (3x)</li>
-        </ul>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
-</div>
 
 <script src="js/main.js"></script>
 <script src="js/game.js"></script>

@@ -44,11 +44,6 @@ $("#backMenuBtn").click(function (e) {
     e.preventDefault();
     
 });
-$("#backBtn").click(function (e) { 
-    showPage("mainMenuPage");
-    e.preventDefault();
-    
-});
 
 function showPage(id){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -57,11 +52,10 @@ function showPage(id){
 
 /* MODAL */
 const modal=document.getElementById("howtoModal");
-// document.getElementById("howtoBtn").onclick=()=>modal.style.display="flex";
+document.getElementById("howtoBtn").onclick=()=>modal.style.display="flex";
 document.getElementById("closeModal").onclick=()=>modal.style.display="none";
 window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 
-// MUSIC
 const music = document.getElementById("bgMusic");
 music.volume = 0.3
 let isMusicPlaying = true;
