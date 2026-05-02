@@ -95,11 +95,11 @@ button{
 .menu-audio button {
     width: 35px;
     height: 35px;
-    border: none;
+    /* border: none;
     border-radius: 50%;
     background: blue;
     color: white;
-    cursor: pointer;
+    cursor: pointer; */
     font-size: 16px;
 
     display: flex;              
