@@ -45,7 +45,8 @@
 
 <!-- MODE -->
 <div id="selectModePage" class="page">
-    <div class="mode-container d-flex flex-column">
+    <div class="mode-container d-flex flex-column text-center">
+
         <h2>Select Mode</h2>
 
         <div class="mode-card btn-primary btn" data-mode="relaxed">
@@ -70,6 +71,28 @@
     </div>
 </div>
 
+<!-- LOADING -->
+ <div class="page" id="loadingPage">
+    <div class="mode-container">
+        <div class="progress mb-3"
+        style="width: 40vw;">
+        Loading...
+            <div
+                class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                id="loadingProgress"
+                role="progressbar"
+                style="width: 0%;"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+
+            </div>
+        </div>
+
+        <div class="body">Hehehe</div>
+    </div>
+ </div>
 <!-- GAME -->
 <div id="gamePage" class="page">
     <div class="game-container">

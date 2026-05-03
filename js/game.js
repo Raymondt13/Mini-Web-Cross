@@ -6,6 +6,7 @@ let inputs = [];
 let hintCount = 3;
 let timer = null;
 let timeLeft = 0;
+
 let mode = "relaxed";
 
 let arcadeTimeSeconds = 60
@@ -304,9 +305,12 @@ function resetTimer(){
     },10);
 }
 
+    let $hint = $("#hintBtn");
+    let hintcount = `HINT (${hintCount})`
 /* HINT */
 function updateHintUI(){
     document.getElementById("hintBtn").innerText="HINT ("+hintCount+")";
+    // $hint.text(hintCount)
 }
 
 document.getElementById("hintBtn").onclick=()=>{
@@ -320,6 +324,8 @@ document.getElementById("hintBtn").onclick=()=>{
             }
         }
     }
+    console.log(kosong);
+    
 
     if(kosong.length===0) return;
 

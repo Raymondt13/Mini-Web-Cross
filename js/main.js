@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 let selectedMode = null;
-
+let progressLoad = 0;
 
 $("#playBtn").click(() =>  { 
     showPage("selectModePage");
@@ -26,9 +26,33 @@ document.querySelectorAll(".mode-card").forEach(card=>{
 
 $("#startBtn").click(function (e) { 
     if(!selectedMode) return alert("Pilih mode dulu!");
-    startGame(selectedMode);
+    // showPage("loadingPage")
+    // startGame(selectedMode);
+    startLoad(selectedMode)
     e.preventDefault();
 });
+
+function startLoad(mode) {
+    showPage("loadingPage")
+    let width = 0;
+    const $progressBar = $("#loadingProgress");
+        $progressBar.text("")
+    const loadingInterval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(loadingInterval);
+            setTimeout(()=>startGame(mode),1000);
+            width = 0
+            $progressBar.text("Starting game...")
+        } else {
+            width += Math.floor(Math.random() * 10) + 1; 
+            if(width > 100) width = 100;
+            
+            $progressBar.css("width", width + "%");
+            $progressBar.attr("aria-valuenow", width);
+            $progressBar.text(width + "%");
+        }
+    }, 250);
+}
 
 // document.getElementById("startBtn").onclick=()=>{
 //     if(!selectedMode) return alert("Pilih mode dulu!");
@@ -51,8 +75,11 @@ $("#backBtn").click(function (e) {
 });
 
 function showPage(id){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    $('.page').removeClass("active");
+    $(`#${id}`).addClass("active");
+
+    // document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    // document.getElementById(id).classList.add("active");
 }
 
 /* MODAL */
