@@ -45,6 +45,7 @@ function generateLevel(level){
     //     {word:"ROTI", clue:"Makanan gandum"}
     // ];
     //7 + level
+
     let jumlahSoal = level + 1;
     let size = 15;
     let selected = wordsBank.slice(0, jumlahSoal);
@@ -104,17 +105,33 @@ function loadLevel(lv){
     currentGrid = Array(size).fill().map(()=>Array(size).fill(""));
     inputs=[];
 
-    data.across.forEach(w=>{
-        for(let i=0;i<w.word.length;i++){
-            solution[w.row][w.col+i]=w.word[i];
-        }
-    });
+    const processCrossword = (wordlist, across) =>{
+        wordlist.forEach(w => {
+            let reveal = Math.floor(Math.random()*w.word.length)
 
-    data.down.forEach(w=>{
-        for(let i=0;i<w.word.length;i++){
-            solution[w.row+i][w.col]=w.word[i];
-        }
-    });
+            for(let i=0;i<w.word.length;i++){
+                let row = across? w.row : w.row+i
+                let col = across? w.col+i: w.col
+                solution[row][col]=w.word[i];
+
+
+            }
+        });
+    }
+
+    processCrossword(data.across,true)
+    processCrossword(data.down,false)
+    // data.across.forEach(w=>{
+    //     for(let i=0;i<w.word.length;i++){
+    //         solution[w.row][w.col+i]=w.word[i];
+    //     }
+    // });
+
+    // data.down.forEach(w=>{
+    //     for(let i=0;i<w.word.length;i++){
+    //         solution[w.row+i][w.col]=w.word[i];
+    //     }
+    // });
 
     renderGrid(size);
     renderClues(data);
@@ -162,20 +179,35 @@ function renderGrid(size){
     }
 }
 
+const addHint = () => hintCount++
 /* CLUES */
 function renderClues(data){
-    let across=document.getElementById("acrossClue");
-    let down=document.getElementById("downClue");
+    // let across=document.getElementById("acrossClue");
+    // let down=document.getElementById("downClue");
 
-    across.innerHTML="";
-    down.innerHTML="";
+    // across.innerHTML="";
+    // down.innerHTML="";
 
-    data.across.forEach((w,i)=>{
-        across.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
+    // data.across.forEach((w,i)=>{
+    //     across.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
+    // });
+
+    // data.down.forEach((w,i)=>{
+    //     down.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
+    // });
+
+    let $across= $('#acrossClue');
+    let $down= $('#downClue');
+
+
+    $across.empty();
+    $down.empty();
+
+    $.each(data.across, function (i, w) { 
+        $across.append(`<li>${i+1}. ${w.clue}</li>`);
     });
-
-    data.down.forEach((w,i)=>{
-        down.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
+    $.each(data.down, function (i, w) { 
+        $down.append(`<li>${i+1}. ${w.clue}</li>`);
     });
 }
 
@@ -183,16 +215,36 @@ function renderClues(data){
 function resetTimer(){
     clearInterval(timer);
 
+    let timedisplay = ""
+    let timerText = $("#timerText")
     if(mode==="relaxed"){
-        document.getElementById("timerText").innerText="Time: ∞";
+        timerText.html("Relaxed");
+        // document.getElementById("timerText").innerText="Time: ∞";
         return;
     }
 
-    timeLeft = (mode==="arcade") ? arcadeTimeSeconds*100 : 999999;
+    timeLeft = ((mode==="arcade") ? arcadeTimeSeconds : 10*60)*100;
+
+    // Display Time
+
     document.getElementById("timerText").innerText="Time: "+timeLeft;
     timer=setInterval(()=>{
+
         timeLeft--;
-        document.getElementById("timerText").innerText="Time: "+timeLeft;
+
+        let totalSeconds = Math.floor(timeLeft / 100);
+            
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+            
+        let centis = timeLeft % 100;
+
+        let mDisplay = minutes < 10 ? "0" + minutes : minutes;
+        let sDisplay = seconds < 10 ? "0" + seconds : seconds;
+        let msDisplay = centis < 10 ? "0" + centis : centis;
+        let timerDisplay = `${mDisplay}:${sDisplay}.${msDisplay}`
+        $("#timerText").html(`Time: ${timerDisplay}`);
+        // document.getElementById("timerText").innerText="Time: "+timeLeft;
 
         if(timeLeft<0){
             clearInterval(timer);
