@@ -112,9 +112,13 @@ function loadLevel(lv){
             for(let i=0;i<w.word.length;i++){
                 let row = across? w.row : w.row+i
                 let col = across? w.col+i: w.col
-                solution[row][col]=w.word[i];
-
-
+                let letterSolution = w.word[i]
+                solution[row][col]=letterSolution;
+                console.log(letterSolution);
+                
+                if (i === reveal) {
+                    currentGrid[row][col] = letterSolution
+                }
             }
         });
     }
@@ -140,42 +144,87 @@ function loadLevel(lv){
 
 /* GRID */
 function renderGrid(size){
-    let grid=document.getElementById("crosswordGrid");
-    grid.style.gridTemplateColumns=`repeat(${size},50px)`;
-    grid.innerHTML="";
+    // let grid=document.getElementById("crosswordGrid");
+    // grid.style.gridTemplateColumns=`repeat(${size},50px)`;
+    // grid.innerHTML="";
 
-    let number=1;
+    // let number=1;
 
-    for(let i=0;i<size;i++){
-        inputs[i]=[];
-        for(let j=0;j<size;j++){
-            let cell=document.createElement("div");
-            cell.className="cell";
+    // for(let i=0;i<size;i++){
+    //     inputs[i]=[];
+    //     for(let j=0;j<size;j++){
+    //         let cell=document.createElement("div");
+    //         cell.className="cell";
 
-            if(solution[i][j]===""){
-                cell.classList.add("block");
-            }else{
-                let input=document.createElement("input");
-                input.maxLength=1;
+    //         if(solution[i][j]===""){
+    //             cell.classList.add("block");
+    //         }else{
+    //             let input=document.createElement("input");
+    //             input.maxLength=1;
 
-                input.oninput=function(){
-                    this.value=this.value.toUpperCase();
-                    currentGrid[i][j]=this.value;
-                };
+    //             input.oninput=function(){
+    //                 this.value=this.value.toUpperCase();
+    //                 currentGrid[i][j]=this.value;
+    //             };
 
-                if((j===0||solution[i][j-1]==="")||(i===0||solution[i-1][j]==="")){
-                    let num=document.createElement("div");
-                    num.className="cell-number";
-                    num.innerText=number++;
-                    cell.appendChild(num);
+    //             if((j===0||solution[i][j-1]==="")||(i===0||solution[i-1][j]==="")){
+    //                 let num=document.createElement("div");
+    //                 num.className="cell-number";
+    //                 num.innerText=number++;
+    //                 cell.appendChild(num);
+    //             }
+
+    //             cell.appendChild(input);
+    //             inputs[i][j]=input;
+    //         }
+
+    //         grid.appendChild(cell);
+    //     }
+    // }
+    const $grid = $("#crosswordGrid");
+
+    $grid.css('grid-template-columns', `repeat(${size},50px)`);
+    $grid.empty()
+
+    let number = 1
+    
+    for (let r = 0; r < size; r++) {
+        inputs[r] = [];
+        for (let c = 0; c < size; c++) {
+            
+            let $cell = $('<div></div>').addClass('cell')
+            if (solution[r][c] == "") {
+                $cell.addClass('block');
+            } else{
+                let $input = $('<input>').attr('maxlength',1)
+
+                //reveal
+                if (currentGrid[r][c] != "") {
+                    $input.val(currentGrid[r][c])
+                    $input.addClass('bg-info');
+                    $input.attr('readonly', true);
                 }
 
-                cell.appendChild(input);
-                inputs[i][j]=input;
-            }
+                $input.on('input', function () {
+                    let value = $(this).val().toUpperCase();
+                    $(this).val(value);
+                    currentGrid[r][c]
 
-            grid.appendChild(cell);
-        }
+
+                });
+
+                if ((c === 0 || solution[r][c - 1] === "") || (r === 0 || solution[r - 1][c] === "")) {
+                    let $num = $('<div></div>')
+                        .addClass('cell-number')
+                        .text(number++);
+                    $cell.append($num);
+                }
+
+                $cell.append($input);
+                inputs[r][c] = $input
+            }
+            $grid.append($cell)
+        } 
     }
 }
 
