@@ -29,6 +29,8 @@ $("#startBtn").click(function (e) {
     // showPage("loadingPage")
     // startGame(selectedMode);
     startLoad(selectedMode)
+        music.pause();
+        isMusicPlaying = false;
     e.preventDefault();
 });
 
@@ -64,6 +66,7 @@ $("#backMenuBtn").click(function (e) {
 
     showPage("mainMenuPage");
     clearInterval(timer);
+    toggleMusic()
     $("#startBtn").attr('removed',true)
     e.preventDefault();
     
