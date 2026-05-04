@@ -332,9 +332,12 @@ document.getElementById("hintBtn").onclick=()=>{
     let rand=kosong[Math.floor(Math.random()*kosong.length)];
     let huruf=solution[rand.i][rand.j];
 
+    let $input = inputs[rand.i][rand.j]; 
     currentGrid[rand.i][rand.j]=huruf;
-    inputs[rand.i][rand.j].value=huruf;
+    $input.val(huruf);
 
+    $input.addClass('revealed').attr('readonly', true);
+    $input.addClass('bg-success');
     hintCount--;
     updateHintUI();
 };
