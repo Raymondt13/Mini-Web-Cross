@@ -206,12 +206,15 @@ function renderGrid(size){
                     $input.attr('readonly', true);
                 }
 
+                //$input.on('input', function () {
+                //    let value = $(this).val().toUpperCase();
+                //    $(this).val(value);
+                //    currentGrid[r][c]
+                //});
                 $input.on('input', function () {
                     let value = $(this).val().toUpperCase();
                     $(this).val(value);
-                    currentGrid[r][c]
-
-
+                    currentGrid[r][c] = value;
                 });
 
                 if ((c === 0 || solution[r][c - 1] === "") || (r === 0 || solution[r - 1][c] === "")) {
