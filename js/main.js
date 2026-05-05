@@ -77,7 +77,7 @@ $("#backMenuBtn").click(function (e) {
 
     showPage("mainMenuPage");
     clearInterval(timer);
-    toggleMusic()
+    // toggleMusic()
     $("#startBtn").attr('removed',true)
     e.preventDefault();
     
@@ -106,7 +106,7 @@ window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 const music = document.getElementById("bgMusic");
 music.volume = 0.3
 var confirmMusic = confirm("Want music playing?")
-let isMusicPlaying;
+let isMusicPlaying = false;
 
 if (confirmMusic) {
     isMusicPlaying = false
