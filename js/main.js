@@ -4,6 +4,15 @@ $(document).ready(function() {
 
 let selectedMode = null;
 let progressLoad = 0;
+let tips = []
+$.getJSON("json/tips.json",
+    function (data) {
+        tips = data
+    }
+).fail(()=>{
+    console.error("Failed to open tips.");
+    
+});
 
 $("#playBtn").click(() =>  { 
     showPage("selectModePage");
@@ -54,6 +63,8 @@ function startLoad(mode) {
             $progressBar.text(width + "%");
         }
     }, 250);
+    const $tipText = $("#tipText");
+    $tipText.html(tips[Math.floor(Math.random()*tips.length)].tip)
 }
 
 // document.getElementById("startBtn").onclick=()=>{

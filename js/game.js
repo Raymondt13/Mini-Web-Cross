@@ -11,9 +11,8 @@ let mode = "relaxed";
 
 let arcadeTimeSeconds = 60
 
-let wordsBank = [
+let wordsBank = []
 
-]
 
 $.getJSON("json/levels.json",
     function (data) {
@@ -23,6 +22,8 @@ console.error("Words loaded!");
 ).fail(()=>{
     console.error("Failed to open words data list.");
 });
+
+
 /* START */
 function startGame(m){
     mode = m;
