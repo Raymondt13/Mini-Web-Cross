@@ -38,5 +38,165 @@
         {
             "word":"ROTI",
             "clue":"Makanan dari gandum yang sering dipanggang" 
+        },
+        {
+            "word":"PENA",
+            "clue":"Alat untuk menulis" 
+        },
+        {
+            "word":"PENSIL",
+            "clue":"Alat tulis yang bisa dihapus" 
+        },
+        {
+            "word":"KERTAS",
+            "clue":"Tempat untuk menulis" 
+        },
+        {
+            "word":"JAM",
+            "clue":"Alat untuk melihat waktu" 
+        },
+        {
+            "word":"BOLA",
+            "clue":"Benda bulat untuk bermain sepak bola" 
+        },
+        {
+            "word":"SEPATU",
+            "clue":"Dipakai di kaki saat keluar rumah" 
+        },
+        {
+            "word":"BAJU",
+            "clue":"Dipakai di badan" 
+        },
+        {
+            "word":"CELANA",
+            "clue":"Dipakai di kaki bagian atas" 
+        },
+        {
+            "word":"TOPI",
+            "clue":"Dipakai di kepala" 
+        },
+        {
+            "word":"TAS",
+            "clue":"Tempat membawa buku atau barang" 
+        },
+        {
+            "word":"GULA",
+            "clue":"Rasanya manis" 
+        },
+        {
+            "word":"GARAM",
+            "clue":"Rasanya asin" 
+        },
+        {
+            "word":"NASI",
+            "clue":"Makanan pokok orang Indonesia" 
+        },
+        {
+            "word":"AYAM",
+            "clue":"Hewan yang berkokok pagi hari" 
+        },
+        {
+            "word":"SAPI",
+            "clue":"Hewan penghasil susu" 
+        },
+        {
+            "word":"KAMBING",
+            "clue":"Hewan yang sering dijadikan sate" 
+        },
+        {
+            "word":"BURUNG",
+            "clue":"Hewan yang bisa terbang" 
+        },
+        {
+            "word":"ULAT",
+            "clue":"Hewan kecil yang sering makan daun" 
+        },
+        {
+            "word":"SEMUT",
+            "clue":"Hewan kecil yang suka gula" 
+        },
+        {
+            "word":"LEBAH",
+            "clue":"Serangga penghasil madu" 
+        },
+        {
+            "word":"MOBIL",
+            "clue":"Kendaraan roda empat" 
+        },
+        {
+            "word":"MOTOR",
+            "clue":"Kendaraan roda dua" 
+        },
+        {
+            "word":"SEPEDA",
+            "clue":"Kendaraan dikayuh dengan pedal" 
+        },
+        {
+            "word":"KAPAL",
+            "clue":"Kendaraan yang berjalan di laut" 
+        },
+        {
+            "word":"PESAWAT",
+            "clue":"Kendaraan yang terbang di udara" 
+        },
+        {
+            "word":"KERETA",
+            "clue":"Kendaraan panjang berjalan di rel" 
+        },
+        {
+            "word":"RUMAH",
+            "clue":"Tempat tinggal manusia" 
+        },
+        {
+            "word":"SEKOLAH",
+            "clue":"Tempat belajar siswa" 
+        },
+        {
+            "word":"PASAR",
+            "clue":"Tempat jual beli" 
+        },
+        {
+            "word":"TOKO",
+            "clue":"Tempat membeli barang" 
+        },
+        {
+            "word":"KAMAR",
+            "clue":"Tempat untuk tidur" 
+        },
+        {
+            "word":"DAPUR",
+            "clue":"Tempat memasak makanan" 
+        },
+        {
+            "word":"PINTU",
+            "clue":"Untuk keluar masuk rumah" 
+        },
+        {
+            "word":"JENDELA",
+            "clue":"Lubang rumah untuk melihat keluar" 
+        },
+        {
+            "word":"LANTAI",
+            "clue":"Bagian bawah rumah tempat berpijak" 
+        },
+        {
+            "word":"ATAP",
+            "clue":"Bagian paling atas rumah" 
+        },
+        {
+            "word":"PULPEN",
+            "clue":"Alat tulis menggunakan tinta" 
+        },
+        {
+            "word":"PAPAN",
+            "clue":"Tempat menulis di kelas" 
+        },
+        {
+            "word":"GURU",
+            "clue":"Orang yang mengajar di sekolah" 
+        },
+        {
+            "word":"SISWA",
+            "clue":"Orang yang belajar di sekolah" 
         }
-    ]
+]

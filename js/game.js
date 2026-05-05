@@ -17,18 +17,30 @@ let wordsBank = []
 $.getJSON("json/levels.json",
     function (data) {
         wordsBank = data;
-console.error("Words loaded!");
+console.log("Words loaded!");
     }
 ).fail(()=>{
     console.error("Failed to open words data list.");
 });
 
+function checkAutoComplete(){
+    for(let i=0;i<solution.length;i++){
+        for(let j=0;j<solution[i].length;j++){
+            if(solution[i][j] && currentGrid[i][j] !== solution[i][j]){
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 /* START */
 function startGame(m){
     mode = m;
     level = 1;
     showPage("gamePage");
+
+    resetTimer();
     loadLevel(level);
 }
 
@@ -50,6 +62,7 @@ function generateLevel(level){
 
     let jumlahSoal = level + 1;
     let size = 15;
+    shuffleArray(wordsBank);
     let selected = wordsBank.slice(0, jumlahSoal);
 
     let data = { size:size, across:[], down:[] };
@@ -141,7 +154,7 @@ function loadLevel(lv){
 
     renderGrid(size);
     renderClues(data);
-    resetTimer();
+    //resetTimer();
 }
 
 /* GRID */
@@ -216,6 +229,11 @@ function renderGrid(size){
                     let value = $(this).val().toUpperCase();
                     $(this).val(value);
                     currentGrid[r][c] = value;
+                    if(checkAutoComplete()){
+                        $("#nextLevelBtn").removeAttr("disabled"); 
+                    } else {
+                        $("#nextLevelBtn").attr("disabled", true); 
+                    }
                 });
 
                 if ((c === 0 || solution[r][c - 1] === "") || (r === 0 || solution[r - 1][c] === "")) {
@@ -234,6 +252,14 @@ function renderGrid(size){
 }
 
 const addHint = () => hintCount++
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 /* CLUES */
 function renderClues(data){
     // let across=document.getElementById("acrossClue");
@@ -315,6 +341,7 @@ function resetTimer(){
 function updateHintUI(){
     document.getElementById("hintBtn").innerText="HINT ("+hintCount+")";
     // $hint.text(hintCount)
+    
 }
 
 document.getElementById("hintBtn").onclick=()=>{
@@ -347,21 +374,21 @@ document.getElementById("hintBtn").onclick=()=>{
 };
 
 /* CHECK */
-document.getElementById("checkBtn").onclick=()=>{
-    for(let i=0;i<solution.length;i++){
-        for(let j=0;j<solution.length;j++){
-            if(solution[i][j] && currentGrid[i][j]!==solution[i][j]){
-                return alert("Masih salah!");
-            }
-        }
-    }
-    alert("Benar!");
-};
+//document.getElementById("checkBtn").onclick=()=>{
+//    for(let i=0;i<solution.length;i++){
+//        for(let j=0;j<solution.length;j++){
+//            if(solution[i][j] && currentGrid[i][j]!==solution[i][j]){
+//                return alert("Masih salah!");
+//            }
+//        }
+//    }
+//    alert("Benar!");
+//};
 
 /* NEXT */
 document.getElementById("nextLevelBtn").onclick=()=>{
     for(let i=0;i<solution.length;i++){
-        for(let j=0;j<solution.length;j++){
+        for(let j=0;j<solution[i].length;j++){
             if(solution[i][j] && currentGrid[i][j]!==solution[i][j]){
                 return alert("Tidak bisa lanjut!");
             }
