@@ -46,60 +46,85 @@ function startGame(m){
 
 /* GENERATE LEVEL DINAMIS */
 function generateLevel(level){
-    // let wordsBank = [
-    //     {word:"APEL", clue:"Buah merah"},
-    //     {word:"AIR", clue:"Yang diminum"},
-    //     {word:"API", clue:"Panas"},
-    //     {word:"BUKU", clue:"Untuk membaca"},
-    //     {word:"MEJA", clue:"Tempat makan"},
-    //     {word:"KAKI", clue:"Untuk berjalan"},
-    //     {word:"MATA", clue:"Untuk melihat"},
-    //     {word:"IKAN", clue:"Hewan air"},
-    //     {word:"SUSU", clue:"Minuman putih"},
-    //     {word:"ROTI", clue:"Makanan gandum"}
-    // ];
-    //7 + level
-
-    let jumlahSoal = level + 1;
+    //let jumlahSoal = level + 3;
+    let jumlahSoal = Math.min(level + 3, wordsBank.length);
     let size = 15;
+
     shuffleArray(wordsBank);
     let selected = wordsBank.slice(0, jumlahSoal);
 
+    let grid = Array(size).fill().map(()=>Array(size).fill(""));
+
     let data = { size:size, across:[], down:[] };
+
     let center = Math.floor(size/2);
 
-    // kata utama
+    // 🔵 1. Kata pertama (mendatar)
+    let first = selected[0];
+    let startCol = center - Math.floor(first.word.length/2);
+
+    placeWord(first.word, center, startCol, true, grid);
+
     data.across.push({
         row:center,
-        col:center-2,
-        word:selected[0].word,
-        clue:selected[0].clue
+        col:startCol,
+        word:first.word,
+        clue:first.clue
     });
 
-    data.down.push({
-        row:center,
-        col:center-2,
-        word:selected[1].word,
-        clue:selected[1].clue
-    });
-
-    for(let i=2;i<selected.length;i++){
+    // 🔵 2. Kata berikutnya HARUS nyilang
+    for(let i=1;i<selected.length;i++){
         let w = selected[i];
+        let placed = false;
 
-        if(i%2===0){
-            data.across.push({
-                row:center+i,
-                col:1,
-                word:w.word,
-                clue:w.clue
-            });
-        }else{
-            data.down.push({
-                row:1,
-                col:center+i,
-                word:w.word,
-                clue:w.clue
-            });
+        for(let a of data.across.concat(data.down)){
+            let baseWord = a.word;
+
+            for(let j=0;j<w.word.length;j++){
+                for(let k=0;k<baseWord.length;k++){
+
+                    if(w.word[j] === baseWord[k]){
+                        let row, col, isAcross;
+
+                        if(a.row !== undefined){ // kata existing
+                            if(data.across.includes(a)){
+                                // existing mendatar → baru harus menurun
+                                row = a.row - j;
+                                col = a.col + k;
+                                isAcross = false;
+                            }else{
+                                // existing menurun → baru mendatar
+                                row = a.row + k;
+                                col = a.col - j;
+                                isAcross = true;
+                            }
+
+                            if(canPlaceWord(w.word, row, col, isAcross, grid, size)){
+                                placeWord(w.word, row, col, isAcross, grid);
+
+                                if(isAcross){
+                                    data.across.push({
+                                        row, col,
+                                        word:w.word,
+                                        clue:w.clue
+                                    });
+                                }else{
+                                    data.down.push({
+                                        row, col,
+                                        word:w.word,
+                                        clue:w.clue
+                                    });
+                                }
+
+                                placed = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(placed) break;
+            }
+            if(placed) break;
         }
     }
 
@@ -372,6 +397,29 @@ document.getElementById("hintBtn").onclick=()=>{
     hintCount--;
     updateHintUI();
 };
+
+function canPlaceWord(word, row, col, isAcross, grid, size){
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+
+        if(r<0 || c<0 || r>=size || c>=size) return false;
+
+        if(grid[r][c] !== "" && grid[r][c] !== word[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+
+function placeWord(word, row, col, isAcross, grid){
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+        grid[r][c] = word[i];
+    }
+}
 
 /* CHECK */
 //document.getElementById("checkBtn").onclick=()=>{
