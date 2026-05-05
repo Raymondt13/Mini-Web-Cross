@@ -20,20 +20,33 @@
         <source src="assets/music.mp3" type="audio/mp3">
         Audio not supported.
     </audio>
+
+    <audio id="arcadeMusic" loop autoplay>
+        <source src="assets/music.mp3" type="audio/mp3">
+        Audio not supported.
+    </audio>
 <!-- MENU -->
 <div id="mainMenuPage" class="page active">
     <div class="menu-simple">
 
         <!-- AUDIO CONTROL -->
-        <div class="menu-audio">
-            <button class="btn btn-outline-dark" id="soundBtn" title="Toggle Sound">🔊</button>
-            <button class="btn btn-outline-dark" id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
-        </div>
+         <div class="d-flex justify-content-between">
+            <div class="menu-audio">
+                <div class="btn-online-warning" id="pointShopBtn" title="Open Shop"></div>
+            </div>
+
+            <div class="menu-audio">
+                <button class="btn btn-outline-dark" id="soundBtn" title="Toggle Sound">🔊</button>
+                <button class="btn btn-outline-dark" id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
+            </div>
+         </div>
+
 
         <h1>Mini Web Cross</h1>
 
         <button id="playBtn" class="mb-3 btn btn-primary">PLAY</button><br>
-        <button id="howtoBtn" data-bs-toggle="modal" data-bs-target="#howToPlayModal" class="mb-3 btn btn-secondary">HOW TO PLAY</button>
+        <button id="howtoBtn" data-bs-toggle="modal" data-bs-target="#howToPlayModal" class="mb-3 btn btn-secondary">HOW TO PLAY</button><br>
+        <button id="leaderBtn" class="mb-3 btn btn-secondary">LEADERBOARD</button><br>
 
     </div>
 </div>
