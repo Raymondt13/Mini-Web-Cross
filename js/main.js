@@ -18,6 +18,10 @@ $("#playBtn").click(() =>  {
     showPage("selectModePage");
     
 });
+$("#leaderBtn").click(() =>  { 
+    showPage("leaderboardPage");
+    
+});
 // $("#playBtn").click = () => showPage("selectModePage");
 
 document.querySelectorAll(".mode-card").forEach(card=>{
@@ -87,6 +91,12 @@ $("#backMenuBtn").click(function (e) {
     
 });
 $("#backBtn").click(function (e) { 
+    showPage("mainMenuPage");
+    e.preventDefault();
+    
+});
+
+$("#backLeaderBtn").click(function (e) { 
     showPage("mainMenuPage");
     e.preventDefault();
     

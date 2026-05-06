@@ -121,7 +121,7 @@
 
         <div id="crosswordGrid" class="crossword-grid"></div>
 
-        <div class="clues">
+        <div class="clues text-start">
             <div>
                 <h3>Mendatar</h3>
                 <ul id="acrossClue"></ul>
@@ -133,8 +133,48 @@
         </div>
 
         <button class="btn btn-primary" id="hintBtn">HINT (3)</button>
-        <button class="btn btn-primary" id="nextLevelBtn" disabled>NEXT LEVEL</button>
-        <button class="btn btn-primary" id="backMenuBtn">MENU</button>
+        <!-- <button class="btn btn-primary" id="nextLevelBtn" disabled>NEXT LEVEL</button> -->
+        <button class="btn btn-danger" id="backMenuBtn">GIVE UP</button>
+    </div>
+</div>
+<!-- LEADERBOARD -->
+<div id="leaderboardPage" class="page">
+    <div class="game-container">
+        <button class="btn btn-secondary" id="backLeaderBtn">Back</button>
+        <h1 class="h1">LEADERBOARD</h1>
+        <div class="d-flex justify-content-center">
+            <button class="mx-3 btn btn-primary">Relaxed</button>
+            <button class="mx-3 btn btn-primary">Arcade</button>
+            <button class="mx-3 btn btn-primary">10 Minute</button>
+        </div>
+        <div
+            class="table-responsive"
+        >
+            <table
+                class="table table-primary"
+            >
+                <thead>
+                    <tr>
+                        <th scope="col">Rank</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td scope="row">R1C1</td>
+                        <td>R1C2</td>
+                        <td>R1C3</td>
+                    </tr>
+                    <tr class="">
+                        <td scope="row">Item</td>
+                        <td>Item</td>
+                        <td>Item</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 
