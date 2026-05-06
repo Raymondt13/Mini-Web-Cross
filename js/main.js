@@ -23,12 +23,14 @@ $("#playBtn").click(() =>  {
 document.querySelectorAll(".mode-card").forEach(card=>{
     card.onclick=function(){
         document.querySelectorAll(".mode-card").forEach(c=>c.classList.remove("selected"));
-        this.classList.add("selected");
+        // this.classList.add("selected");
         selectedMode=this.dataset.mode;
-        if (selectedMode) {
-            
-    $("#startBtn").removeAttr("disabled");
-}
+        // if (selectedMode) {
+        //     $("#startBtn").removeAttr("disabled");
+        // }
+        startLoad(selectedMode)
+        music.pause();
+        isMusicPlaying = false;
     }
 });
 
@@ -37,14 +39,16 @@ $("#startBtn").click(function (e) {
     if(!selectedMode) return alert("Pilih mode dulu!");
     // showPage("loadingPage")
     // startGame(selectedMode);
+
     startLoad(selectedMode)
-        music.pause();
-        isMusicPlaying = false;
+    music.pause();
+    isMusicPlaying = false;
     e.preventDefault();
 });
 
 function startLoad(mode) {
     showPage("loadingPage")
+
     let width = 0;
     const $progressBar = $("#loadingProgress");
         $progressBar.text("")
