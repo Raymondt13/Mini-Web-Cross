@@ -482,12 +482,26 @@ function nextBoard(){
     if (puzzlesCompleted % 3 == 0) {
         wordConfirm = "3 boards completed!\nLevel has been increased."
         if (mode == 'arcade') {
+            score += timeLeft
+            wordConfirm += `\nTIME BONUS! +${timeLeft}\nTime extended!`
             timeLeft += level*15*100
-            wordConfirm += "\nTime extended!"
             console.log(timeLeft)
         }
         level++   
     }
     alert(wordConfirm)
     loadLevel(level);
+}
+
+// LEADERBOARDS
+
+function saveToLeaderboard(name, pointScore) {
+    let scoreboard={
+        name: name,
+        mode: mode,
+        score: pointScore,
+        date: new Date().toISOString()
+    }
+
+
 }
