@@ -1,4 +1,5 @@
 let level = 1;
+let puzzlesCompleted = 0
 let solution = [];
 let currentGrid = [];
 let inputs = [];
@@ -8,6 +9,7 @@ let timer = null;
 let timeLeft = 0;
 let score = 0;
 let minis = 0;
+let minSoal = 3
 
 let mode = "relaxed";
 
@@ -20,10 +22,13 @@ $.getJSON("json/levels.json",
     function (data) {
         wordsBank = data;
 console.log("Words loaded!");
+console.log(wordsBank.length)
+$("#wordsCount").html(`<b>${wordsBank.length}</b>`)
     }
 ).fail(()=>{
     console.error("Failed to open words data list.");
 });
+
 
 function checkAutoComplete(){
     for(let i=0;i<solution.length;i++){
@@ -33,6 +38,7 @@ function checkAutoComplete(){
             }
         }
     }
+    nextBoard()
     return true;
 }
 
@@ -40,6 +46,7 @@ function checkAutoComplete(){
 function startGame(m){
     mode = m;
     level = 1;
+    puzzlesCompleted = 0
     showPage("gamePage");
 
     resetTimer();
@@ -49,7 +56,16 @@ function startGame(m){
 /* GENERATE LEVEL DINAMIS */
 function generateLevel(level){
     //let jumlahSoal = level + 3;
-    let jumlahSoal = Math.min(level + 3, wordsBank.length);
+    let minSoal = level + 3
+    if (mode == 'arcade') {
+        minSoal = level + 1
+    }
+    let jumlahSoal = Math.min(minSoal, wordsBank.length);
+    if (jumlahSoal < 2) {
+        jumlahSoal = 2
+    } else if (jumlahSoal > 10){
+        jumlahSoal = 10
+    }
     let size = 15;
 
     shuffleArray(wordsBank);
@@ -134,6 +150,7 @@ function generateLevel(level){
 }
 
 const $levelTitle = $("#levelTitle");
+const $boardCompleted = $("#boardCompleted");
 const $timerText = $("#timerText");
 const $scoreText = $("#scoreText")
 
@@ -145,6 +162,7 @@ function loadLevel(lv){
     let data = generateLevel(lv);
 
     $levelTitle.html(`Level ${lv}`);
+    $boardCompleted.html(`${puzzlesCompleted}`)
     // document.getElementById("levelTitle").innerText = "Level " + lv;
 
     let size=data.size;
@@ -454,6 +472,22 @@ document.getElementById("nextLevelBtn").onclick=()=>{
         }
     }
 
-    level++;
-    loadLevel(level);
+
 };
+
+function nextBoard(){
+    let wordConfirm = "Board complete!"
+
+    puzzlesCompleted++
+    if (puzzlesCompleted % 3 == 0) {
+        wordConfirm = "3 boards completed!\nLevel has been increased."
+        if (mode == 'arcade') {
+            timeLeft += level*15*100
+            wordConfirm += "\nTime extended!"
+            console.log(timeLeft)
+        }
+        level++   
+    }
+    alert(wordConfirm)
+    loadLevel(level);
+}

@@ -109,7 +109,11 @@
 <!-- GAME -->
 <div id="gamePage" class="page">
     <div class="game-container">
-        <h2 id="levelTitle"></h2>
+        <div class="">
+            <h2 id="levelTitle"></h2>
+            <h4>Boards completed: <span id="boardCompleted"></span></h4>
+        </div>
+
         <div class="d-flex justify-content-between px-4">
             <p >Score: <span id="scoreText"></span></p>
             <p>⏱️ <span id="timerText"></span></p>
@@ -160,6 +164,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <p>Mini Web Cross&trade; provides <span id="wordsCount"></span>
+        words to solve!
+        </p>
         <ul>
             <li>Klik kotak</li>
             <li>Ketik huruf</li>
