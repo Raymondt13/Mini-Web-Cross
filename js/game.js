@@ -6,6 +6,8 @@ let inputs = [];
 let hintCount = 3;
 let timer = null;
 let timeLeft = 0;
+let score = 0;
+let minis = 0;
 
 let mode = "relaxed";
 
@@ -131,14 +133,19 @@ function generateLevel(level){
     return data;
 }
 
+const $levelTitle = $("#levelTitle");
+const $timerText = $("#timerText");
+const $scoreText = $("#scoreText")
+
 /* LOAD LEVEL */
 function loadLevel(lv){
     hintCount = 3;
     updateHintUI();
-
+    $scoreText.html(score)
     let data = generateLevel(lv);
 
-    document.getElementById("levelTitle").innerText = "Level " + lv;
+    $levelTitle.html(`Level ${lv}`);
+    // document.getElementById("levelTitle").innerText = "Level " + lv;
 
     let size=data.size;
     solution = Array(size).fill().map(()=>Array(size).fill(""));
@@ -321,9 +328,8 @@ function resetTimer(){
     clearInterval(timer);
 
     let timedisplay = ""
-    let timerText = $("#timerText")
     if(mode==="relaxed"){
-        timerText.html("Relaxed");
+        $timerText.html("Relaxed");
         // document.getElementById("timerText").innerText="Time: ∞";
         return;
     }
@@ -348,7 +354,7 @@ function resetTimer(){
         let sDisplay = seconds < 10 ? "0" + seconds : seconds;
         let msDisplay = centis < 10 ? "0" + centis : centis;
         let timerDisplay = `${mDisplay}:${sDisplay}.${msDisplay}`
-        $("#timerText").html(`Time: ${timerDisplay}`);
+        $timerText.html(`${timerDisplay}`);
         // document.getElementById("timerText").innerText="Time: "+timeLeft;
 
         if(timeLeft<0){
@@ -364,6 +370,11 @@ function resetTimer(){
     let hintcount = `HINT (${hintCount})`
 /* HINT */
 function updateHintUI(){
+    if (hintCount == 0) {
+        $hint.attr("disabled",true);
+    } else{
+        $hint.removeAttr("disabled");
+    }
     document.getElementById("hintBtn").innerText="HINT ("+hintCount+")";
     // $hint.text(hintCount)
     

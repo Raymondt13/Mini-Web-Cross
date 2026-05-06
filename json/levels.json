@@ -41,7 +41,7 @@
         },
         {
             "word":"PENA",
-            "clue":"Alat untuk menulis" 
+            "clue":"Sahabat... (4 huruf)" 
         },
         {
             "word":"PENSIL",
@@ -57,7 +57,7 @@
         },
         {
             "word":"BOLA",
-            "clue":"Benda bulat untuk bermain sepak bola" 
+            "clue":"Benda bulat buat ditendang" 
         },
         {
             "word":"SEPATU",
@@ -77,7 +77,7 @@
         },
         {
             "word":"TAS",
-            "clue":"Tempat membawa buku atau barang" 
+            "clue":"Tempat membawa barang" 
         },
         {
             "word":"GULA",
@@ -125,11 +125,11 @@
         },
         {
             "word":"MOTOR",
-            "clue":"Kendaraan roda dua" 
+            "clue":"Kendaraan roda dua yang bermesin" 
         },
         {
             "word":"SEPEDA",
-            "clue":"Kendaraan dikayuh dengan pedal" 
+            "clue":"Kendaraan yang dikayuh dengan pedal" 
         },
         {
             "word":"KAPAL",
@@ -137,7 +137,7 @@
         },
         {
             "word":"PESAWAT",
-            "clue":"Kendaraan yang terbang di udara" 
+            "clue":"Mesin yang terbang di udara" 
         },
         {
             "word":"KERETA",
@@ -145,15 +145,15 @@
         },
         {
             "word":"RUMAH",
-            "clue":"Tempat tinggal manusia" 
+            "clue":"Tempat tinggal" 
         },
         {
             "word":"SEKOLAH",
-            "clue":"Tempat belajar siswa" 
+            "clue":"Tempat belajar" 
         },
         {
             "word":"PASAR",
-            "clue":"Tempat jual beli" 
+            "clue":"Tempat jual beli yang ramai" 
         },
         {
             "word":"TOKO",
@@ -161,7 +161,7 @@
         },
         {
             "word":"KAMAR",
-            "clue":"Tempat untuk tidur" 
+            "clue":"Ruang yang biasanya untuk tidur" 
         },
         {
             "word":"DAPUR",
@@ -169,11 +169,11 @@
         },
         {
             "word":"PINTU",
-            "clue":"Untuk keluar masuk rumah" 
+            "clue":"Untuk keluar masuk" 
         },
         {
             "word":"JENDELA",
-            "clue":"Lubang rumah untuk melihat keluar" 
+            "clue":"Lubang untuk melihat keluar" 
         },
         {
             "word":"LANTAI",
@@ -193,10 +193,14 @@
         },
         {
             "word":"GURU",
-            "clue":"Orang yang mengajar di sekolah" 
+            "clue":"Orang yang mengajar" 
         },
         {
             "word":"SISWA",
-            "clue":"Orang yang belajar di sekolah" 
+            "clue":"Orang yang belajar" 
+        },
+        {
+            "word":"HOT",
+            "clue":"(Inggris) Panas" 
         }
 ]
