@@ -1,5 +1,6 @@
 $(document).ready(function() {
     console.log("Loading Jquery...");
+    $("#welcomeModal").modal('show')
 });
 
 let selectedMode = null;
@@ -119,13 +120,20 @@ window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 // MUSIC
 const music = document.getElementById("bgMusic");
 music.volume = 0.3
-var confirmMusic = confirm("Want music playing?")
+let confirmMusic = false
+// start
+$("#startGameBtn").click(function(e){
+    confirmMusic = true
+})
+$("#startGameNoSoundBtn").click(function(e){
+    confirmMusic = false
+})
 let isMusicPlaying = false;
 
 if (confirmMusic) {
-    isMusicPlaying = false
-} else{
     isMusicPlaying = true
+} else{
+    isMusicPlaying = false
 }
     toggleMusic()
 document.getElementById("musicBtn").onclick = () => {
