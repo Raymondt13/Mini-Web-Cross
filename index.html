@@ -28,17 +28,24 @@
 <!-- MENU -->
 <div id="mainMenuPage" class="page active">
     <div class="menu-simple">
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-primary">
+                👤 <span id="playerNameDisplay"></span>
+            </button>
+            <div class="">
+                <div class="menu-audio">
+                    <div class="btn-online-warning" id="pointShopBtn" title="Open Shop"></div>
+                </div>
 
+                <div class="menu-audio">
+                    <button class="btn btn-outline-dark" id="soundBtn" title="Toggle Sound">🔊</button>
+                    <button class="btn btn-outline-dark" id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
+                </div>
+            </div>
+        </div>
         <!-- AUDIO CONTROL -->
          <div class="d-flex justify-content-between">
-            <div class="menu-audio">
-                <div class="btn-online-warning" id="pointShopBtn" title="Open Shop"></div>
-            </div>
 
-            <div class="menu-audio">
-                <button class="btn btn-outline-dark" id="soundBtn" title="Toggle Sound">🔊</button>
-                <button class="btn btn-outline-dark" id="musicBtn" title="Toggle Play / Pause Music">🎵</button>
-            </div>
          </div>
 
 
@@ -229,7 +236,19 @@
         <h5 class="modal-title">Welcome to Mini Web Cross!</h5>
       </div>
       <div class="modal-body">
-        Silakan isi nama kamu untuk memulai permainan.
+        Enter your name to start. <br>
+        <div class="mb-3">
+            <input
+                type="text"
+                class="form-control"
+                name=""
+                id="inputName"
+                aria-describedby="helpId"
+                placeholder=""
+            />
+            >
+        </div>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="startGameBtn" data-bs-dismiss="modal">Start</button>

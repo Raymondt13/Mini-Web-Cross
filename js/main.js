@@ -1,9 +1,22 @@
 $(document).ready(function() {
     console.log("Loading Jquery...");
     $("#welcomeModal").modal('show')
+    handleMusic()
+    setPlayerName()
 });
 
 let selectedMode = null;
+
+let playerName = "Unnamed"
+
+function setPlayerName(){
+    if (playerName.length == 0) {
+        playerName = "unnamed"
+    }
+    $playerNameDisplay.html(`${playerName}`)
+}
+const $playerNameDisplay = $("#playerNameDisplay")
+
 let progressLoad = 0;
 let tips = []
 $.getJSON("json/tips.json",
@@ -119,15 +132,26 @@ window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 
 // MUSIC
 const music = document.getElementById("bgMusic");
-music.volume = 0.3
+const arcadeMusic = document.getElementById("arcadeMusic");
+music.volume = 0.1
 let confirmMusic = false
+
+function saveName(){
+    playerName = $("#inputName").val()
+    alert(playerName)
+    setPlayerName()
+}
 // start
 $("#startGameBtn").click(function(e){
     confirmMusic = true
+    saveName()
 })
 $("#startGameNoSoundBtn").click(function(e){
     confirmMusic = false
+    saveName()
 })
+
+
 let isMusicPlaying = false;
 
 if (confirmMusic) {
@@ -135,21 +159,29 @@ if (confirmMusic) {
 } else{
     isMusicPlaying = false
 }
-    toggleMusic()
+    // toggleMusic()
 document.getElementById("musicBtn").onclick = () => {
     toggleMusic()
 };
 
+function handleMusic(){
+    if(isMusicPlaying){
+        music.play()
+        arcadeMusic.play()
+    } else{
+        music.pause()
+        arcadeMusic.pause()
+    }
+}
 function toggleMusic(){
     if (isMusicPlaying) {
-        music.pause();
         isMusicPlaying = false;
         document.getElementById("musicBtn").innerText = "⏸️"
     } else{
-        music.play();
         isMusicPlaying = true;
         document.getElementById("musicBtn").innerText = "🎵";
     }
+    handleMusic()
 }
 let soundOn = true;
 
@@ -159,6 +191,7 @@ document.getElementById("soundBtn").onclick = () => {
     // ON = volume normal
     // OFF = mute semua
     music.muted = !soundOn;
+    arcadeMusic.muted = !soundOn
 
     document.getElementById("soundBtn").innerText = soundOn ? "🔊" : "🔇";
 };
