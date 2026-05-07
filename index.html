@@ -229,7 +229,10 @@
 </div>
 
 <!-- Welcome modal -->
- <div class="modal fade" id="welcomeModal" tabindex="-1" aria-hidden="true">
+ <div class="modal fade"
+     data-bs-backdrop="static"
+    data-bs-keyboard="false"
+ id="welcomeModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -257,6 +260,47 @@
     </div>
   </div>
 </div>
+<!-- Board complete modal -->
+ 
+ <!-- Modal Body -->
+ <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+ <div
+    class="modal fade"
+    id="completeModal"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    
+    role="dialog"
+ >
+    <div
+        class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    Board Complete!
+                </h5>
+            </div>
+            <div class="modal-body" id="boardCompleteBody">
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-bs-dismiss="modal" id="nextBoardBtn">Go!</button>
+            </div>
+        </div>
+    </div>
+ </div>
+ 
+ <!-- Optional: Place to the bottom of scripts -->
+ <script>
+    const myModal = new bootstrap.Modal(
+        document.getElementById("modalId"),
+        options,
+    );
+ </script>
+ 
 
 <script src="js/main.js"></script>
 <script src="js/game.js"></script>

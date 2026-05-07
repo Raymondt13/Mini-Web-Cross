@@ -1,3 +1,13 @@
+$(document).ready(function () {
+    
+$("#nextBoardBtn").click(function (e) { 
+    setTimer()
+    console.log("Got you!");
+    e.preventDefault();
+    
+});
+});
+
 let level = 1;
 let puzzlesCompleted = 0
 let solution = [];
@@ -344,48 +354,57 @@ function renderClues(data){
 /* TIMER */
 function resetTimer(){
     clearInterval(timer);
+    setTimer()
+}
 
+function setTimer(){
     let timedisplay = ""
     if(mode==="relaxed"){
         $timerText.html("Relaxed");
         // document.getElementById("timerText").innerText="Time: ∞";
         return;
     }
-
-    timeLeft = ((mode==="arcade") ? arcadeTimeSeconds : 10*60)*100;
-
+    if (puzzlesCompleted == 0) {
+        switch (mode) {
+            case "arcade":
+                    timeLeft = arcadeTimeSeconds*100
+                break;
+            case "tenmin":
+                    timeLeft = 10*60*100
+            default:
+                break;
+        }   
+    }
+    // timeLeft = ((mode==="arcade" && puzzlesCompleted == 0) ? arcadeTimeSeconds : 10*60)*100;
     // Display Time
-
     document.getElementById("timerText").innerText="Time: "+timeLeft;
     timer=setInterval(()=>{
-
-        timeLeft--;
-
-        let totalSeconds = Math.floor(timeLeft / 100);
-            
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-            
-        let centis = timeLeft % 100;
-
-        let mDisplay = minutes < 10 ? "0" + minutes : minutes;
-        let sDisplay = seconds < 10 ? "0" + seconds : seconds;
-        let msDisplay = centis < 10 ? "0" + centis : centis;
-        let timerDisplay = `${mDisplay}:${sDisplay}.${msDisplay}`
-        $timerText.html(`${timerDisplay}`);
-        // document.getElementById("timerText").innerText="Time: "+timeLeft;
-
-        if(timeLeft<0){
-            clearInterval(timer);
-            alert("Waktu habis!\nGame over!");
-            level=1;
-            loadLevel(level);
-        }
+        updateTimer()
     },10);
 }
-
-    let $hint = $("#hintBtn");
-    let hintcount = `HINT (${hintCount})`
+function updateTimer(){
+    timeLeft--;
+    let totalSeconds = Math.floor(timeLeft / 100);
+        
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+        
+    let centis = timeLeft % 100;
+    let mDisplay = minutes < 10 ? "0" + minutes : minutes;
+    let sDisplay = seconds < 10 ? "0" + seconds : seconds;
+    let msDisplay = centis < 10 ? "0" + centis : centis;
+    let timerDisplay = `${mDisplay}:${sDisplay}.${msDisplay}`
+    $timerText.html(`${timerDisplay}`);
+    // document.getElementById("timerText").innerText="Time: "+timeLeft;
+    if(timeLeft<0){
+        clearInterval(timer);
+        alert("Waktu habis!\nGame over!");
+        level=1;
+        loadLevel(level);
+    }
+}
+let $hint = $("#hintBtn");
+let hintcount = `HINT (${hintCount})`
 /* HINT */
 function updateHintUI(){
     if (hintCount == 0) {
@@ -476,8 +495,7 @@ document.getElementById("nextLevelBtn").onclick=()=>{
 };
 
 function nextBoard(){
-    let wordConfirm = "Board complete!"
-
+    let wordConfirm = "Go for the next board!"
     puzzlesCompleted++
     if (puzzlesCompleted % 3 == 0) {
         wordConfirm = "3 boards completed!\nLevel has been increased."
@@ -489,15 +507,20 @@ function nextBoard(){
         }
         level++   
     }
-    alert(wordConfirm)
+
+    clearInterval(timer)
+    $("#boardCompleteBody").html(wordConfirm)
+    $("#completeModal").modal('show')
+    // alert(wordConfirm)
     loadLevel(level);
 }
 
+
 // LEADERBOARDS
 
-function saveToLeaderboard(name, pointScore) {
+function saveToLeaderboard(pointScore) {
     let scoreboard={
-        name: name,
+        name: playerName,
         mode: mode,
         score: pointScore,
         date: new Date().toISOString()
