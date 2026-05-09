@@ -56,6 +56,7 @@ function checkAutoComplete(){
 function startGame(m){
     mode = m;
     level = 1;
+    score = 0
     puzzlesCompleted = 0
     showPage("gamePage");
 
