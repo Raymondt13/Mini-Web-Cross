@@ -94,25 +94,22 @@ function startLoad(mode) {
 //     startGame(selectedMode);
 // };
 
-// function to run when back button is clicked
+// Confirm give up
 $("#backMenuBtn").click(function (e) {
-    $("#endGameModal").modal('show');
     e.preventDefault();
+    $("#endGameModal").modal('show');
+});
 
-    $("#confirmEndGameBtn").click(function () {
+$("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
-    showPage("mainMenuPage");
-    music.play();
+    showPage("mainMenuPage"); 
+    arcadeMusic.pause();
+    if (isMusicPlaying) {
+        music.play();
+    }
 });
 
-    showPage("mainMenuPage");
-    clearInterval(timer);
-    // toggleMusic()
-    $("#startBtn").attr('removed',true)
-    e.preventDefault();
-    
-});
 $("#backBtn").click(function (e) { 
     showPage("mainMenuPage");
     e.preventDefault();
