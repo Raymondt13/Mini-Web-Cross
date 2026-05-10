@@ -346,6 +346,43 @@
         </div>
     </div>
  </div>
+
+ <!-- Give up-->
+ <div
+    class="modal fade"
+    id="endGameModal"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    End this game?
+                </h5>
+            </div>
+
+            <div class="modal-body text-center">
+                Score won't be saved<!-- perlu tinjauan-->
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Continue
+                </button>
+
+                <button class="btn btn-danger"
+                    id="confirmEndGameBtn">
+                    Quit
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
  
  <!-- Optional: Place to the bottom of scripts -->
  <script>

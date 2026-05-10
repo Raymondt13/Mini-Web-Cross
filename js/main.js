@@ -95,7 +95,16 @@ function startLoad(mode) {
 // };
 
 // function to run when back button is clicked
-$("#backMenuBtn").click(function (e) { 
+$("#backMenuBtn").click(function (e) {
+    $("#endGameModal").modal('show');
+    e.preventDefault();
+
+    $("#confirmEndGameBtn").click(function () {
+    clearInterval(timer);
+    $("#endGameModal").modal('hide');
+    showPage("mainMenuPage");
+    music.play();
+});
 
     showPage("mainMenuPage");
     clearInterval(timer);
