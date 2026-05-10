@@ -1,6 +1,7 @@
 $(document).ready(function () {
     
 $("#nextBoardBtn").click(function (e) { 
+    playSound('clickSound');
     setTimer()
     console.log("Got you!");
     e.preventDefault();

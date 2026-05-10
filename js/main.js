@@ -48,7 +48,7 @@ document.querySelectorAll(".mode-card").forEach(card=>{
         // }
         startLoad(selectedMode)
         music.pause();
-        isMusicPlaying = false;
+        isMusicPlaying = true;
     }
 });
 
@@ -60,7 +60,7 @@ $("#startBtn").click(function (e) {
 
     startLoad(selectedMode)
     music.pause();
-    isMusicPlaying = false;
+    isMusicPlaying = true;
     e.preventDefault();
 });
 
@@ -139,7 +139,6 @@ window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 // MUSIC
 const music = document.getElementById("bgMusic");
 const arcadeMusic = document.getElementById("arcadeMusic");
-music.volume = 0.1
 let confirmMusic = false
 
 function saveName(){
