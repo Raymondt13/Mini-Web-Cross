@@ -39,6 +39,25 @@ $("#wordsCount").html(`<b>${wordsBank.length}</b>`)
     console.error("Failed to open words data list.");
 });
 
+//Calculate Scoreboard
+function addScoreByBoard() {
+    let totalCharacters = 0;
+    for (let i = 0; i < solution.length; i++) {
+        for (let j = 0; j < solution[i].length; j++) {
+            if (solution[i][j] !== "") {
+                totalCharacters++;
+            }
+        }
+    }
+    let earnedScore = totalCharacters * 100;
+    if (mode !== "relaxed") {
+        earnedScore += Math.floor(timeLeft / 100);
+    }
+    score += earnedScore;
+    $scoreText.html(score);
+    return earnedScore;
+}
+
 
 function checkAutoComplete(){
     for(let i=0;i<solution.length;i++){
@@ -497,6 +516,8 @@ document.getElementById("nextLevelBtn").onclick=()=>{
 
 function nextBoard(){
     let wordConfirm = "Go for the next board!"
+    let earnedScore = addScoreByBoard();
+    let lastScore = score - earnedScore;
     puzzlesCompleted++
     if (puzzlesCompleted % 3 == 0) {
         wordConfirm = "3 boards completed!\nLevel has been increased."
@@ -510,7 +531,12 @@ function nextBoard(){
     }
 
     clearInterval(timer)
-    $("#boardCompleteBody").html(wordConfirm)
+    $("#boardCompleteBody").html(`
+    <p>${lastScore}+${earnedScore}</p>
+    <h5>Total Score: ${score}</h5>
+    <hr>
+    <p>${wordConfirm}</p>
+    `)
     $("#completeModal").modal('show')
     // alert(wordConfirm)
     loadLevel(level);
@@ -519,11 +545,11 @@ function nextBoard(){
 
 // LEADERBOARDS
 
-function saveToLeaderboard(pointScore) {
+function saveToLeaderboard(score) {
     let scoreboard={
         name: playerName,
         mode: mode,
-        score: pointScore,
+        score: score,
         date: new Date().toISOString()
     }
 
