@@ -1,0 +1,58 @@
+
+.tile-score {
+    background: gold;
+}
+
+.tile-multiply {
+    background: orange;
+}
+
+.tile-extra_hint {
+    background: limegreen;
+}
+
+.tile-time {
+    background: deepskyblue;
+}
+
+.tile-freeze {
+    background: violet;
+}
+
+.floating-effect {
+    position: absolute;
+    z-index: 9999;
+    font-weight: bold;
+    animation: floatUp 1s ease-out forwards;
+    pointer-events: none;
+}
+
+.cell[class*="tile-"] {
+    animation: pulseTile 1s infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+}
+
+@keyframes pulseTile {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
