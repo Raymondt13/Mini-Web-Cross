@@ -357,7 +357,7 @@
  </div>
 
  <!-- Give up-->
- <div
+<div
     class="modal fade"
     id="endGameModal"
     tabindex="-1"
@@ -369,12 +369,14 @@
 
             <div class="modal-header">
                 <h5 class="modal-title">
-                    End this game?
+                    GIVE UP
                 </h5>
             </div>
 
             <div class="modal-body text-center">
-                Your score won't be saved<!-- perlu tinjauan-->
+                You're about to end this session.<br>
+
+                <!-- perlu tinjauan-->
             </div>
 
             <div class="modal-footer">
@@ -383,16 +385,56 @@
                     Continue
                 </button>
 
-                <button class="btn btn-danger"
+                <button class="btn outline-danger"
                     id="confirmEndGameBtn">
-                    Quit
+                    Give Up
                 </button>
             </div>
 
         </div>
     </div>
 </div>
- 
+
+
+ <!-- Give up-->
+<div
+    class="modal fade"
+    id="endGameModal"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    GIVE UP
+                </h5>
+            </div>
+
+            <div class="modal-body text-center">
+                You're about to end this session.<br>
+                <span id="giveUpText"></span>
+                <!-- perlu tinjauan-->
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Continue
+                </button>
+
+                <button class="btn outline-danger"
+                    id="confirmEndGameBtn">
+                    Give Up
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
  <!-- Optional: Place to the bottom of scripts -->
  <script>
     const myModal = new bootstrap.Modal(
