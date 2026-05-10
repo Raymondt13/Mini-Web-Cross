@@ -18,6 +18,7 @@ let hintCount = 3;
 let timer = null;
 let timeLeft = 0;
 let score = 0;
+let scoreMultiplier = 1;
 let minis = 0;
 let minSoal = 3
 
@@ -26,7 +27,10 @@ let mode = "relaxed";
 let arcadeTimeSeconds = 60
 
 let wordsBank = []
+let usedCells = {};
+let completedWords = {};
 
+let currentLevelData = null;
 
 $.getJSON("json/levels.json",
     function (data) {
@@ -58,6 +62,104 @@ function addScoreByBoard() {
     return earnedScore;
 }
 
+function updatePartialScore(row, col, $input) {
+    let cellKey = `${row}-${col}`;
+    if (usedCells[cellKey]) {
+        return false;
+    }
+    
+    if (currentGrid[row][col] === solution[row][col]) {
+        usedCells[cellKey] = true;
+        let pointsEarned = 100 * scoreMultiplier;
+        score += pointsEarned;
+        $scoreText.html(score);
+        
+        let tileKey = `${row}-${col}`;
+        if (specialTiles && specialTiles[tileKey]) {
+            let tileType = specialTiles[tileKey];
+            let result = activateTile({
+                type: tileType,
+                r: row,
+                c: col,
+                $input: $input,
+                score: score,
+                hintCount: hintCount,
+                timeLeft: timeLeft,
+                timer: timer,
+                updateTimer: updateTimer,
+                onUpdate: function(updated) {
+                    score = updated.score;
+                    hintCount = updated.hintCount;
+                    timeLeft = updated.timeLeft;
+                    timer = updated.timer;
+                    if (tileType === 'multiply') {
+                        scoreMultiplier = 2;
+                    }
+                    $scoreText.html(score);
+                    updateHintUI();
+                }
+            });
+        }
+        return true;
+    }
+    return false;
+}
+
+function checkWordComplete(wordData, isAcross) {
+    for (let i = 0; i < wordData.word.length; i++) {
+        let j = isAcross ? wordData.row : wordData.row + i;
+        let k = isAcross ? wordData.col + i : wordData.col;
+        if (currentGrid[j][k] !== solution[j][k]) {
+            return false;
+        }
+    }
+    return true; 
+}
+
+function scoreCompletedWord(wordKey, wordData, isAcross) {
+    if (completedWords[wordKey]) {
+        return 0;
+    }
+    completedWords[wordKey] = true;
+    
+    let wordLength = wordData.word.length;
+    let pointsEarned = wordLength * 100;
+    score += pointsEarned;
+    $scoreText.html(score);
+    console.log(`Kata complete: ${wordData.word} (+${pointsEarned})`);
+    return pointsEarned;
+}
+
+function checkAllWordsCompletion() {
+    if (!currentLevelData) return;
+    currentLevelData.across.forEach((wordData, index) => {
+        let wordKey = `across-${index}`;
+        if (checkWordComplete(wordData, true)) {
+            let points = scoreCompletedWord(wordKey, wordData, true);
+
+            if (points > 0) {
+                showWordCompleteEffect(wordData, true, points);
+            }
+        }
+    });
+
+    currentLevelData.down.forEach((wordData, index) => {
+        let wordKey = `down-${index}`;
+        if (checkWordComplete(wordData, false)) {
+            let points = scoreCompletedWord(wordKey, wordData, false);
+            if (points > 0) {
+                showWordCompleteEffect(wordData, false, points);
+            }
+        }
+    });
+}
+
+function showWordCompleteEffect(wordData, isAcross, points) {
+    let $firstCell = inputs[wordData.row][wordData.col];
+    if ($firstCell && typeof showFloatingText === 'function') {
+        showFloatingText($firstCell, `${wordData.word} +${points}`);
+    }
+}
 
 function checkAutoComplete(){
     for(let i=0;i<solution.length;i++){
@@ -78,6 +180,18 @@ function startGame(m){
     score = 0
     puzzlesCompleted = 0
     showPage("gamePage");
+
+    if (mode === 'arcade' || mode === 'tenmin') {
+        music.pause();
+        if (isMusicPlaying) {
+            arcadeMusic.play();
+        }
+    } else {
+        arcadeMusic.pause();
+        if (isMusicPlaying) {
+            music.play();
+        }
+    }
 
     resetTimer();
     loadLevel(level);
@@ -190,6 +304,7 @@ function loadLevel(lv){
     updateHintUI();
     $scoreText.html(score)
     let data = generateLevel(lv);
+    currentLevelData = data;
 
     $levelTitle.html(`Level ${lv}`);
     $boardCompleted.html(`${puzzlesCompleted}`)
@@ -199,6 +314,12 @@ function loadLevel(lv){
     solution = Array(size).fill().map(()=>Array(size).fill(""));
     currentGrid = Array(size).fill().map(()=>Array(size).fill(""));
     inputs=[];
+    usedCells = {};
+    completedWords = {};
+    scoreMultiplier = 1;
+    
+    $('.score-multiplier-active').remove();
+    window.scoreMultiplierActive = false;
 
     const processCrossword = (wordlist, across) =>{
         wordlist.forEach(w => {
@@ -231,6 +352,10 @@ function loadLevel(lv){
     //         solution[w.row+i][w.col]=w.word[i];
     //     }
     // });
+    if (typeof generateSpecialTiles === 'function') {
+        specialTiles = generateSpecialTiles(solution, mode);
+        console.log('Special tiles generated:', specialTiles);
+    }
 
     renderGrid(size);
     renderClues(data);
@@ -291,6 +416,9 @@ function renderGrid(size){
             if (solution[r][c] == "") {
                 $cell.addClass('block');
             } else{
+                if (typeof applyTileStyle === 'function') {
+                    applyTileStyle($cell, r, c);
+                }
                 let $input = $('<input>').attr('maxlength',1)
 
                 //reveal
@@ -309,12 +437,30 @@ function renderGrid(size){
                     let value = $(this).val().toUpperCase();
                     $(this).val(value);
                     currentGrid[r][c] = value;
-                    if(checkAutoComplete()){
-                        $("#nextLevelBtn").removeAttr("disabled"); 
-                    } else {
-                        $("#nextLevelBtn").attr("disabled", true); 
+                    
+                    if (value && currentGrid[r][c] === solution[r][c]) {
+                    if (typeof playSound === 'function') {
+                        playSound('correctSound');
                     }
-                });
+                    let cellKey = `${r}-${c}`;
+                    if (!usedCells[cellKey]) {
+                        usedCells[cellKey] = true;
+
+                        let tileKey = `${r}-${c}`;
+                        if (specialTiles && specialTiles[tileKey]) {
+                            let tileType = specialTiles[tileKey];
+                            handleTileForCell(tileType, r, c, $(this));
+                        }
+                    }
+                    checkAllWordsCompletion();
+                }
+    
+                if(checkAutoComplete()){
+                    $("#nextLevelBtn").removeAttr("disabled"); 
+                } else {
+                    $("#nextLevelBtn").attr("disabled", true); 
+                }
+            });
 
                 if ((c === 0 || solution[r][c - 1] === "") || (r === 0 || solution[r - 1][c] === "")) {
                     let $num = $('<div></div>')
@@ -519,6 +665,10 @@ function nextBoard(){
     let earnedScore = addScoreByBoard();
     let lastScore = score - earnedScore;
     puzzlesCompleted++
+
+    $('.score-multiplier-active').remove();
+    window.scoreMultiplierActive = false;
+
     if (puzzlesCompleted % 3 == 0) {
         wordConfirm = "3 boards completed!\nLevel has been increased."
         if (mode == 'arcade') {

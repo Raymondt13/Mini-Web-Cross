@@ -107,10 +107,11 @@ function activateTile({
             showFloatingText($input, '+100');
             break;
 
-        case TILE_TYPES.MULTIPLY:
-            score += 200;
-            showFloatingText($input, 'x2');
-            break;
+    case TILE_TYPES.MULTIPLY:
+        showFloatingText($input, 'x2');
+        $('body').prepend($notification);
+        window.scoreMultiplierActive = true;
+        break;
 
         case TILE_TYPES.EXTRA_HINT:
             hintCount += 1;
@@ -144,17 +145,17 @@ function activateFreeze(timer, updateTimer) {
     if (freezeActive) {
         return timer;
     }
-
     freezeActive = true;
-
     clearInterval(timer);
-
+    let $freezeOverlay = $('<div class="freeze-overlay">🥶</div>');
+    $('body').prepend($freezeOverlay);
     setTimeout(() => {
         freezeActive = false;
+        $freezeOverlay.remove();
 
         timer = setInterval(() => {
             updateTimer();
-        }, 1000);
+        }, 10); // 10ms
     }, 5000);
 
     return timer;

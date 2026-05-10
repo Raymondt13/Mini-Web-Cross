@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mini Web Cross</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/uniqueTiles.css">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -25,6 +26,14 @@
     <audio id="arcadeMusic" loop autoplay>
         <source src="assets/music_arcade.mp3" type="audio/mp3">
         Audio not supported.
+    </audio>
+
+    <audio id="correctSound">
+        <source src="assets/correct.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="clickSound">
+        <source src="assets/click.mp3" type="audio/mp3">
     </audio>
 <!-- MENU -->
 <div id="mainMenuPage" class="page active">
@@ -394,6 +403,7 @@
  
 
 <script src="js/main.js"></script>
+<script src="js/uniqueTiles.js"></script>
 <script src="js/game.js"></script>
 
 </body>

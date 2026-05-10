@@ -171,12 +171,19 @@ document.getElementById("musicBtn").onclick = () => {
 };
 
 function handleMusic(){
+    let isGamePage = $('#gamePage').hasClass('active');
+    
     if(isMusicPlaying){
-        music.play()
-        arcadeMusic.play()
-    } else{
-        music.pause()
-        arcadeMusic.pause()
+        if (isGamePage && (mode === 'arcade' || mode === 'tenmin')) {
+            music.pause();
+            arcadeMusic.play();
+        } else {
+            arcadeMusic.pause();
+            music.play();
+        }
+    } else {
+        music.pause();
+        arcadeMusic.pause();
     }
 }
 function toggleMusic(){
@@ -190,6 +197,17 @@ function toggleMusic(){
     handleMusic()
 }
 let soundOn = true;
+
+function playSound(soundId) {
+    if (!soundOn) return;
+    
+    const sound = document.getElementById(soundId);
+    if (sound) {
+        sound.currentTime = 0;
+        sound.volume = 0.4; //ganti volume
+        sound.play().catch(e => console.log('Sound play failed:', e));
+    }
+}
 
 document.getElementById("soundBtn").onclick = () => {
     soundOn = !soundOn;
