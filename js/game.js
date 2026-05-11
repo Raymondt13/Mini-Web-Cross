@@ -666,8 +666,8 @@ function nextBoard(){
     let earnedScore = addScoreByBoard();
     let lastScore = score - earnedScore;
     puzzlesCompleted++
-
-    $('.score-multiplier-active').remove();
+    
+    $('body > .score-multiplier-active').remove(); // Hanya hapus yang direct child dari body
     window.scoreMultiplierActive = false;
 
     if (puzzlesCompleted % 3 == 0) {
