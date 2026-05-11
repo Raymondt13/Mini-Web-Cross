@@ -725,7 +725,7 @@ function gameOver(method){
     $("#gameOverText").html(randomGameOverMessage('gameOverExit',mode))
     $("#finalBoard").html(puzzlesCompleted)
     $("#finalScore").html(score);
-    if (mode != 'tenmin') {
+    if (mode != 'tenmin' || method != 'gameOverExit') {
          addMinis(score)   
     }
     saveToLeaderboard(score)

@@ -37,7 +37,17 @@ $("#playBtn").click(() =>  {
 });
 $("#leaderBtn").click(() =>  { 
     showPage("leaderboardPage");
+    fetchLeaderboard('relaxed')
     
+});
+$("#leaderShowRelaxed").click(() =>  { 
+    fetchLeaderboard('relaxed')  
+});
+$("#leaderShowArcade").click(() =>  { 
+    fetchLeaderboard('arcade')  
+});
+$("#leaderShowTenmin").click(() =>  { 
+    fetchLeaderboard('Tenmin')  
 });
 // $("#playBtn").click = () => showPage("selectModePage");
 
@@ -195,6 +205,36 @@ $("#startGameNoSoundBtn").click(function(e){
     saveName()
 })
 
+/**
+ * Function to fetch leaderboards
+ */
+function fetchLeaderboard(gamemode){
+    let leaderboards = myLeaderboard.filter(lb => lb.mode == gamemode)
+    .sort((a,b)=>{return b.score - a.score})
+
+    const $leaderB = $("#leaderboardBody")
+    $leaderB.empty()
+
+    if (leaderboards.length == 0) {
+        $leaderB.append(`
+            <tr>
+            <td colspan="4">No scores for ${gamemode}.</td>
+            </tr>
+            `)
+    } else{
+        leaderboards.forEach((ld,idx)=>{
+            $leaderB.append(
+                `
+                    <tr class="">
+                        <td scope="row">${idx+1}</td>
+                        <td>${ld.name}</td>
+                        <td>${ld.score.toLocaleString()}</td>
+                    </tr>
+                `
+            )
+        })
+    }
+}
 
 let isMusicPlaying = false;
 
