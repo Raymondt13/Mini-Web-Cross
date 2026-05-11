@@ -154,7 +154,7 @@
         <br>
         <button class="btn btn-primary" id="hintBtn">HINT (3)</button>
         <!-- <button class="btn btn-primary" id="nextLevelBtn" disabled>NEXT LEVEL</button> -->
-        <button class="btn btn-danger" id="backMenuBtn">GIVE UP</button>
+        <button class="btn btn-danger" id="giveUpBtn">GIVE UP</button>
     </div>
 </div>
 <!-- LEADERBOARD -->
@@ -356,10 +356,10 @@
     </div>
  </div>
 
- <!-- Give up-->
+ <!-- Game Over-->
 <div
     class="modal fade"
-    id="endGameModal"
+    id="gameOverModal"
     tabindex="-1"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -369,25 +369,27 @@
 
             <div class="modal-header">
                 <h5 class="modal-title">
-                    GIVE UP
+                    Game over.
                 </h5>
             </div>
 
             <div class="modal-body text-center">
-                You're about to end this session.<br>
-
-                <!-- perlu tinjauan-->
+                <span id="gameOverText"></span>
+                <br>
+                <p>Boards: <span id="finalBoard"></span></p>
+                <p>Score: <span id="finalScore"></span></p>
+                <p>🔷 +<span id="finalMiniAdd">Rewards disabled.</span></p>
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-secondary"
+                <!-- <button class="btn btn-secondary"
                     data-bs-dismiss="modal">
                     Continue
-                </button>
+                </button> -->
 
-                <button class="btn outline-danger"
-                    id="confirmEndGameBtn">
-                    Give Up
+                <button class="btn btn-primary"
+                    id="confirmExitBtn">
+                    Exit
                 </button>
             </div>
 
@@ -425,7 +427,7 @@
                     Continue
                 </button>
 
-                <button class="btn outline-danger"
+                <button class="btn outline-danger" data-bs-dismiss="modal"
                     id="confirmEndGameBtn">
                     Give Up
                 </button>

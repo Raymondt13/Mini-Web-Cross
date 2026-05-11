@@ -19,6 +19,9 @@ const $playerNameDisplay = $("#playerNameDisplay")
 
 let progressLoad = 0;
 let tips = []
+let myLeaderboard = [
+
+]
 $.getJSON("json/tips.json",
     function (data) {
         tips = data
@@ -95,15 +98,51 @@ function startLoad(mode) {
 // };
 
 // Confirm give up
-$("#backMenuBtn").click(function (e) {
+$("#giveUpBtn").click(function (e) {
     e.preventDefault();
+    $("#giveUpText").html(randomQuitMessage("confirmExit",mode))
     $("#endGameModal").modal('show');
+
 });
 
+function randomQuitMessage(category,gamemode){
+    // pipeline gabungin array
+    let messages = quitMessages[category][gamemode]
+    let generalMessages = quitMessages[category]["general"]
+    console.log(generalMessages)
+    generalMessages.forEach(e => {
+        messages.push(e)
+    });
+    return messages[Math.floor(Math.random()*messages.length)]
+}
+
+function randomGameOverMessage(category,gamemode){
+let messages = quitMessages[category][gamemode]
+return messages[Math.floor(Math.random()*messages.length)]
+}
 $("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
+    gameOver('gameOverExit')
+    // showPage("mainMenuPage"); 
+    // arcadeMusic.pause();
+    // if (isMusicPlaying) {
+    //     music.play();
+    // }
+});
+$("#confirmExitBtn").click(function () {
+    clearInterval(timer);
+    $("#gameOverModal").modal('hide');
     showPage("mainMenuPage"); 
+    arcadeMusic.pause();
+    if (isMusicPlaying) {
+        music.play();
+    }
+});
+$("#confirmEndGameBtn").click(function () {
+    clearInterval(timer);
+    $("#endGameModal").modal('hide');
+    // showPage("mainMenuPage"); 
     arcadeMusic.pause();
     if (isMusicPlaying) {
         music.play();

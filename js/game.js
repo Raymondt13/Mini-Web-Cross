@@ -14,6 +14,7 @@ let puzzlesCompleted = 0
 let solution = [];
 let currentGrid = [];
 let inputs = [];
+let quitMessages = []
 
 let hintCount = 3;
 let timer = null;
@@ -43,6 +44,15 @@ $("#wordsCount").html(`<b>${wordsBank.length}</b>`)
 ).fail(()=>{
     console.error("Failed to open words data list.");
 });
+
+$.getJSON("json/giveup.json",
+    function(data){
+        quitMessages = data
+        console.log(quitMessages)
+    }
+).fail(()=>{
+    console.error("Failed to obtain exit messages list.")
+})
 
 //Calculate Scoreboard
 function addScoreByBoard() {
@@ -565,9 +575,10 @@ function updateTimer(){
     // document.getElementById("timerText").innerText="Time: "+timeLeft;
     if(timeLeft<0){
         clearInterval(timer);
-        alert("Waktu habis!\nGame over!");
-        level=1;
-        loadLevel(level);
+        gameOver('timeUp')
+        // alert("Waktu habis!\nGame over!");
+        // level=1;
+        // loadLevel(level);
     }
 }
 let $hint = $("#hintBtn");
@@ -671,11 +682,12 @@ function nextBoard(){
     window.scoreMultiplierActive = false;
 
     if (puzzlesCompleted % 3 == 0) {
-        wordConfirm = "3 boards completed!\nLevel has been increased."
+        wordConfirm = "3 boards completed!<br>Level has been increased."
         if (mode == 'arcade') {
             score += timeLeft
-            wordConfirm += `\nTIME BONUS! +${timeLeft}\nTime extended!`
-            timeLeft += level*15*100
+            timeExtend = level*15*100
+            wordConfirm += `<br>TIME BONUS! +${timeLeft}<br>Time extended! +${timeExtend/100}s`
+            timeLeft += timeExtend
             console.log(timeLeft)
         }
         level++   
@@ -683,7 +695,7 @@ function nextBoard(){
 
     clearInterval(timer)
     $("#boardCompleteBody").html(`
-    <p>${lastScore}+${earnedScore}</p>
+    <p>Score this board: ${earnedScore}</p>
     <h5>Total Score: ${score}</h5>
     <hr>
     <p>${wordConfirm}</p>
@@ -704,5 +716,22 @@ function saveToLeaderboard(score) {
         date: new Date().toISOString()
     }
 
+    console.log(scoreboard)
+    myLeaderboard.push(scoreboard)
+}
 
+function gameOver(method){
+    $("#gameOverModal").modal('show')
+    $("#gameOverText").html(randomGameOverMessage('gameOverExit',mode))
+    $("#finalBoard").html(puzzlesCompleted)
+    $("#finalScore").html(score);
+    if (mode != 'tenmin') {
+         addMinis(score)   
+    }
+    saveToLeaderboard(score)
+}
+function addMinis(totalscore){
+    minisEarned = (totalscore/100).toFixed(0)
+    $("#finalMiniAdd").html(minisEarned)
+    minis += minisEarned
 }

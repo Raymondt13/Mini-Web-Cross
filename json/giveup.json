@@ -1,5 +1,45 @@
-[
-    "confirmExit": [
-
-    ]
-]
+{
+    "confirmExit":{
+        "general":[
+            "Are you sure you want to give up?",
+            "Quit this session now?",
+            "Don't give up! We've got more words to solve!",
+            "Rich Astley said, \"Never gonna give you up\""
+        ],
+        "relaxed":[
+            "If you need a coffee break, it's time.",
+            "Tired of solving these many levels?",
+            "Even relaxed mode has its own limits."
+        ],
+        "arcade":[
+            "You still got time! End now?"
+        ],
+        "tenmin":[
+            "You're losing your 10 minutes!",
+            "It would be better to wait for results than to quit now."
+        ]
+    },
+    "gameOverExit":{
+        "relaxed":[
+            "Thanks for playing! Enjoy your break!",
+            "Did this screen save you from crash?"
+        ],
+        "arcade":[
+            "You just wasted your opportunity.",
+            "Time over! Triggered by player quitting."
+        ],
+        "tenmin":[
+            "Thanks for losing your 10 minutes and your score!",
+            "10 minutes felt too long for you? We can help!"
+        ]
+    },
+    "timeUp":{
+        "arcade":[
+            "Sorry player, your time has run out.",
+            "It's over, but you did your best!"
+        ],
+        "tenmin":[
+            "Your 10 minutes is up! Let's see what you did."
+        ]
+    }
+}
