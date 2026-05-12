@@ -1,6 +1,7 @@
 $(document).ready(function() {
     console.log("Loading Jquery...");
     $("#welcomeModal").modal('show')
+    $("#shopContainer").load("../shop.html");
     handleMusic()
     setPlayerName()
 });
@@ -40,6 +41,10 @@ $("#leaderBtn").click(() =>  {
     fetchLeaderboard('relaxed')
     
 });
+$("#shopBtn").click(() =>  { 
+    showPage("shopPage");
+    
+});
 $("#leaderShowRelaxed").click(() =>  { 
     fetchLeaderboard('relaxed')  
 });
@@ -47,7 +52,7 @@ $("#leaderShowArcade").click(() =>  {
     fetchLeaderboard('arcade')  
 });
 $("#leaderShowTenmin").click(() =>  { 
-    fetchLeaderboard('Tenmin')  
+    fetchLeaderboard('tenmin')  
 });
 // $("#playBtn").click = () => showPage("selectModePage");
 
