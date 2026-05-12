@@ -1,11 +1,11 @@
 [
         {
             "word":"APEL",
-            "clue":"Buah bulat, warna merah" 
+            "clue":"Buah bulat, memiliki jenis berwarna merah atau hijau" 
         },
         {
             "word":"AIR",
-            "clue":"Segar, bisa buat minum, mandi, cuci, dll." 
+            "clue":"Benda cair yang bisa buat minum, mandi, cuci, dll." 
         },
         {
             "word":"API",
@@ -13,7 +13,7 @@
         },
         {
             "word":"BUKU",
-            "clue":"Untuk membaca" 
+            "clue":"Benda terbuat dari kertas untuk membaca" 
         },
         {
             "word":"MEJA",
@@ -45,11 +45,11 @@
         },
         {
             "word":"PENSIL",
-            "clue":"Alat tulis yang bisa dihapus" 
+            "clue":"Alat tulis yang mudah dihapus" 
         },
         {
             "word":"KERTAS",
-            "clue":"Tempat untuk menulis" 
+            "clue":"Media untuk menulis" 
         },
         {
             "word":"JAM",
@@ -61,23 +61,23 @@
         },
         {
             "word":"SEPATU",
-            "clue":"Dipakai di kaki saat keluar rumah" 
+            "clue":"Dipakai di kaki saat berpergian" 
         },
         {
             "word":"BAJU",
-            "clue":"Dipakai di badan" 
+            "clue":"Benda yang dipakai di badan" 
         },
         {
             "word":"CELANA",
-            "clue":"Dipakai di kaki bagian atas" 
+            "clue":"Benda yang dipakai di kaki bagian atas" 
         },
         {
             "word":"TOPI",
-            "clue":"Dipakai di kepala" 
+            "clue":"Benda yang dipakai di atas kepala" 
         },
         {
             "word":"TAS",
-            "clue":"Tempat membawa barang" 
+            "clue":"Benda yang digunakan untuk membawa barang" 
         },
         {
             "word":"GULA",
@@ -93,7 +93,7 @@
         },
         {
             "word":"AYAM",
-            "clue":"Hewan yang berkokok pagi hari" 
+            "clue":"Hewan yang berkokok pada pagi hari" 
         },
         {
             "word":"SAPI",
@@ -101,7 +101,7 @@
         },
         {
             "word":"KAMBING",
-            "clue":"Hewan yang sering dijadikan sate" 
+            "clue":"Hewan yang sering dijadikan sate maupun gule" 
         },
         {
             "word":"BURUNG",
@@ -109,11 +109,11 @@
         },
         {
             "word":"ULAT",
-            "clue":"Hewan kecil yang sering makan daun" 
+            "clue":"Serangga kecil yang sering makan daun" 
         },
         {
             "word":"SEMUT",
-            "clue":"Hewan kecil yang suka gula" 
+            "clue":"Serangga kecil yang suka gula" 
         },
         {
             "word":"LEBAH",
@@ -133,7 +133,7 @@
         },
         {
             "word":"KAPAL",
-            "clue":"Kendaraan yang berjalan di laut" 
+            "clue":"Kendaraan yang berjalan diatas di laut" 
         },
         {
             "word":"PESAWAT",
@@ -149,11 +149,11 @@
         },
         {
             "word":"SEKOLAH",
-            "clue":"Tempat belajar" 
+            "clue":"Tempat belajar mengajar" 
         },
         {
             "word":"PASAR",
-            "clue":"Tempat jual beli yang ramai" 
+            "clue":"Tempat jual beli yang ramai dan sering dikunjungi" 
         },
         {
             "word":"TOKO",
@@ -165,15 +165,15 @@
         },
         {
             "word":"DAPUR",
-            "clue":"Tempat memasak makanan" 
+            "clue":"Ruang untuk memasak makanan" 
         },
         {
             "word":"PINTU",
-            "clue":"Untuk keluar masuk" 
+            "clue":"Digunakan untuk keluar masuk ruangan" 
         },
         {
             "word":"JENDELA",
-            "clue":"Lubang untuk melihat keluar" 
+            "clue":"Lubang untuk melihat keluar ruangan" 
         },
         {
             "word":"LANTAI",
@@ -181,7 +181,7 @@
         },
         {
             "word":"ATAP",
-            "clue":"Bagian paling atas rumah" 
+            "clue":"Bagian penutup diatas rumah" 
         },
         {
             "word":"PULPEN",
@@ -189,7 +189,7 @@
         },
         {
             "word":"PAPAN",
-            "clue":"Tempat menulis di kelas" 
+            "clue":"Tempat guru menulis di kelas" 
         },
         {
             "word":"GURU",
