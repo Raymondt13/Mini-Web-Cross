@@ -1,7 +1,7 @@
 $(document).ready(function() {
     console.log("Loading Jquery...");
     $("#welcomeModal").modal('show')
-    $("#shopContainer").load("../shop.html");
+    // $("#shopPage").load("../shop.html");
     handleMusic()
     setPlayerName()
 });
@@ -164,17 +164,17 @@ $("#confirmEndGameBtn").click(function () {
     }
 });
 
-$("#backBtn").click(function (e) { 
+$(".main-menu-btn").click(function (e) { 
     showPage("mainMenuPage");
     e.preventDefault();
     
 });
 
-$("#backLeaderBtn").click(function (e) { 
-    showPage("mainMenuPage");
-    e.preventDefault();
+// $("#backLeaderBtn").click(function (e) { 
+//     showPage("mainMenuPage");
+//     e.preventDefault();
     
-});
+// });
 
 function showPage(id){
     $('.page').removeClass("active");
