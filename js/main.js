@@ -23,6 +23,14 @@ let tips = []
 let myLeaderboard = [
 
 ]
+let skinItems = [
+    {
+        skinName:'Default',
+        cost: 0,
+        unlocked: true,
+        applied: true
+    }
+]
 $.getJSON("json/tips.json",
     function (data) {
         tips = data
