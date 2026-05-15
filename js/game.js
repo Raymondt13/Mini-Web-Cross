@@ -4,8 +4,9 @@ $("#nextBoardBtn").click(function (e) {
     playSound('clickSound');
     setTimer()
     console.log("Got you!");
+    levelScore = 0
     e.preventDefault();
-    
+
 });
 });
 
@@ -15,6 +16,10 @@ let solution = [];
 let currentGrid = [];
 let inputs = [];
 let quitMessages = []
+/**
+ * Score for this level
+ */
+let levelScore = 0
 
 
 let hintCount = 3;
@@ -144,6 +149,7 @@ function scoreCompletedWord(wordKey, wordData, isAcross) {
     let wordLength = wordData.word.length;
     let pointsEarned = wordLength * 100;
     score += pointsEarned;
+    levelScore += pointsEarned
     $scoreText.html(score);
     console.log(`Kata complete: ${wordData.word} (+${pointsEarned})`);
     return pointsEarned;
@@ -229,7 +235,7 @@ function generateLevel(level){
     } else if (jumlahSoal > 10){
         jumlahSoal = 10
     }
-    console.log()
+    console.log(jumlahSoal)
     let size = 15;
 
     shuffleArray(wordsBank);
@@ -683,8 +689,9 @@ document.getElementById("nextLevelBtn").onclick=()=>{
 
 function nextBoard(){
     let wordConfirm = "Go for the next board!"
-    let earnedScore = addScoreByBoard();
-    let lastScore = score - earnedScore;
+    // let earnedScore = addScoreByBoard();
+    // let lastScore = score - earnedScore;
+    let lastScore = levelScore
     puzzlesCompleted++
     
     $('body > .score-multiplier-active').remove(); // Hanya hapus yang direct child dari body
@@ -704,7 +711,7 @@ function nextBoard(){
 
     clearInterval(timer)
     $("#boardCompleteBody").html(`
-    <p>Score this board: ${earnedScore}</p>
+    <p>Score this board: ${lastScore}</p>
     <h5>Total Score: ${score}</h5>
     <hr>
     <p>${wordConfirm}</p>
@@ -734,9 +741,18 @@ function gameOver(method){
     $("#gameOverText").html(randomGameOverMessage('gameOverExit',mode))
     $("#finalBoard").html(puzzlesCompleted)
     $("#finalScore").html(score);
-    if (mode != 'tenmin' || method != 'gameOverExit') {
-         addMinis(score)   
+    if (mode == 'tenmin') {
+        if (method == "gameOverExit") {
+            $("#gameOverText").append(`<br><b>Final score only saves to leaderboard when timer runs out.</b>`)
+            return
+        }
+    } else{
+        if (score < 2500) {
+            $("#gameOverText").append(`<br><b>Sorry, you need to score at least 2500 points for the leaderboard!.</b>`)
+            return
+        }
     }
+    addMinis(score)   
     saveToLeaderboard(score)
 }
 function addMinis(totalscore){
