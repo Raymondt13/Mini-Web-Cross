@@ -1,0 +1,17 @@
+[    {
+        "id":"0",
+        "skinName":"Default",
+        "cost": 0,
+        "unlocked": true,
+        "applied": true,
+        "img":""
+    },
+    {
+        "id":"1",
+        "skinName":"Wood",
+        "cost": 0,
+        "unlocked": true,
+        "applied": false,
+        "img":"../assets/skins/skin_wood.jpg"
+    }
+]

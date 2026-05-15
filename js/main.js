@@ -4,6 +4,7 @@ $(document).ready(function() {
     // $("#shopPage").load("../shop.html");
     handleMusic()
     setPlayerName()
+    $("#miniBalance").html(minis)
 });
 
 let selectedMode = null;
@@ -25,10 +26,28 @@ let myLeaderboard = [
 ]
 let skinItems = [
     {
+        id:"0",
         skinName:'Default',
         cost: 0,
         unlocked: true,
-        applied: true
+        applied: true,
+        img:""
+    },
+    {
+        id:"1",
+        skinName:'Wood',
+        cost: 0,
+        unlocked: true,
+        applied: false,
+        img:"../assets/skins/skin_wood.jpg"
+    },
+]
+let otherItems = [
+    {
+        id:"0",
+        itemName:"Low Opacity Mode",
+        command:"lowopacity",
+        applied:false
     }
 ]
 $.getJSON("json/tips.json",
@@ -78,6 +97,31 @@ document.querySelectorAll(".mode-card").forEach(card=>{
     }
 });
 
+// Apply Skins
+$(".btn-apply-skin").each(function (index, element) {
+    $(element).click(function (e) { 
+        console.log(this.dataset.skinid)
+        let mySkin = skinItems[this.dataset.skinid]
+        console.log(mySkin)
+        $("body").css("background-image", `url("${mySkin.img}")`);
+        e.preventDefault();
+    });
+});
+
+$(".btn-apply-other").each(function (index, element) {
+    $(element).click(function (e) { 
+        console.log(this.dataset.otherid)
+        let myOther = otherItems[this.dataset.otherid]
+        console.log(myOther)
+        myOther.applied = !myOther.applied
+        if (myOther.applied) {
+$("body").css("opacity", `0.5`);   
+        } else{
+$("body").css("opacity", `1`);   
+        }
+        e.preventDefault();
+    });
+});
 
 $("#startBtn").click(function (e) { 
     if(!selectedMode) return alert("Pilih mode dulu!");

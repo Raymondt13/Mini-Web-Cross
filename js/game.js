@@ -16,11 +16,19 @@ let currentGrid = [];
 let inputs = [];
 let quitMessages = []
 
+
 let hintCount = 3;
+/**
+ * Variable to run the timer
+ */
 let timer = null;
 let timeLeft = 0;
 let score = 0;
 let scoreMultiplier = 1;
+/**
+ * Minis are used for purchase.
+ * Minis are earned from playing games.
+ */
 let minis = 0;
 let minSoal = 3
 
@@ -221,6 +229,7 @@ function generateLevel(level){
     } else if (jumlahSoal > 10){
         jumlahSoal = 10
     }
+    console.log()
     let size = 15;
 
     shuffleArray(wordsBank);
@@ -414,7 +423,7 @@ function renderGrid(size){
     // }
     const $grid = $("#crosswordGrid");
 
-    $grid.css('grid-template-columns', `repeat(${size},50px)`);
+    $grid.css('grid-template-columns', `repeat(${size},40px)`);
     $grid.empty()
 
     let number = 1
@@ -734,4 +743,5 @@ function addMinis(totalscore){
     minisEarned = (totalscore/100).toFixed(0)
     $("#finalMiniAdd").html(minisEarned)
     minis += minisEarned
+    $("#miniBalance").html(minis)
 }
