@@ -93,7 +93,7 @@ let skinItems = [
         cost: 0,
         unlocked: true,
         applied: false,
-        img:"../assets/skins/skin_wood.jpg"
+        img:"../assets/skins/background_wood.jpg"
     },
     {
         id:"2",
@@ -102,7 +102,7 @@ let skinItems = [
         cost: 100,
         unlocked: true,
         applied: false,
-        img:"../assets/skins/skin_geometric.jpg"
+        img:"../assets/skins/background_geometric.jpg"
     },
 ]
 let otherItems = [
@@ -130,7 +130,7 @@ $("#playBtn").click(() =>  {
 });
 $("#leaderBtn").click(() =>  { 
     showPage("leaderboardPage");
-    fetchLeaderboard('relaxed')
+    fetchLeaderboard('relaxed',"")
     
 });
 $("#customizeBtn").click(() =>  { 
@@ -138,13 +138,13 @@ $("#customizeBtn").click(() =>  {
     
 });
 $("#leaderShowRelaxed").click(() =>  { 
-    fetchLeaderboard('relaxed')  
+    fetchLeaderboard('relaxed',"")  
 });
 $("#leaderShowArcade").click(() =>  { 
-    fetchLeaderboard('arcade')  
+    fetchLeaderboard('arcade',"")  
 });
 $("#leaderShowTenmin").click(() =>  { 
-    fetchLeaderboard('tenmin')  
+    fetchLeaderboard('tenmin',"")  
 });
 // $("#playBtn").click = () => showPage("selectModePage");
 
@@ -341,17 +341,32 @@ $("#startGameNoSoundBtn").click(function(e){
 /**
  * Function to fetch leaderboards
  */
-function fetchLeaderboard(gamemode){
+function fetchLeaderboard(gamemode,user){
     let leaderboards = myLeaderboard.filter(lb => lb.mode == gamemode)
     .sort((a,b)=>{return b.score - a.score})
 
     const $leaderB = $("#leaderboardBody")
     $leaderB.empty()
 
+    let leaderGameMode = "" 
+    switch (gamemode) {
+        case "tenmin":
+            leaderGameMode = "10-Minute"
+            break;
+        case "arcade":
+            leaderGameMode = "Arcade"
+            break;
+        case "relaxed":
+            leaderGameMode = "Relaxed"
+            break;
+        default:
+            break;
+    }
+    $("#leaderBoardTitle").html(leaderGameMode);
     if (leaderboards.length == 0) {
         $leaderB.append(`
             <tr>
-            <td colspan="4">No scores for ${gamemode}.</td>
+            <td colspan="4">Be the first to score!</td>
             </tr>
             `)
     } else{
@@ -361,6 +376,7 @@ function fetchLeaderboard(gamemode){
                     <tr class="">
                         <td scope="row">${idx+1}</td>
                         <td>${ld.name}</td>
+                        <td>${ld.boards}</td>
                         <td>${ld.score.toLocaleString()}</td>
                     </tr>
                 `

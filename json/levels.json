@@ -121,7 +121,7 @@
         },
         {
             "word":"MOBIL",
-            "clue":"Kendaraan roda empat" 
+            "clue":"Kendaraan kecil roda empat" 
         },
         {
             "word":"MOTOR",
@@ -206,5 +206,36 @@
         {
             "word":"FLOATY",
             "clue":"Snack oat yang ada gambar kucingnya" 
+        },
+
+        {
+            "word":"METRO",
+            "clue":"Sinonim dari kata \"Subway\"" 
+        },
+        
+        {
+            "word":"YOUTUBE",
+            "clue":"Situs berbagi video terbesar dengan tombol Play warna merah" 
+        },
+        {
+            "word":"LAPTOP",
+            "clue":"Komputer jinjing yang bisa dilipat" 
+        },
+        {
+            "word":"CPU",
+            "clue":"Berfungsi sebagai otak komputer" 
+        },
+        {
+            "word":"NVIDIA",
+            "clue":"Salah satu merek GPU terkenal dengan logo warna ijo" 
+        },
+        {
+            "word":"ANDROID",
+            "clue":"Sistem operasi terbesar Google di smartphone" 
+        },
+        
+        {
+            "word":"NVIDIA",
+            "clue":"Salah satu merek GPU terkenal dengan logo warna ijo" 
         }
 ]

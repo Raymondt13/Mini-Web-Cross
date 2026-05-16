@@ -735,6 +735,7 @@ function saveToLeaderboard(score) {
         name: playerName,
         mode: mode,
         score: score,
+        boards: puzzlesCompleted,
         date: new Date().toISOString()
     }
 
