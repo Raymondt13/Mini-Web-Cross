@@ -687,6 +687,9 @@ document.getElementById("nextLevelBtn").onclick=()=>{
 
 };
 
+/**
+ * Function to run for the next board
+ */
 function nextBoard(){
     let wordConfirm = "Go for the next board!"
     // let earnedScore = addScoreByBoard();
@@ -723,7 +726,10 @@ function nextBoard(){
 
 
 // LEADERBOARDS
-
+/**
+ * Saves the score and the user to leaderboard.
+ * @param {*} score The score to save
+ */
 function saveToLeaderboard(score) {
     let scoreboard={
         name: playerName,
@@ -734,6 +740,8 @@ function saveToLeaderboard(score) {
 
     console.log(scoreboard)
     myLeaderboard.push(scoreboard)
+    
+    localStorage.setItem("leaderboard",JSON.stringify(myLeaderboard))
 }
 
 function gameOver(method){

@@ -5,6 +5,13 @@ $(document).ready(function() {
     handleMusic()
     setPlayerName()
     $("#miniBalance").html(minis)
+    console.log(localStorage.getItem("leaderboard"))
+    if (localStorage.getItem("leaderboard") == null) {
+        $("#clearLeaderboardBtn").attr("disabled", true);
+    } else{
+        $("#clearLeaderboardBtn").removeAttr("disabled");
+    }
+
 });
 
 let selectedMode = null;
@@ -21,9 +28,7 @@ const $playerNameDisplay = $("#playerNameDisplay")
 
 let progressLoad = 0;
 let tips = []
-let myLeaderboard = [
-
-]
+let myLeaderboard = JSON.parse(localStorage.getItem("leaderboard")) || []
 let skinItems = [
     {
         id:"0",
@@ -100,12 +105,23 @@ document.querySelectorAll(".mode-card").forEach(card=>{
 // Apply Skins
 $(".btn-apply-skin").each(function (index, element) {
     $(element).click(function (e) { 
+        skinItems.forEach((it)=>{
+            it.applied = false
+        })
+        $(".btn-apply-skin").text("Apply")
+        console.log(skinItems)
         console.log(this.dataset.skinid)
         let mySkin = skinItems[this.dataset.skinid]
         console.log(mySkin)
         $("body").css("background-image", `url("${mySkin.img}")`);
+        mySkin.applied = true
+        if (mySkin.applied) {
+            $(element).text("Applied")
+            console.log(element)
+        }
         e.preventDefault();
     });
+
 });
 
 $(".btn-apply-other").each(function (index, element) {
@@ -354,3 +370,14 @@ document.getElementById("soundBtn").onclick = () => {
 
     document.getElementById("soundBtn").innerText = soundOn ? "🔊" : "🔇";
 };
+
+$("#clearLeaderboardBtn").click(function (e) { 
+    clearLeaderboard()
+    e.preventDefault();
+    
+});
+function clearLeaderboard() {
+    localStorage.removeItem("leaderboard")
+    myLeaderboard = []
+    fetchLeaderboard('relaxed')
+}

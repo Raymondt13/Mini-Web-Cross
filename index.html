@@ -192,6 +192,7 @@
             </table>
         </div>
         
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clearLeaderboardModal">Clear Leaderboard</button>
     </div>
 </div>
 
@@ -439,6 +440,31 @@
 
         </div>
     </div>
+</div>
+
+
+<!-- Clear Leaderboard -->
+
+ <div class="modal fade"
+     data-bs-backdrop="static"
+    data-bs-keyboard="false"
+ id="clearLeaderboardModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Clear Leaderboard</h5>
+      </div>
+      <div class="modal-body">
+        Clear the entire leaderboard? <br>
+        This action cannot be undone!
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Keep</button>
+        <button type="button" class="btn btn-danger" id="clearLeaderboardBtn" data-bs-dismiss="modal">Clear</button>
+      </div>
+    </div>
+  </div>
 </div>
 
  <!-- Optional: Place to the bottom of scripts -->
