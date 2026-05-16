@@ -62,7 +62,7 @@
         <button id="playBtn" class="mb-3 btn btn-primary">PLAY</button><br>
         <button id="howtoBtn" data-bs-toggle="modal" data-bs-target="#howToPlayModal" class="mb-3 btn btn-secondary">HOW TO PLAY</button><br>
         <button id="leaderBtn" class="mb-3 btn btn-secondary">LEADERBOARD</button><br>
-        <button id="shopBtn" class="mb-3 btn btn-warning">SHOP</button><br>
+        <button id="customizeBtn" class="mb-3 btn btn-warning">CUSTOMIZATION</button><br>
 
     </div>
 </div>
@@ -196,9 +196,9 @@
     </div>
 </div>
 
-<!-- SHOP -->
- <div id="shopPage" class="page">
-    <div class="container-fluid">
+<!-- CUSTOMIZATION -->
+ <div id="customizePage" class="page">
+    <div class="container">
         <div class="game-container">
             <div class="mb-3 text-center d-flex justify-content-between align-items-center">
                 <div class="">
@@ -208,36 +208,17 @@
 
                 </div>
                 <div class="">
-                    <p class="h1">Mini Shop</p>
-                    <p class="body">A place to buy skins and stuff</p>
+                    <p class="h1">Mini Customization</p>
+                    <p class="body">A place to customize skins and stuff</p>
                 </div>
                 <div class="">
                     <button class="btn btn-warning">
-                        🔷<span id="miniBalance">500</span>
+                        🔷<span id="miniPoints">500</span>
                     </button>
                     <button class="btn btn-info">?</button>
                 </div>
             </div>
-            <div class="row">
-
-                <div class=" col-4 card text-start">
-                    <img class="card-img-top" src="holder.js/100px180/" alt="Title" />
-                    <div class="card-body">
-                        <h4 class="card-title">None</h4>
-                        <p class="card-text">Default skin with plain background</p>
-                        <button class="btn btn-primary btn-apply-skin" data-skinid="0">Apply</button>
-                    </div>
-                </div>
-
-                <div class=" col-4 card text-start">
-                    <img class="card-img-top" src="/assets/skins/skin_wood.jpg" alt="Wood" />
-                    <div class="card-body">
-                        <h4 class="card-title">Wood</h4>
-                        <p class="card-text">Naturally made from wood.</p>
-                        <button class="btn btn-primary btn-apply-skin" data-skinid="1">Apply</button>
-                    </div>
-                </div>
-
+            <div class="row" id="skinCustom">
             </div>
 
             <div class="row">

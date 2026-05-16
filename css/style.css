@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: #ddd;
+    background: #dddddd83;
     display: flex;
     justify-content: center;
     align-items: flex-start; /* ✅ mulai dari atas */

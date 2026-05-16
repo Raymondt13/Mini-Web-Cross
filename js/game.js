@@ -767,5 +767,5 @@ function addMinis(totalscore){
     minisEarned = (totalscore/100).toFixed(0)
     $("#finalMiniAdd").html(minisEarned)
     minis += minisEarned
-    $("#miniBalance").html(minis)
+    $("#miniPoints").html(minis)
 }

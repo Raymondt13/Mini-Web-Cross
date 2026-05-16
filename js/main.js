@@ -1,17 +1,64 @@
 $(document).ready(function() {
     console.log("Loading Jquery...");
     $("#welcomeModal").modal('show')
-    // $("#shopPage").load("../shop.html");
+    // $("#customizePage").load("../shop.html");
     handleMusic()
     setPlayerName()
-    $("#miniBalance").html(minis)
-    console.log(localStorage.getItem("leaderboard"))
-    if (localStorage.getItem("leaderboard") == null) {
-        $("#clearLeaderboardBtn").attr("disabled", true);
-    } else{
-        $("#clearLeaderboardBtn").removeAttr("disabled");
+    $("#miniPoints").html(minis)
+
+    loadSkinItems()
+
+    function loadSkinItems() {
+        let $customize = $("#skinCustom")
+        $customize.empty()
+
+        skinItems.forEach((skin)=>{
+            let btnText = skin.applied ? "Applied" : "Apply"
+            let applyDisabled = skin.applied ? "disabled" : ""
+            let imgpath = skin.img == "" ? "" : skin.img
+
+            let cardHtm = `
+                <div class=" col-4 card text-start">
+                    <img class="card-img-top" src="${imgpath}" alt="Title" />
+                    <div class="card-body">
+                        <h4 class="card-title">${skin.skinName}</h4>
+                        <p class="card-text">${skin.skinDesc}</p>
+                        <button ${applyDisabled} class="btn btn-primary 
+                        btn-apply-skin" data-skinid="${skin.id}">
+                        ${btnText}</button>
+                    </div>
+                </div>
+            `
+
+            $customize.append(cardHtm)
+        })
+
+        initSkinBtns()
     }
 
+    function initSkinBtns() {
+        $(".btn-apply-skin").each(function (index, element) {
+            $(element).click(function (e) { 
+                skinItems.forEach((it)=>{
+                    it.applied = false
+                })
+                $(".btn-apply-skin").text("Apply")
+                console.log(skinItems)
+                console.log(this.dataset.skinid)
+                let mySkin = skinItems[this.dataset.skinid]
+                console.log(mySkin)
+                $("body").css("background-image", `url("${mySkin.img}")`);
+                mySkin.applied = true
+                if (mySkin.applied) {
+                    $(element).text("Applied")
+                    console.log(element)
+                }
+                loadSkinItems()
+                e.preventDefault();
+            });
+
+        });
+    }
 });
 
 let selectedMode = null;
@@ -33,6 +80,7 @@ let skinItems = [
     {
         id:"0",
         skinName:'Default',
+        skinDesc:"Default skin.",
         cost: 0,
         unlocked: true,
         applied: true,
@@ -41,10 +89,20 @@ let skinItems = [
     {
         id:"1",
         skinName:'Wood',
+        skinDesc:'',
         cost: 0,
         unlocked: true,
         applied: false,
         img:"../assets/skins/skin_wood.jpg"
+    },
+    {
+        id:"2",
+        skinName:'Geometric',
+        skinDesc:'',
+        cost: 100,
+        unlocked: true,
+        applied: false,
+        img:"../assets/skins/skin_geometric.jpg"
     },
 ]
 let otherItems = [
@@ -52,6 +110,8 @@ let otherItems = [
         id:"0",
         itemName:"Low Opacity Mode",
         command:"lowopacity",
+        cost: 0,
+        unlocked: true,
         applied:false
     }
 ]
@@ -73,8 +133,8 @@ $("#leaderBtn").click(() =>  {
     fetchLeaderboard('relaxed')
     
 });
-$("#shopBtn").click(() =>  { 
-    showPage("shopPage");
+$("#customizeBtn").click(() =>  { 
+    showPage("customizePage");
     
 });
 $("#leaderShowRelaxed").click(() =>  { 
@@ -103,26 +163,26 @@ document.querySelectorAll(".mode-card").forEach(card=>{
 });
 
 // Apply Skins
-$(".btn-apply-skin").each(function (index, element) {
-    $(element).click(function (e) { 
-        skinItems.forEach((it)=>{
-            it.applied = false
-        })
-        $(".btn-apply-skin").text("Apply")
-        console.log(skinItems)
-        console.log(this.dataset.skinid)
-        let mySkin = skinItems[this.dataset.skinid]
-        console.log(mySkin)
-        $("body").css("background-image", `url("${mySkin.img}")`);
-        mySkin.applied = true
-        if (mySkin.applied) {
-            $(element).text("Applied")
-            console.log(element)
-        }
-        e.preventDefault();
-    });
+// $(".btn-apply-skin").each(function (index, element) {
+//     $(element).click(function (e) { 
+//         skinItems.forEach((it)=>{
+//             it.applied = false
+//         })
+//         $(".btn-apply-skin").text("Apply")
+//         console.log(skinItems)
+//         console.log(this.dataset.skinid)
+//         let mySkin = skinItems[this.dataset.skinid]
+//         console.log(mySkin)
+//         $("body").css("background-image", `url("${mySkin.img}")`);
+//         mySkin.applied = true
+//         if (mySkin.applied) {
+//             $(element).text("Applied")
+//             console.log(element)
+//         }
+//         e.preventDefault();
+//     });
 
-});
+// });
 
 $(".btn-apply-other").each(function (index, element) {
     $(element).click(function (e) { 
