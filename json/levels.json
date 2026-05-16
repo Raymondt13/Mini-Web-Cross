@@ -41,19 +41,19 @@
         },
         {
             "word":"PENA",
-            "clue":"Sahabat... (4 huruf)" 
+            "clue":"Alat tulis yang ujungnya dicelupkan ke tinta" 
         },
         {
             "word":"PENSIL",
-            "clue":"Alat tulis yang mudah dihapus" 
+            "clue":"Alat tulis panjang berbahan kayu yang bisa dihapus" 
         },
         {
             "word":"KERTAS",
-            "clue":"Media untuk menulis" 
+            "clue":"Lembaran untuk menulis" 
         },
         {
             "word":"JAM",
-            "clue":"Alat untuk melihat waktu" 
+            "clue":"Alat yang dipasang di dinding untuk melihat waktu" 
         },
         {
             "word":"BOLA",
@@ -105,15 +105,15 @@
         },
         {
             "word":"BURUNG",
-            "clue":"Hewan yang bisa terbang" 
+            "clue":"Hewan terbang yang bersayap, berbulu, dan bertelur" 
         },
         {
             "word":"ULAT",
-            "clue":"Serangga kecil yang sering makan daun" 
+            "clue":"Serangga kecil yang suka makan daun sebelum menjadi kepompong" 
         },
         {
             "word":"SEMUT",
-            "clue":"Serangga kecil yang suka gula" 
+            "clue":"Serangga kecil yang suka bergotong royong" 
         },
         {
             "word":"LEBAH",
@@ -133,11 +133,11 @@
         },
         {
             "word":"KAPAL",
-            "clue":"Kendaraan yang berjalan diatas di laut" 
+            "clue":"Kendaraan pengangkut yang mengapung di lautan" 
         },
         {
             "word":"PESAWAT",
-            "clue":"Mesin yang terbang di udara" 
+            "clue":"Kendaraan bersayap yang membawa banyak penumpang" 
         },
         {
             "word":"KERETA",
@@ -145,11 +145,11 @@
         },
         {
             "word":"RUMAH",
-            "clue":"Tempat tinggal" 
+            "clue":"Bagunan utama yang jadi tempat tinggal keluarga" 
         },
         {
             "word":"SEKOLAH",
-            "clue":"Tempat belajar mengajar" 
+            "clue":"Tempat untuk menuntut ilmu" 
         },
         {
             "word":"PASAR",
@@ -157,15 +157,15 @@
         },
         {
             "word":"TOKO",
-            "clue":"Tempat membeli barang" 
+            "clue":"Tempat kecil, biasanya untuk jual beli barang" 
         },
         {
             "word":"KAMAR",
-            "clue":"Ruang yang biasanya untuk tidur" 
+            "clue":"Bagian penyekat, biasanya untuk tidur" 
         },
         {
             "word":"DAPUR",
-            "clue":"Ruang untuk memasak makanan" 
+            "clue":"Area di sebuah bangunan untuk memasak hidangan" 
         },
         {
             "word":"PINTU",
@@ -177,11 +177,11 @@
         },
         {
             "word":"LANTAI",
-            "clue":"Bagian bawah rumah tempat berpijak" 
+            "clue":"Permukaan bawah suatu ruangan, biasanya dilapisi ubin" 
         },
         {
             "word":"ATAP",
-            "clue":"Bagian penutup diatas rumah" 
+            "clue":"Bagian paling atas bangunan untuk melindungi dari panas dan hujan" 
         },
         {
             "word":"PULPEN",
@@ -189,7 +189,7 @@
         },
         {
             "word":"PAPAN",
-            "clue":"Tempat guru menulis di kelas" 
+            "clue":"Tempat menulis di kelas" 
         },
         {
             "word":"GURU",
@@ -197,14 +197,14 @@
         },
         {
             "word":"SISWA",
-            "clue":"Orang yang belajar" 
+            "clue":"Sebutan resmi untuk individu yang belajar di sekolah" 
         },
         {
             "word":"HOT",
-            "clue":"(Inggris) Panas" 
+            "clue":"Panas dalam Bahasa Inggris" 
         },
         {
             "word":"FLOATY",
-            "clue":"Snack yang ada gambar kucingnya" 
+            "clue":"Snack oat yang ada gambar kucingnya" 
         }
 ]
