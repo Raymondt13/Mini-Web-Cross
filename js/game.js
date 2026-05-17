@@ -205,15 +205,21 @@ function startGame(m){
     score = 0
     puzzlesCompleted = 0
     showPage("gamePage");
-
-    if (mode === 'arcade' || mode === 'tenmin') {
+    
+    let arcadeMusic = document.getElementById("arcadeMusic");
+    let music = document.getElementById("bgMusic");
+    if (mode !== 'relaxed') {
+        arcadeMusic.pause();
         music.pause();
         if (isMusicPlaying) {
+            arcadeMusic.currentTime = 0
             arcadeMusic.play();
         }
     } else {
         arcadeMusic.pause();
+        music.pause();
         if (isMusicPlaying) {
+            music.currentTime = 0
             music.play();
         }
     }
@@ -746,6 +752,8 @@ function saveToLeaderboard(score) {
 }
 
 function gameOver(method){
+    arcadeMusic.pause();
+    music.pause();
     $("#gameOverModal").modal('show')
     $("#gameOverText").html(randomGameOverMessage('gameOverExit',mode))
     $("#finalBoard").html(puzzlesCompleted)

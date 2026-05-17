@@ -7,25 +7,35 @@ $(document).ready(function() {
     $("#miniPoints").html(minis)
 
     loadSkinItems()
+    loadArcadeMusic()
+});
 
+
+/**
+ * The function to load skin items.
+ */
     function loadSkinItems() {
-        let $customize = $("#skinCustom")
+        let $customize = $("#backgroundCustom")
         $customize.empty()
 
         skinItems.forEach((skin)=>{
             let btnText = skin.applied ? "Applied" : "Apply"
-            let applyDisabled = skin.applied ? "disabled" : ""
+            let applyDisabled = skin.applied || minis < skin.cost ? "disabled" : ""
             let imgpath = skin.img == "" ? "" : skin.img
+            let cardCost = skin.cost != 0 ? `🔷${skin.cost}` : ""
 
             let cardHtm = `
-                <div class=" col-4 card text-start">
-                    <img class="card-img-top" src="${imgpath}" alt="Title" />
-                    <div class="card-body">
-                        <h4 class="card-title">${skin.skinName}</h4>
-                        <p class="card-text">${skin.skinDesc}</p>
-                        <button ${applyDisabled} class="btn btn-primary 
-                        btn-apply-skin" data-skinid="${skin.id}">
-                        ${btnText}</button>
+                <div class="col-4" >
+                    <div class="card text-start" style="height:100%">
+                        <img class="card-img-top" style="width:100%;height:20vh" src="${imgpath}" alt="Title" />
+                        <div class="card-body">
+                            <h4 class="card-title">${skin.skinName}</h4>
+                            <p class="card-text">${skin.skinDesc}</p>
+                            <p class="body text-secondary">${cardCost}</p>
+                            <button ${applyDisabled} class="btn btn-primary 
+                            btn-apply-skin" data-skinid="${skin.id}">
+                            ${btnText}</button>
+                        </div>
                     </div>
                 </div>
             `
@@ -59,8 +69,59 @@ $(document).ready(function() {
 
         });
     }
-});
 
+function loadArcadeMusic() {
+    let $customize = $("#arcadeMusicCustom")
+    $customize.empty()
+    arcadeMusicItems.forEach((skin)=>{
+        let btnText = skin.applied ? "Applied" : "Apply"
+        let applyDisabled = skin.applied || minis < skin.cost ? "disabled" : ""
+        let cardCost = skin.cost != 0 ? `🔷${skin.cost}` : ""
+        let cardHtm = `
+            <div class="col-4">
+                <div class="card">
+                    <audio controls controlsList="nodownload">
+                        <source src="/assets/music/${skin.musicPath}.mp3" type="audio/mp3">
+                    </audio>
+                    <div class="card-body">
+                        <h4 class="card-title">${skin.musicName}</h4>
+                        <p class="body text-secondary">${cardCost}</p>
+                        <button class="btn btn-primary btn-apply-m-arcade" data-arcadeid="${skin.id}">${btnText}</button>
+                    </div>
+                </div>                    
+            </div>
+        `
+        $customize.append(cardHtm)
+    })
+    initArcadeMusicBtns()
+}
+function initArcadeMusicBtns() {
+    $(".btn-apply-m-arcade").each(function (index, element) {
+        $(element).click(function (e) { 
+            arcadeMusicItems.forEach((it)=>{
+                it.applied = false
+            })
+            $(".btn-apply-m-arcade").text("Apply")
+            console.log(arcadeMusicItems)
+            console.log(this.dataset.arcadeid)
+            let mySkin = arcadeMusicItems[this.dataset.arcadeid]
+            console.log(mySkin)
+            let arcadeHtml = `<source src="/assets/music/${mySkin.musicPath}.mp3" type="audio/mp3"> Audio not supported.`
+            $("#arcadeMusic").empty();
+            $("#arcadeMusic").append(
+                arcadeHtml
+            );
+            document.getElementById("arcadeMusic").innerHTML = arcadeHtml
+            mySkin.applied = true
+            if (mySkin.applied) {
+                $(element).text("Applied")
+                console.log(element)
+            }
+            loadArcadeMusic()
+            e.preventDefault();
+        });
+    });
+}
 let selectedMode = null;
 
 let playerName = "Unnamed"
@@ -80,29 +141,43 @@ let skinItems = [
     {
         id:"0",
         skinName:'Default',
-        skinDesc:"Default skin.",
+        skinDesc:"Default, plain background.",
         cost: 0,
-        unlocked: true,
         applied: true,
         img:""
     },
     {
         id:"1",
         skinName:'Wood',
-        skinDesc:'',
+        skinDesc:'The natural feel of wood.',
         cost: 0,
-        unlocked: true,
         applied: false,
         img:"../assets/skins/background_wood.jpg"
     },
     {
         id:"2",
         skinName:'Geometric',
-        skinDesc:'',
+        skinDesc:'Some geometric hexagons.',
         cost: 100,
-        unlocked: true,
         applied: false,
         img:"../assets/skins/background_geometric.jpg"
+    },
+]
+
+let arcadeMusicItems = [
+    {
+        id:"0",
+        musicName:'Arcade 1',
+        cost: 0,
+        applied: true,
+        musicPath:"music_arcade2"
+    },
+    {
+        id:"1",
+        musicName:'Arcade 2',
+        cost: 0,
+        applied: false,
+        musicPath:"music_arcade"
     },
 ]
 let otherItems = [
@@ -134,6 +209,7 @@ $("#leaderBtn").click(() =>  {
     
 });
 $("#customizeBtn").click(() =>  { 
+    loadSkinItems()
     showPage("customizePage");
     
 });
@@ -319,8 +395,8 @@ document.getElementById("closeModal").onclick=()=>modal.style.display="none";
 window.onclick=e=>{ if(e.target===modal) modal.style.display="none"; };
 
 // MUSIC
-const music = document.getElementById("bgMusic");
-const arcadeMusic = document.getElementById("arcadeMusic");
+let music = document.getElementById("bgMusic");
+let arcadeMusic = document.getElementById("arcadeMusic");
 let confirmMusic = false
 
 function saveName(){

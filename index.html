@@ -24,8 +24,8 @@
     </audio>
 
     <audio id="arcadeMusic" loop autoplay>
-        <source src="assets/music/music_arcade.mp3" type="audio/mp3">
-        Audio not supported.
+        <!-- <source src="assets/music/music_arcade.mp3" type="audio/mp3">
+        Audio not supported. -->
     </audio>
 
     <audio id="correctSound">
@@ -68,9 +68,9 @@
 </div>
 
 <!-- AUDIO -->
-<audio id="bgMusic" loop autoplay>
+<!-- <audio id="bgMusic" loop autoplay>
     <source src="assets/music.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
 
 <!-- MODE -->
 <div id="selectModePage" class="page">
@@ -220,10 +220,62 @@
                     <button class="btn btn-info">?</button>
                 </div>
             </div>
-            <div class="row" id="skinCustom">
+            <h3 class="h3 text-start my-3">
+                Background
+            </h3>
+            <div class="row" id="backgroundCustom" style="height:100%">
+
             </div>
 
-            <div class="row">
+            <h3 class="h3 text-start my-3">
+                Foreground
+            </h3>
+            <div class="row" id="tileCustom">
+
+            </div>
+
+            <h3 class="h3 text-start my-3">
+                Relaxed Music
+            </h3>
+            <div class="row" id="relaxedMusicCustom">
+                <div class="col-4">
+                    <div class="card" >
+                        <audio controls controlsList="nodownload">
+                            <source src="/assets/music/music_relaxed.mp3" type="audio/mp3">
+                        </audio>
+                        <div class="card-body">
+                            <h4 class="card-title">Relaxed 1</h4>
+    <button class="btn btn-primary btn-apply-m-relaxed" data-relaxedid="0">Apply</button>
+                        </div>
+                    </div>                    
+                </div>
+
+                
+            </div>
+            <h3 class="h3 text-start my-3">
+                Arcade & 10-Minute Music
+            </h3>
+            <div class="row" id="arcadeMusicCustom">
+                <div class="col-4">
+                    <div class="card">
+                        <audio controls controlsList="nodownload">
+                            <source src="/assets/music/music_arcade.mp3" type="audio/mp3">
+                        </audio>
+                        <div class="card-body">
+                            <h4 class="card-title">Arcade 1</h4>
+                            <p class="card-text">Text</p>
+                            <button class="btn btn-primary btn-apply-m-arcade" data-arcadeid="0">Apply</button>
+                        </div>
+                    </div>                    
+                </div>
+
+                
+            </div>
+
+            <h3 class="h3 text-start my-3">
+                Other
+            </h3>
+            <div class="row" id="otherCustom">
                 <div class=" col-4 card text-start">
                     <img class="card-img-top" src="/assets/skins/background_wood.jpg" alt="" />
                     <div class="card-body">
@@ -232,6 +284,7 @@
                         <button class="btn btn-primary btn-apply-other" data-otherid="0">Apply</button>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
