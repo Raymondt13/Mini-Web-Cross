@@ -4,7 +4,7 @@ body {
     background: #dddddd83;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* ✅ mulai dari atas */
+    align-items: flex-start; 
     padding-top: 30px;  
     
     height: 100vh;
@@ -43,8 +43,8 @@ button{
 }
 
 .cell{
-    width:40px;
-    height:40px;
+    width:50px;
+    height:50px;
     position:relative;
 }
 

@@ -435,7 +435,8 @@ function renderGrid(size){
     // }
     const $grid = $("#crosswordGrid");
 
-    $grid.css('grid-template-columns', `repeat(${size},40px)`);
+    $grid.css('grid-template-columns', `repeat(${size},50px)`);
+    //$grid.css('grid-template-columns', `repeat(${size},40px)`);
     $grid.empty()
 
     let number = 1
