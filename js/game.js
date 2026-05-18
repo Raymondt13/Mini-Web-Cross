@@ -230,7 +230,6 @@ function startGame(m){
 
 /* GENERATE LEVEL DINAMIS */
 function generateLevel(level){
-    //let jumlahSoal = level + 3;
     let minSoal = level + 3
     if (mode == 'arcade') {
         minSoal = level + 1
@@ -243,43 +242,57 @@ function generateLevel(level){
     }
     console.log(jumlahSoal)
     let size = 15;
-
+ 
     shuffleArray(wordsBank);
     let selected = wordsBank.slice(0, jumlahSoal);
-
+ 
     let grid = Array(size).fill().map(()=>Array(size).fill(""));
-
+    let wordPositions = []; // 🆕 Track semua posisi kata untuk checking gap
+ 
     let data = { size:size, across:[], down:[] };
-
+ 
     let center = Math.floor(size/2);
-
+ 
     // 🔵 1. Kata pertama (mendatar)
     let first = selected[0];
     let startCol = center - Math.floor(first.word.length/2);
-
+ 
     placeWord(first.word, center, startCol, true, grid);
-
+    
+    // 🆕 Track posisi kata pertama
+    wordPositions.push({
+        word: first.word,
+        row: center,
+        col: startCol,
+        isAcross: true,
+        endRow: center,
+        endCol: startCol + first.word.length - 1
+    });
+ 
     data.across.push({
         row:center,
         col:startCol,
         word:first.word,
         clue:first.clue
     });
-
-    // 🔵 2. Kata berikutnya HARUS nyilang
+ 
+    // 🔵 2. Kata berikutnya HARUS nyilang dengan gap yang cukup
+    const MIN_GAP = 2; // 🆕 Jarak minimum antar kata yang sama arah
+    
     for(let i=1;i<selected.length;i++){
         let w = selected[i];
         let placed = false;
-
+        let validPlacements = []; // 🆕 Kumpulkan semua placement yang valid
+ 
         for(let a of data.across.concat(data.down)){
             let baseWord = a.word;
-
+ 
             for(let j=0;j<w.word.length;j++){
                 for(let k=0;k<baseWord.length;k++){
-
+ 
                     if(w.word[j] === baseWord[k]){
                         let row, col, isAcross;
-
+ 
                         if(a.row !== undefined){ // kata existing
                             if(data.across.includes(a)){
                                 // existing mendatar → baru harus menurun
@@ -292,37 +305,179 @@ function generateLevel(level){
                                 col = a.col - j;
                                 isAcross = true;
                             }
-
+ 
+                            // ✅ CEK 1: Validasi basic placement
                             if(canPlaceWord(w.word, row, col, isAcross, grid, size)){
-                                placeWord(w.word, row, col, isAcross, grid);
-
-                                if(isAcross){
-                                    data.across.push({
-                                        row, col,
-                                        word:w.word,
-                                        clue:w.clue
-                                    });
-                                }else{
-                                    data.down.push({
-                                        row, col,
-                                        word:w.word,
-                                        clue:w.clue
+                                // ✅ CEK 2: Validasi placement dengan gap
+                                if(isValidPlacementWithGap(w.word, row, col, isAcross, grid, size, wordPositions, MIN_GAP)){
+                                    validPlacements.push({
+                                        row, col, isAcross,
+                                        distanceFromCenter: Math.abs(row - center) + Math.abs(col - center)
                                     });
                                 }
-
-                                placed = true;
-                                break;
                             }
                         }
                     }
                 }
-                if(placed) break;
             }
-            if(placed) break;
+        }
+ 
+        // 🎯 Pilih placement terbaik (terjauh dari center untuk spacing lebih baik)
+        if(validPlacements.length > 0){
+            // Sortir berdasarkan jarak dari center (lebih jauh = lebih baik)
+            validPlacements.sort((a, b) => b.distanceFromCenter - a.distanceFromCenter);
+            
+            let placement = validPlacements[0];
+            
+            placeWord(w.word, placement.row, placement.col, placement.isAcross, grid);
+            
+            // 🆕 Track posisi kata
+            if(placement.isAcross){
+                wordPositions.push({
+                    word: w.word,
+                    row: placement.row,
+                    col: placement.col,
+                    isAcross: true,
+                    endRow: placement.row,
+                    endCol: placement.col + w.word.length - 1
+                });
+                data.across.push({
+                    row: placement.row,
+                    col: placement.col,
+                    word: w.word,
+                    clue: w.clue
+                });
+            }else{
+                wordPositions.push({
+                    word: w.word,
+                    row: placement.row,
+                    col: placement.col,
+                    isAcross: false,
+                    endRow: placement.row + w.word.length - 1,
+                    endCol: placement.col
+                });
+                data.down.push({
+                    row: placement.row,
+                    col: placement.col,
+                    word: w.word,
+                    clue: w.clue
+                });
+            }
+            
+            placed = true;
+        }
+ 
+        // Jika tidak bisa placement, skip kata ini
+        if(!placed){
+            console.log(`⚠️ Kata "${w.word}" tidak bisa ditempatkan karena gap requirements`);
         }
     }
-
+ 
     return data;
+}
+ 
+/**
+ * 🆕 FUNGSI BARU: Cek apakah placement valid dengan gap yang cukup
+ * Validasi 4 hal:
+ * 1. Posisi dalam grid boundary
+ * 2. Cell tidak conflict dengan kata lain
+ * 3. Gap minimal antar kata dengan arah yang SAMA
+ * 4. Hanya 1 intersection point per kata
+
+ * @param {string} word - Kata yang akan ditempatkan
+ * @param {number} row - Row starting position
+ * @param {number} col - Column starting position
+ * @param {boolean} isAcross - true = horizontal, false = vertical
+ * @param {array} grid - Game grid
+ * @param {number} size - Grid size
+ * @param {array} wordPositions - Array of previously placed words
+ * @param {number} minGap - Minimum gap required (default 2)
+ * @return {boolean} true jika placement valid
+ */
+function isValidPlacementWithGap(word, row, col, isAcross, grid, size, wordPositions, minGap){
+    
+    // ✅ CEK 1: Pastikan semua posisi kata ada di grid
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+        
+        if(r < 0 || c < 0 || r >= size || c >= size) {
+            return false;
+        }
+    }
+    
+    // ✅ CEK 2: Pastikan cell kosong atau sama huruf (untuk intersection)
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+        
+        if(grid[r][c] !== "" && grid[r][c] !== word[i]){
+            return false;
+        }
+    }
+    
+    // ✅ CEK 3 & 4: Cek gap dengan kata yang sudah ada
+    for(let existingWord of wordPositions){
+        
+        // CEK 3: Jika sama arah → harus ada gap MIN_GAP
+        if(existingWord.isAcross === isAcross){
+            if(isAcross){
+                // Sama-sama horizontal → row harus berbeda minimal MIN_GAP
+                if(Math.abs(row - existingWord.row) < minGap){
+                    console.log(`  ❌ Gap horizontal too small: ${Math.abs(row - existingWord.row)} < ${minGap}`);
+                    return false;
+                }
+            }else{
+                // Sama-sama vertical → column harus berbeda minimal MIN_GAP
+                if(Math.abs(col - existingWord.col) < minGap){
+                    console.log(`  ❌ Gap vertical too small: ${Math.abs(col - existingWord.col)} < ${minGap}`);
+                    return false;
+                }
+            }
+        }
+        
+        // CEK 4: Pastikan hanya 1 intersection point dalam 1 kata
+        let intersectionCount = 0;
+        
+        for(let i=0;i<word.length;i++){
+            let r = isAcross ? row : row + i;
+            let c = isAcross ? col + i : col;
+            
+            if(grid[r][c] !== ""){
+                intersectionCount++;
+            }
+        }
+        
+        // Jika lebih dari 1 intersection, tidak valid
+        if(intersectionCount > 1){
+            console.log(`  ❌ Too many intersections: ${intersectionCount} > 1`);
+            return false;
+        }
+    }
+    
+    return true;
+}
+ 
+function canPlaceWord(word, row, col, isAcross, grid, size){
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+ 
+        if(r<0 || c<0 || r>=size || c>=size) return false;
+ 
+        if(grid[r][c] !== "" && grid[r][c] !== word[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+function placeWord(word, row, col, isAcross, grid){
+    for(let i=0;i<word.length;i++){
+        let r = isAcross ? row : row + i;
+        let c = isAcross ? col + i : col;
+        grid[r][c] = word[i];
+    }
 }
 
 const $levelTitle = $("#levelTitle");
