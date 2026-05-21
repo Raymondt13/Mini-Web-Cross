@@ -1,4 +1,3 @@
-
 const TILE_TYPES = {
     SCORE: 'score',
     MULTIPLY: 'multiply',
@@ -10,10 +9,19 @@ const TILE_TYPES = {
 let specialTiles = {};
 let freezeActive = false;
 
-function generateSpecialTiles(solution, mode) {
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+}
+
+function generateSpecialTiles(solution, mode = 'classic') {
     specialTiles = {};
 
-    let availableCells = [];
+    const availableCells = [];
 
     for (let r = 0; r < solution.length; r++) {
         for (let c = 0; c < solution[r].length; c++) {
@@ -25,40 +33,46 @@ function generateSpecialTiles(solution, mode) {
 
     shuffleArray(availableCells);
 
-    let selectedTiles = [];
+    const selectedTiles = [];
 
-    selectedTiles.push({
-        type: TILE_TYPES.SCORE,
-        ...availableCells.pop()
-    });
-
-    selectedTiles.push({
-        type: TILE_TYPES.MULTIPLY,
-        ...availableCells.pop()
-    });
-
-    selectedTiles.push({
-        type: TILE_TYPES.EXTRA_HINT,
-        ...availableCells.pop()
-    });
-
-    if (mode === 'arcade') {
+    if (availableCells.length > 0) {
         selectedTiles.push({
-            type: TILE_TYPES.TIME,
-            ...availableCells.pop()
-        });
-
-        selectedTiles.push({
-            type: TILE_TYPES.FREEZE,
+            type: TILE_TYPES.SCORE,
             ...availableCells.pop()
         });
     }
 
-    selectedTiles.forEach(tile => {
-        if (!tile) {
-            return;
+    if (availableCells.length > 0) {
+        selectedTiles.push({
+            type: TILE_TYPES.MULTIPLY,
+            ...availableCells.pop()
+        });
+    }
+
+    if (availableCells.length > 0) {
+        selectedTiles.push({
+            type: TILE_TYPES.EXTRA_HINT,
+            ...availableCells.pop()
+        });
+    }
+
+    if (mode === 'arcade') {
+        if (availableCells.length > 0) {
+            selectedTiles.push({
+                type: TILE_TYPES.TIME,
+                ...availableCells.pop()
+            });
         }
 
+        if (availableCells.length > 0) {
+            selectedTiles.push({
+                type: TILE_TYPES.FREEZE,
+                ...availableCells.pop()
+            });
+        }
+    }
+
+    selectedTiles.forEach(tile => {
         specialTiles[`${tile.r}-${tile.c}`] = tile.type;
     });
 
@@ -66,8 +80,12 @@ function generateSpecialTiles(solution, mode) {
 }
 
 function applyTileStyle($cell, r, c) {
-    let key = `${r}-${c}`;
-    let tileType = specialTiles[key];
+    const key = `${r}-${c}`;
+    const tileType = specialTiles[key];
+
+    $cell.removeClass(function (_, className) {
+        return (className.match(/(^|\s)tile-\S+/g) || []).join(' ');
+    });
 
     if (tileType) {
         $cell.addClass(`tile-${tileType}`);
@@ -77,20 +95,20 @@ function applyTileStyle($cell, r, c) {
 }
 
 function activateTile({
-    type,
     r,
     c,
     $input,
-    score,
-    hintCount,
-    timeLeft,
+    score = 0,
+    hintCount = 0,
+    timeLeft = 0,
     timer,
     updateTimer,
     onUpdate
 }) {
-    let key = `${r}-${c}`;
+    const key = `${r}-${c}`;
+    const type = specialTiles[key];
 
-    if (!specialTiles[key]) {
+    if (!type) {
         return {
             score,
             hintCount,
@@ -101,17 +119,20 @@ function activateTile({
 
     delete specialTiles[key];
 
+    if ($input) {
+        $input.removeClass(`tile-${type}`);
+    }
+
     switch (type) {
         case TILE_TYPES.SCORE:
             score += 100;
             showFloatingText($input, '+100');
             break;
 
-    case TILE_TYPES.MULTIPLY:
-        showFloatingText($input, 'x2');
-        $('body').prepend($notification);
-        window.scoreMultiplierActive = true;
-        break;
+        case TILE_TYPES.MULTIPLY:
+            score *= 2;
+            showFloatingText($input, 'x2');
+            break;
 
         case TILE_TYPES.EXTRA_HINT:
             hintCount += 1;
@@ -129,8 +150,13 @@ function activateTile({
             break;
     }
 
-    if (onUpdate) {
-        onUpdate({ score, hintCount, timeLeft, timer });
+    if (typeof onUpdate === 'function') {
+        onUpdate({
+            score,
+            hintCount,
+            timeLeft,
+            timer
+        });
     }
 
     return {
@@ -145,31 +171,35 @@ function activateFreeze(timer, updateTimer) {
     if (freezeActive) {
         return timer;
     }
+
     freezeActive = true;
+
     clearInterval(timer);
-    let $freezeOverlay = $('<div class="freeze-overlay">🥶</div>');
-    $('body').prepend($freezeOverlay);
-    setTimeout(() => {
+
+    const newTimer = setTimeout(() => {
         freezeActive = false;
-        $freezeOverlay.remove();
 
         timer = setInterval(() => {
             updateTimer();
-        }, 10); // 10ms
+        }, 1000);
     }, 5000);
 
-    return timer;
+    return newTimer;
 }
 
 function showFloatingText($input, text) {
-    let offset = $input.offset();
+    if (!$input || !$input.length) {
+        return;
+    }
 
-    let $effect = $('<div></div>')
+    const offset = $input.offset();
+
+    const $effect = $('<div></div>')
         .addClass('floating-effect')
         .text(text)
         .css({
             top: offset.top - 10,
-            left: offset.left
+            left: offset.left + 10
         });
 
     $('body').append($effect);
