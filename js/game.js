@@ -205,6 +205,8 @@ function startGame(m){
     score = 0
     puzzlesCompleted = 0
     showPage("gamePage");
+    console.log(isMusicPlaying);
+    
     
     let arcadeMusic = document.getElementById("arcadeMusic");
     let music = document.getElementById("bgMusic");
