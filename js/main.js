@@ -308,6 +308,10 @@ $("#giveUpBtn").click(function (e) {
     playSound('clickSound');
 });
 
+$(".btn").click(function (e) {
+    e.preventDefault();
+    playSound('clickSound');
+});
 function randomQuitMessage(category,gamemode){
     // pipeline gabungin array
     let messages = quitMessages[category][gamemode]

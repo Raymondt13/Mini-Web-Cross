@@ -530,6 +530,7 @@ function renderGrid(size){
                             // handleTileForCell(tileType, r, c, $(this));
                         }
                     }
+                    $(this).attr("readonly",true)
                     checkAllWordsCompletion();
                 }
     
