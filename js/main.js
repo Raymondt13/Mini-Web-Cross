@@ -4,7 +4,6 @@ $(document).ready(function() {
     // $("#customizePage").load("../shop.html");
     handleMusic()
     setPlayerName()
-    $("#miniPoints").html(minis)
 
     loadSkinItems()
     loadArcadeMusic()
@@ -129,9 +128,10 @@ let selectedMode = null;
 let playerName = "Unnamed"
 
 function setPlayerName(){
-    if (playerName.length == 0) {
-        playerName = "unnamed"
-    }
+    // if (playerName.length == 0) {
+    //     playerName = "Guest"
+    // }
+    playerName = currentPlayer.name
     $playerNameDisplay.html(`${playerName}`)
 }
 const $playerNameDisplay = $("#playerNameDisplay")
@@ -139,6 +139,14 @@ const $playerNameDisplay = $("#playerNameDisplay")
 let progressLoad = 0;
 let tips = []
 let myLeaderboard = JSON.parse(localStorage.getItem("leaderboard")) || []
+let myPlayers = JSON.parse(localStorage.getItem("playerList")) || []
+
+let currentPlayer = {
+    id:"0",
+    name: "Guest",
+    minis: 0
+}
+
 let skinItems = [
     {
         id:"0",
@@ -393,8 +401,31 @@ let confirmMusic = false
 
 function saveName(){
     playerName = $("#inputName").val()
+    let playerFound = getPlayerByName(playerName)
+    console.log(playerFound)
     alert(playerName)
+    if (!playerFound) {
+        let newPlayer = {
+            id:myPlayers.length+1,
+            name: playerName,
+            minis: 0
+        }
+
+        myPlayers.push(newPlayer)
+        localStorage.setItem("playerList",JSON.stringify(myPlayers))
+    }
+    currentPlayer = playerFound
+    minis = currentPlayer.minis
+    $("#miniPoints").html(minis)
     setPlayerName()
+}
+
+function getPlayerByName(username){
+    let playerFound = myPlayers.find(player => player.name == username)
+    if (playerFound == undefined) {
+        playerFound = null
+    }
+    return playerFound
 }
 // start
 $("#startGameBtn").click(function(e){
@@ -524,4 +555,8 @@ function clearLeaderboard() {
     localStorage.removeItem("leaderboard")
     myLeaderboard = []
     fetchLeaderboard('relaxed')
+}
+function clearPlayers() {
+    localStorage.removeItem("playerList")
+    myPlayers = []
 }

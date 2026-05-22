@@ -813,5 +813,8 @@ function addMinis(totalscore){
     minisEarned = (totalscore/100).toFixed(0)
     $("#finalMiniAdd").html(minisEarned)
     minis += minisEarned
-    $("#miniPoints").html(minis)
+    let playerFound = getPlayerByName(playerName)
+    playerFound.minis = minis
+    currentPlayer = playerFound
+    $("#miniPoints").html(currentPlayer.minis)
 }
