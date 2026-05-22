@@ -223,19 +223,30 @@
         },
         {
             "word":"CPU",
-            "clue":"Berfungsi sebagai otak komputer" 
+            "clue":"Berfungsi sebagai otak komputer, sinonim dari prosesor" 
         },
         {
             "word":"NVIDIA",
-            "clue":"Salah satu merek GPU terkenal dengan logo warna ijo" 
+            "clue":"Salah satu merek GPU terkenal dengan logo warna hijau" 
         },
         {
             "word":"ANDROID",
             "clue":"Sistem operasi terbesar Google di smartphone" 
         },
-        
         {
-            "word":"NVIDIA",
-            "clue":"Salah satu merek GPU terkenal dengan logo warna ijo" 
+            "word":"MOUSE",
+            "clue":"Peripheral untuk menggerakkan kursor di layar"
+        },
+        {
+            "word":"JOBS",
+            "clue":"Nama belakang pendiri Apple" 
+        },
+        {
+            "word":"PPT",
+            "clue":"Format file yang paling umum untuk presentasi" 
+        },
+        {
+            "word":"PRINTER",
+            "clue":"Alat elektronik untuk mencetak di atas media kertas" 
         }
 ]
