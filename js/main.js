@@ -64,6 +64,7 @@ $(document).ready(function() {
                     console.log(element)
                 }
                 loadSkinItems()
+                playSound('clickSound');
                 e.preventDefault();
             });
 
@@ -118,6 +119,7 @@ function initArcadeMusicBtns() {
                 console.log(element)
             }
             loadArcadeMusic()
+            playSound('clickSound');
             e.preventDefault();
         });
     });
@@ -252,6 +254,7 @@ $("body").css("opacity", `0.5`);
 $("body").css("opacity", `1`);   
         }
         e.preventDefault();
+        playSound('clickSound');
     });
 });
 
@@ -264,6 +267,7 @@ $("#startBtn").click(function (e) {
     music.pause();
     isMusicPlaying = true;
     e.preventDefault();
+        playSound('clickSound');
 });
 
 function startLoad(mode) {
@@ -301,7 +305,7 @@ $("#giveUpBtn").click(function (e) {
     e.preventDefault();
     $("#giveUpText").html(randomQuitMessage("confirmExit",mode))
     $("#endGameModal").modal('show');
-
+    playSound('clickSound');
 });
 
 function randomQuitMessage(category,gamemode){
@@ -323,6 +327,7 @@ $("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
     gameOver('gameOverExit')
+    playSound('clickSound');
     // showPage("mainMenuPage"); 
     // arcadeMusic.pause();
     // if (isMusicPlaying) {
@@ -334,6 +339,7 @@ $("#confirmExitBtn").click(function () {
     $("#gameOverModal").modal('hide');
     showPage("mainMenuPage"); 
     arcadeMusic.pause();
+    playSound('clickSound');
     if (isMusicPlaying) {
         music.play();
     }
@@ -342,6 +348,7 @@ $("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
     // showPage("mainMenuPage"); 
+    playSound('clickSound');
     arcadeMusic.pause();
     if (isMusicPlaying) {
         music.play();
@@ -351,6 +358,7 @@ $("#confirmEndGameBtn").click(function () {
 $(".main-menu-btn").click(function (e) { 
     showPage("mainMenuPage");
     e.preventDefault();
+    playSound('clickSound');
     
 });
 
@@ -487,7 +495,7 @@ function playSound(soundId) {
     const sound = document.getElementById(soundId);
     if (sound) {
         sound.currentTime = 0;
-        sound.volume = 0.4; //ganti volume
+        sound.volume = 0.7; //ganti volume
         sound.play().catch(e => console.log('Sound play failed:', e));
     }
 }

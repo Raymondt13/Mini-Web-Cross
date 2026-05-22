@@ -193,7 +193,7 @@ function checkAllWordsCompletion() {
 function showWordCompleteEffect(wordData, isAcross, points) {
     let $firstCell = inputs[wordData.row][wordData.col];
     if ($firstCell && typeof showFloatingText === 'function') {
-        showFloatingText($firstCell, `${wordData.word} +${points}`);
+        showFloatingText($firstCell, `${wordData.word} +${points}`);    
     }
 }
 
@@ -327,13 +327,6 @@ let minSoal = mode === 'arcade' ? level + 1 : level + 3;
 }
  
 /**
- * 🆕 FUNGSI BARU: Cek apakah placement valid dengan gap yang cukup
- * Validasi 4 hal:
- * 1. Posisi dalam grid boundary
- * 2. Cell tidak conflict dengan kata lain
- * 3. Gap minimal antar kata dengan arah yang SAMA
- * 4. Hanya 1 intersection point per kata
-
  * @param {string} word - Kata yang akan ditempatkan
  * @param {number} row - Row starting position
  * @param {number} col - Column starting position
@@ -368,7 +361,6 @@ function isValidPlacementWithGap(word, row, col, isAcross, grid, size, wordPosit
     
     // ✅ CEK 3 & 4: Cek gap dengan kata yang sudah ada
     for(let existingWord of wordPositions){
-        
         // CEK 3: Jika sama arah → harus ada gap MIN_GAP
         if(existingWord.isAcross === isAcross){
             if(isAcross){
@@ -398,7 +390,6 @@ function isValidPlacementWithGap(word, row, col, isAcross, grid, size, wordPosit
             }
         }
         
-        // Jika lebih dari 1 intersection, tidak valid
         if(intersectionCount > 1){
             console.log(`  ❌ Too many intersections: ${intersectionCount} > 1`);
             return false;
