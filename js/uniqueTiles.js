@@ -178,10 +178,7 @@ function activateFreeze(timer, updateTimer) {
 
     const newTimer = setTimeout(() => {
         freezeActive = false;
-
-        timer = setInterval(() => {
-            updateTimer();
-        }, 1000);
+        timer = startTimer()
     }, 5000);
 
     return newTimer;

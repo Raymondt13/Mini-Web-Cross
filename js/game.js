@@ -140,6 +140,13 @@ function checkWordComplete(wordData, isAcross) {
     return true; 
 }
 
+/**
+ * 
+ * @param {string} wordKey 
+ * @param {*} wordData 
+ * @param {boolean} isAcross 
+ * @returns 
+ */
 function scoreCompletedWord(wordKey, wordData, isAcross) {
     if (completedWords[wordKey]) {
         return 0;
@@ -155,6 +162,10 @@ function scoreCompletedWord(wordKey, wordData, isAcross) {
     return pointsEarned;
 }
 
+/**
+ * Check all words completion
+ * @returns 
+ */
 function checkAllWordsCompletion() {
     if (!currentLevelData) return;
     currentLevelData.across.forEach((wordData, index) => {
@@ -230,150 +241,6 @@ function startGame(m){
     loadLevel(level);
 }
 
-/* GENERATE LEVEL DINAMIS */
-// function generateLevel(level){
-//     let minSoal = mode == 'arcade' ? level + 1 : level + 3
-//     let jumlahSoal = Math.min(Math.max(minSoal,2),10, wordsBank.length);
-//     // if (jumlahSoal < 2) {
-//     //     jumlahSoal = 2
-//     // } else if (jumlahSoal > 10){
-//     //     jumlahSoal = 10
-//     // }
-//     console.log(jumlahSoal)
-//     let size = 15;
- 
-//     shuffleArray(wordsBank);
-//     let selected = wordsBank.slice(0, jumlahSoal);
- 
-//     let grid = Array(size).fill().map(()=>Array(size).fill(""));
-//     let wordPositions = []; // 🆕 Track semua posisi kata untuk checking gap
- 
-//     let data = { size:size, across:[], down:[] };
- 
-//     let center = Math.floor(size/2);
- 
-//     // 🔵 1. Kata pertama (mendatar)
-//     let first = selected[0];
-//     let startCol = center - Math.floor(first.word.length/2);
- 
-//     placeWord(first.word, center, startCol, true, grid);
-    
-//     // 🆕 Track posisi kata pertama
-//     wordPositions.push({
-//         word: first.word,
-//         row: center,
-//         col: startCol,
-//         isAcross: true,
-//         endRow: center,
-//         endCol: startCol + first.word.length - 1
-//     });
- 
-//     data.across.push({
-//         row:center,
-//         col:startCol,
-//         word:first.word,
-//         clue:first.clue
-//     });
- 
-//     // 🔵 2. Kata berikutnya HARUS nyilang dengan gap yang cukup
-//     const MIN_GAP = 2; // 🆕 Jarak minimum antar kata yang sama arah
-    
-//     for(let i=1;i<selected.length;i++){
-//         let w = selected[i];
-//         let placed = false;
-//         let validPlacements = []; // 🆕 Kumpulkan semua placement yang valid
- 
-//         for(let a of data.across.concat(data.down)){
-//             let baseWord = a.word;
- 
-//             for(let j=0;j<w.word.length;j++){
-//                 for(let k=0;k<baseWord.length;k++){
- 
-//                     if(w.word[j] === baseWord[k]){
-//                         let row, col, isAcross;
- 
-//                         if(a.row !== undefined){ // kata existing
-//                             if(data.across.includes(a)){
-//                                 // existing mendatar → baru harus menurun
-//                                 row = a.row - j;
-//                                 col = a.col + k;
-//                                 isAcross = false;
-//                             }else{
-//                                 // existing menurun → baru mendatar
-//                                 row = a.row + k;
-//                                 col = a.col - j;
-//                                 isAcross = true;
-//                             }
- 
-//                             // ✅ CEK 1: Validasi basic placement
-//                             if(canPlaceWord(w.word, row, col, isAcross, grid, size)){
-//                                 // ✅ CEK 2: Validasi placement dengan gap
-//                                 if(isValidPlacementWithGap(w.word, row, col, isAcross, grid, size, wordPositions, MIN_GAP)){
-//                                     validPlacements.push({
-//                                         row, col, isAcross,
-//                                         distanceFromCenter: Math.abs(row - center) + Math.abs(col - center)
-//                                     });
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         }
- 
-//         // 🎯 Pilih placement terbaik (terjauh dari center untuk spacing lebih baik)
-//         if(validPlacements.length > 0){
-//             // Sortir berdasarkan jarak dari center (lebih jauh = lebih baik)
-//             validPlacements.sort((a, b) => b.distanceFromCenter - a.distanceFromCenter);
-            
-//             let placement = validPlacements[0];
-            
-//             placeWord(w.word, placement.row, placement.col, placement.isAcross, grid);
-            
-//             // 🆕 Track posisi kata
-//             if(placement.isAcross){
-//                 wordPositions.push({
-//                     word: w.word,
-//                     row: placement.row,
-//                     col: placement.col,
-//                     isAcross: true,
-//                     endRow: placement.row,
-//                     endCol: placement.col + w.word.length - 1
-//                 });
-//                 data.across.push({
-//                     row: placement.row,
-//                     col: placement.col,
-//                     word: w.word,
-//                     clue: w.clue
-//                 });
-//             }else{
-//                 wordPositions.push({
-//                     word: w.word,
-//                     row: placement.row,
-//                     col: placement.col,
-//                     isAcross: false,
-//                     endRow: placement.row + w.word.length - 1,
-//                     endCol: placement.col
-//                 });
-//                 data.down.push({
-//                     row: placement.row,
-//                     col: placement.col,
-//                     word: w.word,
-//                     clue: w.clue
-//                 });
-//             }
-            
-//             placed = true;
-//         }
- 
-//         // Jika tidak bisa placement, skip kata ini
-//         if(!placed){
-//             console.log(`⚠️ Kata "${w.word}" tidak bisa ditempatkan karena gap requirements`);
-//         }
-//     }
- 
-//     return data;
-// }
 
 function generateLevel(level){
 let minSoal = mode === 'arcade' ? level + 1 : level + 3;
@@ -611,17 +478,7 @@ function loadLevel(lv){
 
     processCrossword(data.across,true)
     processCrossword(data.down,false)
-    // data.across.forEach(w=>{
-    //     for(let i=0;i<w.word.length;i++){
-    //         solution[w.row][w.col+i]=w.word[i];
-    //     }
-    // });
 
-    // data.down.forEach(w=>{
-    //     for(let i=0;i<w.word.length;i++){
-    //         solution[w.row+i][w.col]=w.word[i];
-    //     }
-    // });
     if (typeof generateSpecialTiles === 'function') {
         specialTiles = generateSpecialTiles(solution, mode);
         console.log('Special tiles generated:', specialTiles);
@@ -634,43 +491,6 @@ function loadLevel(lv){
 
 /* GRID */
 function renderGrid(size){
-    // let grid=document.getElementById("crosswordGrid");
-    // grid.style.gridTemplateColumns=`repeat(${size},50px)`;
-    // grid.innerHTML="";
-
-    // let number=1;
-
-    // for(let i=0;i<size;i++){
-    //     inputs[i]=[];
-    //     for(let j=0;j<size;j++){
-    //         let cell=document.createElement("div");
-    //         cell.className="cell";
-
-    //         if(solution[i][j]===""){
-    //             cell.classList.add("block");
-    //         }else{
-    //             let input=document.createElement("input");
-    //             input.maxLength=1;
-
-    //             input.oninput=function(){
-    //                 this.value=this.value.toUpperCase();
-    //                 currentGrid[i][j]=this.value;
-    //             };
-
-    //             if((j===0||solution[i][j-1]==="")||(i===0||solution[i-1][j]==="")){
-    //                 let num=document.createElement("div");
-    //                 num.className="cell-number";
-    //                 num.innerText=number++;
-    //                 cell.appendChild(num);
-    //             }
-
-    //             cell.appendChild(input);
-    //             inputs[i][j]=input;
-    //         }
-
-    //         grid.appendChild(cell);
-    //     }
-    // }
     const $grid = $("#crosswordGrid");
 
     $grid.css('grid-template-columns', `repeat(${size},50px)`);
@@ -699,11 +519,7 @@ function renderGrid(size){
                     $input.attr('readonly', true);
                 }
 
-                //$input.on('input', function () {
-                //    let value = $(this).val().toUpperCase();
-                //    $(this).val(value);
-                //    currentGrid[r][c]
-                //});
+
                 $input.on('input', function () {
                     let value = $(this).val().toUpperCase();
                     $(this).val(value);
@@ -759,19 +575,6 @@ function shuffleArray(array) {
 
 /* CLUES */
 function renderClues(data){
-    // let across=document.getElementById("acrossClue");
-    // let down=document.getElementById("downClue");
-
-    // across.innerHTML="";
-    // down.innerHTML="";
-
-    // data.across.forEach((w,i)=>{
-    //     across.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
-    // });
-
-    // data.down.forEach((w,i)=>{
-    //     down.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
-    // });
 
     let $across= $('#acrossClue');
     let $down= $('#downClue');
@@ -798,7 +601,6 @@ function setTimer(){
     let timedisplay = ""
     if(mode==="relaxed"){
         $timerText.html("Relaxed");
-        // document.getElementById("timerText").innerText="Time: ∞";
         return;
     }
     if (puzzlesCompleted == 0) {
@@ -812,13 +614,17 @@ function setTimer(){
                 break;
         }   
     }
-    // timeLeft = ((mode==="arcade" && puzzlesCompleted == 0) ? arcadeTimeSeconds : 10*60)*100;
     // Display Time
     document.getElementById("timerText").innerText="Time: "+timeLeft;
-    timer=setInterval(()=>{
+    timer = startTimer()
+}
+
+function startTimer(){
+    return setInterval(()=>{
         updateTimer()
     },10);
 }
+
 function updateTimer(){
     timeLeft--;
     let totalSeconds = Math.floor(timeLeft / 100);

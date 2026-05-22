@@ -239,26 +239,6 @@ document.querySelectorAll(".mode-card").forEach(card=>{
 });
 
 // Apply Skins
-// $(".btn-apply-skin").each(function (index, element) {
-//     $(element).click(function (e) { 
-//         skinItems.forEach((it)=>{
-//             it.applied = false
-//         })
-//         $(".btn-apply-skin").text("Apply")
-//         console.log(skinItems)
-//         console.log(this.dataset.skinid)
-//         let mySkin = skinItems[this.dataset.skinid]
-//         console.log(mySkin)
-//         $("body").css("background-image", `url("${mySkin.img}")`);
-//         mySkin.applied = true
-//         if (mySkin.applied) {
-//             $(element).text("Applied")
-//             console.log(element)
-//         }
-//         e.preventDefault();
-//     });
-
-// });
 
 $(".btn-apply-other").each(function (index, element) {
     $(element).click(function (e) { 
