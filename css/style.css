@@ -55,11 +55,13 @@ button{
     width:100%;
     height:100%;
     text-align:center;
-    font-size:100%
+    font-size:100%;
+    background: transparent;
 }
-.cell .tile-extra_hint{
+.cell input .tile-extra_hint{
     color: rgb(156, 113, 18);
 }
+
 .block{background:black;}
 
 .cell-number{

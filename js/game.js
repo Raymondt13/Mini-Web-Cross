@@ -720,7 +720,7 @@ function renderGrid(size){
                         let tileKey = `${r}-${c}`;
                         if (specialTiles && specialTiles[tileKey]) {
                             let tileType = specialTiles[tileKey];
-                            handleTileForCell(tileType, r, c, $(this));
+                            // handleTileForCell(tileType, r, c, $(this));
                         }
                     }
                     checkAllWordsCompletion();
