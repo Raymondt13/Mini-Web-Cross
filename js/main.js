@@ -9,7 +9,6 @@ $(document).ready(function() {
     loadArcadeMusic()
 });
 
-
 /**
  * The function to load skin items.
  */
