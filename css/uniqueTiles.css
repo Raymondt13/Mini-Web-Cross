@@ -1,33 +1,40 @@
 .tile-score {
-    background: gold;
+    background: gold !important;
+    color: black;
 }
 
 .tile-multiply {
-    background: orange;
+    background: orange !important;
+    color: white;
 }
 
 .tile-extra_hint {
-    background: limegreen;
+    background: limegreen !important;
+    color: white;
 }
 
 .tile-time {
-    background: deepskyblue;
+    background: deepskyblue !important;
+    color: white;
 }
 
 .tile-freeze {
-    background: violet;
+    background: violet !important;
+    color: white;
+}
+
+.cell[class*="tile-"] {
+    animation: pulseTile 1s infinite;
+    border-radius: 6px;
 }
 
 .floating-effect {
     position: absolute;
     z-index: 9999;
+    font-size: 18px;
     font-weight: bold;
-    animation: floatUp 1s ease-out forwards;
     pointer-events: none;
-}
-
-.cell[class*="tile-"] {
-    animation: pulseTile 1s infinite;
+    animation: floatUp 1s ease-out forwards;
 }
 
 @keyframes floatUp {

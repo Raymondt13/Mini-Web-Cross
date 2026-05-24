@@ -4,7 +4,6 @@ $(document).ready(function() {
     // $("#customizePage").load("../shop.html");
     handleMusic()
     setPlayerName()
-    $("#miniPoints").html(minis)
 
     loadSkinItems()
     loadArcadeMusic()
@@ -64,6 +63,7 @@ $(document).ready(function() {
                     console.log(element)
                 }
                 loadSkinItems()
+                playSound('clickSound');
                 e.preventDefault();
             });
 
@@ -118,6 +118,7 @@ function initArcadeMusicBtns() {
                 console.log(element)
             }
             loadArcadeMusic()
+            playSound('clickSound');
             e.preventDefault();
         });
     });
@@ -127,9 +128,10 @@ let selectedMode = null;
 let playerName = "Unnamed"
 
 function setPlayerName(){
-    if (playerName.length == 0) {
-        playerName = "unnamed"
-    }
+    // if (playerName.length == 0) {
+    //     playerName = "Guest"
+    // }
+    playerName = currentPlayer.name
     $playerNameDisplay.html(`${playerName}`)
 }
 const $playerNameDisplay = $("#playerNameDisplay")
@@ -137,6 +139,14 @@ const $playerNameDisplay = $("#playerNameDisplay")
 let progressLoad = 0;
 let tips = []
 let myLeaderboard = JSON.parse(localStorage.getItem("leaderboard")) || []
+let myPlayers = JSON.parse(localStorage.getItem("playerList")) || []
+
+let currentPlayer = {
+    id:"0",
+    name: "Guest",
+    minis: 0
+}
+
 let skinItems = [
     {
         id:"0",
@@ -239,26 +249,6 @@ document.querySelectorAll(".mode-card").forEach(card=>{
 });
 
 // Apply Skins
-// $(".btn-apply-skin").each(function (index, element) {
-//     $(element).click(function (e) { 
-//         skinItems.forEach((it)=>{
-//             it.applied = false
-//         })
-//         $(".btn-apply-skin").text("Apply")
-//         console.log(skinItems)
-//         console.log(this.dataset.skinid)
-//         let mySkin = skinItems[this.dataset.skinid]
-//         console.log(mySkin)
-//         $("body").css("background-image", `url("${mySkin.img}")`);
-//         mySkin.applied = true
-//         if (mySkin.applied) {
-//             $(element).text("Applied")
-//             console.log(element)
-//         }
-//         e.preventDefault();
-//     });
-
-// });
 
 $(".btn-apply-other").each(function (index, element) {
     $(element).click(function (e) { 
@@ -272,6 +262,7 @@ $("body").css("opacity", `0.5`);
 $("body").css("opacity", `1`);   
         }
         e.preventDefault();
+        playSound('clickSound');
     });
 });
 
@@ -284,6 +275,7 @@ $("#startBtn").click(function (e) {
     music.pause();
     isMusicPlaying = true;
     e.preventDefault();
+        playSound('clickSound');
 });
 
 function startLoad(mode) {
@@ -321,9 +313,13 @@ $("#giveUpBtn").click(function (e) {
     e.preventDefault();
     $("#giveUpText").html(randomQuitMessage("confirmExit",mode))
     $("#endGameModal").modal('show');
-
+    playSound('clickSound');
 });
 
+$(".btn").click(function (e) {
+    e.preventDefault();
+    playSound('clickSound');
+});
 function randomQuitMessage(category,gamemode){
     // pipeline gabungin array
     let messages = quitMessages[category][gamemode]
@@ -343,6 +339,7 @@ $("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
     gameOver('gameOverExit')
+    playSound('clickSound');
     // showPage("mainMenuPage"); 
     // arcadeMusic.pause();
     // if (isMusicPlaying) {
@@ -354,6 +351,7 @@ $("#confirmExitBtn").click(function () {
     $("#gameOverModal").modal('hide');
     showPage("mainMenuPage"); 
     arcadeMusic.pause();
+    playSound('clickSound');
     if (isMusicPlaying) {
         music.play();
     }
@@ -362,6 +360,7 @@ $("#confirmEndGameBtn").click(function () {
     clearInterval(timer);
     $("#endGameModal").modal('hide');
     // showPage("mainMenuPage"); 
+    playSound('clickSound');
     arcadeMusic.pause();
     if (isMusicPlaying) {
         music.play();
@@ -371,6 +370,7 @@ $("#confirmEndGameBtn").click(function () {
 $(".main-menu-btn").click(function (e) { 
     showPage("mainMenuPage");
     e.preventDefault();
+    playSound('clickSound');
     
 });
 
@@ -401,8 +401,31 @@ let confirmMusic = false
 
 function saveName(){
     playerName = $("#inputName").val()
+    let playerFound = getPlayerByName(playerName)
+    console.log(playerFound)
     alert(playerName)
+    if (!playerFound) {
+        let newPlayer = {
+            id:myPlayers.length+1,
+            name: playerName,
+            minis: 0
+        }
+
+        myPlayers.push(newPlayer)
+        localStorage.setItem("playerList",JSON.stringify(myPlayers))
+    }
+    currentPlayer = playerFound
+    minis = currentPlayer.minis
+    $("#miniPoints").html(minis)
     setPlayerName()
+}
+
+function getPlayerByName(username){
+    let playerFound = myPlayers.find(player => player.name == username)
+    if (playerFound == undefined) {
+        playerFound = null
+    }
+    return playerFound
 }
 // start
 $("#startGameBtn").click(function(e){
@@ -507,7 +530,7 @@ function playSound(soundId) {
     const sound = document.getElementById(soundId);
     if (sound) {
         sound.currentTime = 0;
-        sound.volume = 0.4; //ganti volume
+        sound.volume = 0.7; //ganti volume
         sound.play().catch(e => console.log('Sound play failed:', e));
     }
 }
@@ -532,4 +555,8 @@ function clearLeaderboard() {
     localStorage.removeItem("leaderboard")
     myLeaderboard = []
     fetchLeaderboard('relaxed')
+}
+function clearPlayers() {
+    localStorage.removeItem("playerList")
+    myPlayers = []
 }

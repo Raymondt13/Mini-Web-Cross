@@ -140,6 +140,13 @@ function checkWordComplete(wordData, isAcross) {
     return true; 
 }
 
+/**
+ * 
+ * @param {string} wordKey 
+ * @param {*} wordData 
+ * @param {boolean} isAcross 
+ * @returns 
+ */
 function scoreCompletedWord(wordKey, wordData, isAcross) {
     if (completedWords[wordKey]) {
         return 0;
@@ -155,6 +162,10 @@ function scoreCompletedWord(wordKey, wordData, isAcross) {
     return pointsEarned;
 }
 
+/**
+ * Check all words completion
+ * @returns 
+ */
 function checkAllWordsCompletion() {
     if (!currentLevelData) return;
     currentLevelData.across.forEach((wordData, index) => {
@@ -182,7 +193,7 @@ function checkAllWordsCompletion() {
 function showWordCompleteEffect(wordData, isAcross, points) {
     let $firstCell = inputs[wordData.row][wordData.col];
     if ($firstCell && typeof showFloatingText === 'function') {
-        showFloatingText($firstCell, `${wordData.word} +${points}`);
+        showFloatingText($firstCell, `${wordData.word} +${points}`);    
     }
 }
 
@@ -205,6 +216,8 @@ function startGame(m){
     score = 0
     puzzlesCompleted = 0
     showPage("gamePage");
+    console.log(isMusicPlaying);
+    
     
     let arcadeMusic = document.getElementById("arcadeMusic");
     let music = document.getElementById("bgMusic");
@@ -228,162 +241,92 @@ function startGame(m){
     loadLevel(level);
 }
 
-/* GENERATE LEVEL DINAMIS */
+
 function generateLevel(level){
-    let minSoal = level + 3
-    if (mode == 'arcade') {
-        minSoal = level + 1
-    }
-    let jumlahSoal = Math.min(minSoal, wordsBank.length);
-    if (jumlahSoal < 2) {
-        jumlahSoal = 2
-    } else if (jumlahSoal > 10){
-        jumlahSoal = 10
-    }
-    console.log(jumlahSoal)
+let minSoal = mode === 'arcade' ? level + 1 : level + 3;
+    let jumlahSoal = Math.min(Math.max(minSoal, 2), 10, wordsBank.length);
+
     let size = 15;
- 
+    let center = Math.floor(size / 2);
+    // minimum gap
+    const MIN_GAP = 2;
+
     shuffleArray(wordsBank);
     let selected = wordsBank.slice(0, jumlahSoal);
- 
-    let grid = Array(size).fill().map(()=>Array(size).fill(""));
-    let wordPositions = []; // 🆕 Track semua posisi kata untuk checking gap
- 
-    let data = { size:size, across:[], down:[] };
- 
-    let center = Math.floor(size/2);
- 
-    // 🔵 1. Kata pertama (mendatar)
+
+    let grid = Array(size).fill().map(() => Array(size).fill(""));
+    let wordPositions = [];
+    let data = { size: size, across: [], down: [] };
+    
+    // array untuk kata yang sudah terpasang
+    let placedWordsTrack = [];
+
+    // register word
+    function registerWord(word, clue, row, col, isAcross) {
+        placeWord(word, row, col, isAcross, grid);
+        
+        let endRow = isAcross ? row : row + word.length - 1;
+        let endCol = isAcross ? col + word.length - 1 : col;
+
+        wordPositions.push({ word, row, col, isAcross, endRow, endCol });
+        data[isAcross ? 'across' : 'down'].push({ row, col, word, clue });
+        
+        // simpan ke tracker
+        placedWordsTrack.push({ word, row, col, isAcross });
+    }
+
+    // Across
     let first = selected[0];
-    let startCol = center - Math.floor(first.word.length/2);
- 
-    placeWord(first.word, center, startCol, true, grid);
-    
-    // 🆕 Track posisi kata pertama
-    wordPositions.push({
-        word: first.word,
-        row: center,
-        col: startCol,
-        isAcross: true,
-        endRow: center,
-        endCol: startCol + first.word.length - 1
-    });
- 
-    data.across.push({
-        row:center,
-        col:startCol,
-        word:first.word,
-        clue:first.clue
-    });
- 
-    // 🔵 2. Kata berikutnya HARUS nyilang dengan gap yang cukup
-    const MIN_GAP = 2; // 🆕 Jarak minimum antar kata yang sama arah
-    
-    for(let i=1;i<selected.length;i++){
+    let startCol = center - Math.floor(first.word.length / 2);
+    registerWord(first.word, first.clue, center, startCol, true);
+
+    // Word Cross
+    for (let i = 1; i < selected.length; i++) {
         let w = selected[i];
-        let placed = false;
-        let validPlacements = []; // 🆕 Kumpulkan semua placement yang valid
- 
-        for(let a of data.across.concat(data.down)){
-            let baseWord = a.word;
- 
-            for(let j=0;j<w.word.length;j++){
-                for(let k=0;k<baseWord.length;k++){
- 
-                    if(w.word[j] === baseWord[k]){
-                        let row, col, isAcross;
- 
-                        if(a.row !== undefined){ // kata existing
-                            if(data.across.includes(a)){
-                                // existing mendatar → baru harus menurun
-                                row = a.row - j;
-                                col = a.col + k;
-                                isAcross = false;
-                            }else{
-                                // existing menurun → baru mendatar
-                                row = a.row + k;
-                                col = a.col - j;
-                                isAcross = true;
-                            }
- 
-                            // ✅ CEK 1: Validasi basic placement
-                            if(canPlaceWord(w.word, row, col, isAcross, grid, size)){
-                                // ✅ CEK 2: Validasi placement dengan gap
-                                if(isValidPlacementWithGap(w.word, row, col, isAcross, grid, size, wordPositions, MIN_GAP)){
-                                    validPlacements.push({
-                                        row, col, isAcross,
-                                        distanceFromCenter: Math.abs(row - center) + Math.abs(col - center)
-                                    });
-                                }
+        let validPlacements = [];
+
+        for (let existing of placedWordsTrack) {
+            let baseWord = existing.word;
+
+            for (let j = 0; j < w.word.length; j++) {
+                // For loop untuk kecocokan
+                for (let k = 0; k < baseWord.length; k++) {
+                    if (w.word[j] === baseWord[k]) {
+                        
+                        // klo datar wajib menurun
+                        let isAcross = !existing.isAcross; 
+                        
+                        let row = isAcross ? existing.row + k : existing.row - j;
+                        let col = isAcross ? existing.col - j : existing.col + k;
+
+                        // validasi aman
+                        if (canPlaceWord(w.word, row, col, isAcross, grid, size)) {
+                            if (isValidPlacementWithGap(w.word, row, col, isAcross, grid, size, wordPositions, MIN_GAP)) {
+                                validPlacements.push({
+                                    row, col, isAcross,
+                                    distanceFromCenter: Math.abs(row - center) + Math.abs(col - center)
+                                });
                             }
                         }
                     }
                 }
             }
         }
- 
-        // 🎯 Pilih placement terbaik (terjauh dari center untuk spacing lebih baik)
-        if(validPlacements.length > 0){
-            // Sortir berdasarkan jarak dari center (lebih jauh = lebih baik)
+
+        if (validPlacements.length > 0) {
             validPlacements.sort((a, b) => b.distanceFromCenter - a.distanceFromCenter);
-            
-            let placement = validPlacements[0];
-            
-            placeWord(w.word, placement.row, placement.col, placement.isAcross, grid);
-            
-            // 🆕 Track posisi kata
-            if(placement.isAcross){
-                wordPositions.push({
-                    word: w.word,
-                    row: placement.row,
-                    col: placement.col,
-                    isAcross: true,
-                    endRow: placement.row,
-                    endCol: placement.col + w.word.length - 1
-                });
-                data.across.push({
-                    row: placement.row,
-                    col: placement.col,
-                    word: w.word,
-                    clue: w.clue
-                });
-            }else{
-                wordPositions.push({
-                    word: w.word,
-                    row: placement.row,
-                    col: placement.col,
-                    isAcross: false,
-                    endRow: placement.row + w.word.length - 1,
-                    endCol: placement.col
-                });
-                data.down.push({
-                    row: placement.row,
-                    col: placement.col,
-                    word: w.word,
-                    clue: w.clue
-                });
-            }
-            
-            placed = true;
-        }
- 
-        // Jika tidak bisa placement, skip kata ini
-        if(!placed){
+            let p = validPlacements[0];
+            registerWord(w.word, w.clue, p.row, p.col, p.isAcross);
+        } else {
             console.log(`⚠️ Kata "${w.word}" tidak bisa ditempatkan karena gap requirements`);
         }
     }
- 
+
     return data;
+
 }
  
 /**
- * 🆕 FUNGSI BARU: Cek apakah placement valid dengan gap yang cukup
- * Validasi 4 hal:
- * 1. Posisi dalam grid boundary
- * 2. Cell tidak conflict dengan kata lain
- * 3. Gap minimal antar kata dengan arah yang SAMA
- * 4. Hanya 1 intersection point per kata
-
  * @param {string} word - Kata yang akan ditempatkan
  * @param {number} row - Row starting position
  * @param {number} col - Column starting position
@@ -418,7 +361,6 @@ function isValidPlacementWithGap(word, row, col, isAcross, grid, size, wordPosit
     
     // ✅ CEK 3 & 4: Cek gap dengan kata yang sudah ada
     for(let existingWord of wordPositions){
-        
         // CEK 3: Jika sama arah → harus ada gap MIN_GAP
         if(existingWord.isAcross === isAcross){
             if(isAcross){
@@ -448,7 +390,6 @@ function isValidPlacementWithGap(word, row, col, isAcross, grid, size, wordPosit
             }
         }
         
-        // Jika lebih dari 1 intersection, tidak valid
         if(intersectionCount > 1){
             console.log(`  ❌ Too many intersections: ${intersectionCount} > 1`);
             return false;
@@ -528,17 +469,7 @@ function loadLevel(lv){
 
     processCrossword(data.across,true)
     processCrossword(data.down,false)
-    // data.across.forEach(w=>{
-    //     for(let i=0;i<w.word.length;i++){
-    //         solution[w.row][w.col+i]=w.word[i];
-    //     }
-    // });
 
-    // data.down.forEach(w=>{
-    //     for(let i=0;i<w.word.length;i++){
-    //         solution[w.row+i][w.col]=w.word[i];
-    //     }
-    // });
     if (typeof generateSpecialTiles === 'function') {
         specialTiles = generateSpecialTiles(solution, mode);
         console.log('Special tiles generated:', specialTiles);
@@ -551,43 +482,6 @@ function loadLevel(lv){
 
 /* GRID */
 function renderGrid(size){
-    // let grid=document.getElementById("crosswordGrid");
-    // grid.style.gridTemplateColumns=`repeat(${size},50px)`;
-    // grid.innerHTML="";
-
-    // let number=1;
-
-    // for(let i=0;i<size;i++){
-    //     inputs[i]=[];
-    //     for(let j=0;j<size;j++){
-    //         let cell=document.createElement("div");
-    //         cell.className="cell";
-
-    //         if(solution[i][j]===""){
-    //             cell.classList.add("block");
-    //         }else{
-    //             let input=document.createElement("input");
-    //             input.maxLength=1;
-
-    //             input.oninput=function(){
-    //                 this.value=this.value.toUpperCase();
-    //                 currentGrid[i][j]=this.value;
-    //             };
-
-    //             if((j===0||solution[i][j-1]==="")||(i===0||solution[i-1][j]==="")){
-    //                 let num=document.createElement("div");
-    //                 num.className="cell-number";
-    //                 num.innerText=number++;
-    //                 cell.appendChild(num);
-    //             }
-
-    //             cell.appendChild(input);
-    //             inputs[i][j]=input;
-    //         }
-
-    //         grid.appendChild(cell);
-    //     }
-    // }
     const $grid = $("#crosswordGrid");
 
     $grid.css('grid-template-columns', `repeat(${size},50px)`);
@@ -616,11 +510,7 @@ function renderGrid(size){
                     $input.attr('readonly', true);
                 }
 
-                //$input.on('input', function () {
-                //    let value = $(this).val().toUpperCase();
-                //    $(this).val(value);
-                //    currentGrid[r][c]
-                //});
+
                 $input.on('input', function () {
                     let value = $(this).val().toUpperCase();
                     $(this).val(value);
@@ -637,9 +527,10 @@ function renderGrid(size){
                         let tileKey = `${r}-${c}`;
                         if (specialTiles && specialTiles[tileKey]) {
                             let tileType = specialTiles[tileKey];
-                            handleTileForCell(tileType, r, c, $(this));
+                            // handleTileForCell(tileType, r, c, $(this));
                         }
                     }
+                    $(this).attr("readonly",true)
                     checkAllWordsCompletion();
                 }
     
@@ -676,19 +567,6 @@ function shuffleArray(array) {
 
 /* CLUES */
 function renderClues(data){
-    // let across=document.getElementById("acrossClue");
-    // let down=document.getElementById("downClue");
-
-    // across.innerHTML="";
-    // down.innerHTML="";
-
-    // data.across.forEach((w,i)=>{
-    //     across.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
-    // });
-
-    // data.down.forEach((w,i)=>{
-    //     down.innerHTML+=`<li>${i+1}. ${w.clue}</li>`;
-    // });
 
     let $across= $('#acrossClue');
     let $down= $('#downClue');
@@ -715,7 +593,6 @@ function setTimer(){
     let timedisplay = ""
     if(mode==="relaxed"){
         $timerText.html("Relaxed");
-        // document.getElementById("timerText").innerText="Time: ∞";
         return;
     }
     if (puzzlesCompleted == 0) {
@@ -729,13 +606,17 @@ function setTimer(){
                 break;
         }   
     }
-    // timeLeft = ((mode==="arcade" && puzzlesCompleted == 0) ? arcadeTimeSeconds : 10*60)*100;
     // Display Time
     document.getElementById("timerText").innerText="Time: "+timeLeft;
-    timer=setInterval(()=>{
+    timer = startTimer()
+}
+
+function startTimer(){
+    return setInterval(()=>{
         updateTimer()
     },10);
 }
+
 function updateTimer(){
     timeLeft--;
     let totalSeconds = Math.floor(timeLeft / 100);
@@ -932,5 +813,8 @@ function addMinis(totalscore){
     minisEarned = (totalscore/100).toFixed(0)
     $("#finalMiniAdd").html(minisEarned)
     minis += minisEarned
-    $("#miniPoints").html(minis)
+    let playerFound = getPlayerByName(playerName)
+    playerFound.minis = minis
+    currentPlayer = playerFound
+    $("#miniPoints").html(currentPlayer.minis)
 }
