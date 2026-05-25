@@ -171,6 +171,14 @@ let skinItems = [
         applied: false,
         img:"../assets/skins/background_geometric.jpg"
     },
+    {
+        id:"3",
+        skinName:'Night Sky',
+        skinDesc:'    ',
+        cost: 200,
+        applied: false,
+        img:"../assets/skins/background_nightsky.webp"
+    },
 ]
 
 let arcadeMusicItems = [
