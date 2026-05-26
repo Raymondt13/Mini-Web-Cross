@@ -180,6 +180,41 @@ let skinItems = [
         img:"../assets/skins/background_nightsky.webp"
     },
 ]
+// let skinItems = [
+//     {
+//         id:"0",
+//         skinName:'Default',
+//         skinDesc:"Default, plain background.",
+//         cost: 0,
+//         applied: true,
+//         img:""
+//     },
+//     {
+//         id:"1",
+//         skinName:'Wood',
+//         skinDesc:'The natural feel of wood.',
+//         cost: 0,
+//         applied: false,
+//         img:"../assets/skins/background_wood.jpg"
+//     },
+//     {
+//         id:"2",
+//         skinName:'Geometric',
+//         skinDesc:'Some geometric hexagons.',
+//         cost: 100,
+//         applied: false,
+//         img:"../assets/skins/background_geometric.jpg"
+//     },
+//     {
+//         id:"3",
+//         skinName:'Night Sky',
+//         skinDesc:'    ',
+//         cost: 200,
+//         applied: false,
+//         img:"../assets/skins/background_nightsky.webp"
+//     },
+// ]
+
 
 let arcadeMusicItems = [
     {

@@ -3,12 +3,15 @@
     {"tip" : "Looking for a fast-paced challenge?<br>Play on <b>Arcade</b> mode!"},
     {"tip" : "Test your skills and survive on <b>10-Minute</b> mode!"},
     {"tip" : "Each board has random questions"},
-    {"tip" : "The longer the word, the bigger the score when solved"},
+    {"tip" : "Keep an eye for the length of the word!<br>The longer the word, the bigger the score when solved"},
     {"tip" : "Need help? Use <b>Hint</b>!"},
 
     {"tip" : "You can customize the background on <b>Customization</b> page"},
     {"tip" : "Some customization elements require <b>🔷 Minis</b> to obtain"},
     {"tip" : "You can obtain <b>🔷 Minis</b> by achieving a high score"},
+
     {"tip" : "Why are you reading this?"},
+    {"tip" : "The more you play, the more you know."},
+    {"tip" : "Don't mind the tips."},
     {"tip" : "This is unfinished."}
 ]
