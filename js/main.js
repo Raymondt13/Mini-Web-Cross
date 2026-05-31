@@ -538,6 +538,21 @@ document.getElementById("musicBtn").onclick = () => {
     toggleMusic()
 };
 
+
+$("#soundBtn").click(function (e) { 
+    e.preventDefault();
+    
+});
+
+/**
+ * Controls whether sound effects play
+ * @param {boolean} soundActive 
+ */
+function handleSounds(soundActive) {
+    console.log(soundActive);
+    
+}
+
 function handleMusic(){
     let isGamePage = $('#gamePage').hasClass('active');
     

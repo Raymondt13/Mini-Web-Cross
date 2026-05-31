@@ -18,6 +18,12 @@ function shuffleArray(array) {
     return array;
 }
 
+/**
+ * Generate special tiles based on solution and chosen mode
+ * @param {*} solution 
+ * @param {*} mode The chosen mode
+ * @returns 
+ */
 function generateSpecialTiles(solution, mode = 'classic') {
     specialTiles = {};
 
