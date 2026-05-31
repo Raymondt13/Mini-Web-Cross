@@ -539,19 +539,31 @@ document.getElementById("musicBtn").onclick = () => {
 };
 
 
-$("#soundBtn").click(function (e) { 
-    e.preventDefault();
+//$("#soundBtn").click(function (e) { 
+//    e.preventDefault();
     
-});
+//});
+
+let soundOn = true;
 
 /**
  * Controls whether sound effects play
- * @param {boolean} soundActive 
+ * @param {boolean} soundActive
  */
 function handleSounds(soundActive) {
-    console.log(soundActive);
-    
+    soundOn = soundActive;
+
+    music.muted = !soundOn;
+    arcadeMusic.muted = !soundOn;
+
+    $("#soundBtn").text(soundOn ? "🔊" : "🔇");
 }
+
+$("#soundBtn").click(function (e) {
+    e.preventDefault();
+
+    handleSounds(!soundOn);
+});
 
 function handleMusic(){
     let isGamePage = $('#gamePage').hasClass('active');
@@ -579,7 +591,7 @@ function toggleMusic(){
     }
     handleMusic()
 }
-let soundOn = true;
+//let soundOn = true;
 
 function playSound(soundId) {
     if (!soundOn) return;
@@ -592,16 +604,16 @@ function playSound(soundId) {
     }
 }
 
-document.getElementById("soundBtn").onclick = () => {
-    soundOn = !soundOn;
+//document.getElementById("soundBtn").onclick = () => {
+//    soundOn = !soundOn;
 
     // ON = volume normal
     // OFF = mute semua
-    music.muted = !soundOn;
-    arcadeMusic.muted = !soundOn
-
-    document.getElementById("soundBtn").innerText = soundOn ? "🔊" : "🔇";
-};
+//    music.muted = !soundOn;
+//    arcadeMusic.muted = !soundOn
+//
+//    document.getElementById("soundBtn").innerText = soundOn ? "🔊" : "🔇";
+//};
 
 $("#clearLeaderboardBtn").click(function (e) { 
     clearLeaderboard()
