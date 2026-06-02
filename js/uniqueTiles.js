@@ -131,7 +131,7 @@ function activateTile({
 
     switch (type) {
         case TILE_TYPES.SCORE:
-            score += 100;
+            score += 500;
             showFloatingText($input, '+100');
             break;
 
