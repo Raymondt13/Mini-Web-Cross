@@ -263,17 +263,36 @@ let minSoal = mode === 'arcade' ? level + 1 : level + 3;
 
     // register word
     function registerWord(word, clue, row, col, isAcross) {
-        placeWord(word, row, col, isAcross, grid);
-        
-        let endRow = isAcross ? row : row + word.length - 1;
-        let endCol = isAcross ? col + word.length - 1 : col;
 
-        wordPositions.push({ word, row, col, isAcross, endRow, endCol });
-        data[isAcross ? 'across' : 'down'].push({ row, col, word, clue });
-        
-        // simpan ke tracker
-        placedWordsTrack.push({ word, row, col, isAcross });
-    }
+    placeWord(word, row, col, isAcross, grid);
+
+    let endRow = isAcross ? row : row + word.length - 1;
+    let endCol = isAcross ? col + word.length - 1 : col;
+
+    wordPositions.push({
+        word,
+        row,
+        col,
+        isAcross,
+        endRow,
+        endCol
+    });
+
+    data[isAcross ? "across" : "down"].push({
+        number: 0,
+        row,
+        col,
+        word,
+        clue
+    });
+
+    placedWordsTrack.push({
+        word,
+        row,
+        col,
+        isAcross
+    });
+}
 
     // Across
     let first = selected[0];
@@ -322,9 +341,47 @@ let minSoal = mode === 'arcade' ? level + 1 : level + 3;
         }
     }
 
-    return data;
+    // ==========================
+    // Generate Nomor Soal
+    // ==========================
 
-}
+    let nomor = 1;
+    let posisi = {};
+
+    let semua = [];
+
+    data.across.forEach(w=>{
+        semua.push(w);
+    });
+
+    data.down.forEach(w=>{
+        semua.push(w);
+    });
+
+    semua.sort((a,b)=>{
+
+        if(a.row===b.row){
+            return a.col-b.col;
+        }
+
+        return a.row-b.row;
+
+    });
+
+    semua.forEach(w=>{
+
+        let key = `${w.row}-${w.col}`;
+
+        if(posisi[key]==null){
+            posisi[key]=nomor++;
+        }
+
+        w.number=posisi[key];
+
+    });
+        return data;
+
+    }
  
 /**
  * @param {string} word - Kata yang akan ditempatkan
@@ -488,7 +545,7 @@ function renderGrid(size){
     //$grid.css('grid-template-columns', `repeat(${size},40px)`);
     $grid.empty()
 
-    let number = 1
+    //let number = 1
     
     for (let r = 0; r < size; r++) {
         inputs[r] = [];
@@ -541,12 +598,25 @@ function renderGrid(size){
                 }
             });
 
-                if ((c === 0 || solution[r][c - 1] === "") || (r === 0 || solution[r - 1][c] === "")) {
-                    let $num = $('<div></div>')
-                        .addClass('cell-number')
-                        .text(number++);
-                    $cell.append($num);
-                }
+                let clue = currentLevelData.across.find(x =>
+    x.row === r && x.col === c
+);
+
+if (!clue) {
+    clue = currentLevelData.down.find(x =>
+        x.row === r && x.col === c
+    );
+}
+
+if (clue) {
+
+    let $num = $("<div>")
+        .addClass("cell-number")
+        .text(clue.number);
+
+    $cell.append($num);
+
+}
 
                 $cell.append($input);
                 inputs[r][c] = $input
@@ -568,19 +638,28 @@ function shuffleArray(array) {
 /* CLUES */
 function renderClues(data){
 
-    let $across= $('#acrossClue');
-    let $down= $('#downClue');
-
+    const $across = $("#acrossClue");
+    const $down = $("#downClue");
 
     $across.empty();
     $down.empty();
 
-    $.each(data.across, function (i, w) { 
-        $across.append(`<li>${i+1}. ${w.clue}</li>`);
+    // Urutkan nomor dari kecil ke besar
+    const across = [...data.across].sort((a,b)=>a.number-b.number);
+    const down   = [...data.down].sort((a,b)=>a.number-b.number);
+
+    across.forEach(w=>{
+        $across.append(`
+            <li>${w.number}. ${w.clue}</li>
+        `);
     });
-    $.each(data.down, function (i, w) { 
-        $down.append(`<li>${i+1}. ${w.clue}</li>`);
+
+    down.forEach(w=>{
+        $down.append(`
+            <li>${w.number}. ${w.clue}</li>
+        `);
     });
+
 }
 
 /* TIMER */
