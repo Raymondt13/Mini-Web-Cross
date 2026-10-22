@@ -561,7 +561,6 @@ function handleSounds(soundActive) {
 
 $("#soundBtn").click(function (e) {
     e.preventDefault();
-
     handleSounds(!soundOn);
 });
 
